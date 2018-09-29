@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ScrummerTimes',
+    'accounts'
 ]
 
 MIDDLEWARE = [
@@ -50,6 +52,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Scrumfeed.urls'
+
+
 
 TEMPLATES = [
     {
@@ -76,11 +80,21 @@ WSGI_APPLICATION = 'Scrumfeed.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+       'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
+#DATABASES = {
+ #   'default':{
+  #      'ENGINE': 'django.db.backends.mysql',
+ #       'NAME': 'ScrummerTimesDatabase',
+  #      'USER': 'root',
+ #       'PASSWORD': '1234',
+ #       'HOST': 'localhost',
+ #       'PORT': ''
+ #   }
+#}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -119,3 +133,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#USED TO HANDLE MEDIA SUCH AS IMAGES
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'ScrummerTimes/media')
+

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+    <title>The Scrummer Times</title>
+</head>
+<body>
+    <header class="container center-align" style="position:relative">
+        <h1>The Scrummer Times</h1>
+        <nav>
+            <ul>
+                <li>
+                    <a href="/ScrummerTimes">Home</a>
+                </li>
+                <li>
+                    <a href="/admin">Admin</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li>
+                    <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
+                        {% csrf_token %}
+                        <button style="position:absolute; right:0; height:41%; background-color:cornflowerblue; color:white; border:2px solid white" type="submit">Log out</button>
+                    </form>
+                </li>
+                <li><a href="/ScrummerTimes/createArticle">New article</a></li>
+                {% else %}
+                    <li>
+                        <a href="{% url 'accounts:login' %}">Log in</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'accounts:signup' %}">Sign up</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+    <br>
+    <div class="container center-align">
+        {% block content %}
+        {% endblock %}
+        <br>
+    </div>
+
+</body>
+</html>
