@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8f34008-853f-48ab-8c13-9c90e9a25431" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scrumfeed/db.sqlite3" afterPath="$PROJECT_DIR$/Scrumfeed/db.sqlite3" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scrumfeed/Scrumfeed/urls.py" afterPath="$PROJECT_DIR$/Scrumfeed/Scrumfeed/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/layout.html" afterPath="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/layout.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,8 +19,53 @@
       <file leaf-file-name="layout.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/layout.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="231">
-              <caret line="20" column="79" lean-forward="false" selection-start-line="20" selection-start-column="79" selection-end-line="20" selection-end-column="79" />
+            <state relative-caret-position="346">
+              <caret line="30" column="39" lean-forward="false" selection-start-line="30" selection-start-column="39" selection-end-line="30" selection-end-column="39" />
+              <folding>
+                <element signature="n#style#0;n#img#0;n#li#0;n#ul#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#0;n#form#0;n#li#4;n#ul#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Scrumfeed/Scrumfeed/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="480">
+              <caret line="33" column="39" lean-forward="false" selection-start-line="33" selection-start-column="39" selection-end-line="33" selection-end-column="39" />
+              <folding>
+                <element signature="e#633#675#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="createarticle.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/createarticle.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="apps.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/apps.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Scrumfeed/Scrumfeed/settings.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1641">
+              <caret line="40" column="13" lean-forward="false" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -47,7 +92,6 @@
         <option value="$PROJECT_DIR$/Scrumfeed/accounts/templates/accounts/signup.html" />
         <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/urls.py" />
         <option value="$PROJECT_DIR$/Scrumfeed/Scrumfeed/settings.py" />
-        <option value="$PROJECT_DIR$/Scrumfeed/Scrumfeed/urls.py" />
         <option value="$PROJECT_DIR$/Scrumfeed/accounts/urls.py" />
         <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/createarticle.html" />
         <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/views.py" />
@@ -55,6 +99,7 @@
         <option value="$PROJECT_DIR$/Scrumfeed/accounts/views.py" />
         <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/article.html" />
         <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/feed.html" />
+        <option value="$PROJECT_DIR$/Scrumfeed/Scrumfeed/urls.py" />
         <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/layout.html" />
       </list>
     </option>
@@ -103,6 +148,12 @@
               <item name="18" type="b2602c69:ProjectViewProjectNode" />
               <item name="18" type="462c0819:PsiDirectoryNode" />
               <item name="Scrumfeed" type="462c0819:PsiDirectoryNode" />
+              <item name="Scrumfeed" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="18" type="b2602c69:ProjectViewProjectNode" />
+              <item name="18" type="462c0819:PsiDirectoryNode" />
+              <item name="Scrumfeed" type="462c0819:PsiDirectoryNode" />
               <item name="ScrummerTimes" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -110,21 +161,15 @@
               <item name="18" type="462c0819:PsiDirectoryNode" />
               <item name="Scrumfeed" type="462c0819:PsiDirectoryNode" />
               <item name="ScrummerTimes" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="18" type="b2602c69:ProjectViewProjectNode" />
               <item name="18" type="462c0819:PsiDirectoryNode" />
               <item name="Scrumfeed" type="462c0819:PsiDirectoryNode" />
               <item name="ScrummerTimes" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
               <item name="ScrummerTimes" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="18" type="b2602c69:ProjectViewProjectNode" />
-              <item name="18" type="462c0819:PsiDirectoryNode" />
-              <item name="Scrumfeed" type="462c0819:PsiDirectoryNode" />
-              <item name="Testing" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -139,12 +184,15 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\figo_\Djangoprojects\merge\Scrumfeed\accounts\templates\accounts" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\figo_\Djangoprojects\merge\Scrumfeed\ScrummerTimes\templates\ScrummerTimes" />
       <recent name="C:\Users\figo_\Djangoprojects\merge\Scrumfeed" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\figo_\Djangoprojects\18\Scrumfeed\ScrummerTimes" />
+      <recent name="C:\Users\figo_\Djangoprojects\18\Scrumfeed\ScrummerTimes\templates" />
+      <recent name="C:\Users\figo_\Djangoprojects\18\Scrumfeed\ScrummerTimes\static\ScrummerTimes" />
+      <recent name="C:\Users\figo_\Djangoprojects\merge\Scrumfeed\accounts\templates\accounts" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -177,7 +225,14 @@
       <option name="project" value="LOCAL" />
       <updated>1538236979788</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Merged directory">
+      <created>1538238392999</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1538238392999</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -235,29 +290,11 @@
     <entry file="file://$PROJECT_DIR$/Scrumfeed/accounts/models.py" />
     <entry file="file://$PROJECT_DIR$/Scrumfeed/accounts/admin.py" />
     <entry file="file://$PROJECT_DIR$/Scrumfeed/accounts/apps.py" />
-    <entry file="file://$PROJECT_DIR$/Scrumfeed/Scrumfeed/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="26" column="37" lean-forward="false" selection-start-line="26" selection-start-column="37" selection-end-line="26" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Scrumfeed/accounts/templates/accounts/signup.html" />
     <entry file="file://$PROJECT_DIR$/Scrumfeed/accounts/urls.py" />
-    <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/urls.py" />
     <entry file="file://$PROJECT_DIR$/Scrumfeed/accounts/views.py" />
     <entry file="file://$PROJECT_DIR$/Scrumfeed/accounts/templates/accounts/login.html" />
-    <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/createarticle.html" />
     <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/article.html" />
-    <entry file="file://$PROJECT_DIR$/Scrumfeed/Scrumfeed/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="40" column="13" lean-forward="false" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/views.py" />
     <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/feed.html" />
     <entry file="file://$PROJECT_DIR$/Scrumfeed/Scrumfeed/models.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -283,11 +320,64 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/apps.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scrumfeed/Scrumfeed/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1641">
+          <caret line="40" column="13" lean-forward="false" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scrumfeed/Scrumfeed/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="33" column="39" lean-forward="false" selection-start-line="33" selection-start-column="39" selection-end-line="33" selection-end-column="39" />
+          <folding>
+            <element signature="e#633#675#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/createarticle.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-318">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/layout.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="20" column="79" lean-forward="false" selection-start-line="20" selection-start-column="79" selection-end-line="20" selection-end-column="79" />
-          <folding />
+        <state relative-caret-position="346">
+          <caret line="30" column="39" lean-forward="false" selection-start-line="30" selection-start-column="39" selection-end-line="30" selection-end-column="39" />
+          <folding>
+            <element signature="n#style#0;n#img#0;n#li#0;n#ul#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#form#0;n#li#4;n#ul#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

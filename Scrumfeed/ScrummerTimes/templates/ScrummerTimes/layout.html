@@ -7,11 +7,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
     <title>The Scrummer Times</title>
 </head>
-<body>
+{% load static %}
+<body background="{% static 'ScrummerTimes/spiration-light.png' %}">
     <header class="container center-align" style="position:relative">
         <h1>The Scrummer Times</h1>
         <nav>
             <ul>
+                <li class="brand-logo right" >
+                    {% load static %}
+                    <img src="{% static 'ScrummerTimes/LogoMakr_2o6PKh.png' %}" style="width:250px;margin-top: 10px;">
+                </li>
                 <li>
                     <a href="/ScrummerTimes">Home</a>
                 </li>
@@ -23,7 +28,7 @@
                 <li>
                     <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
                         {% csrf_token %}
-                        <button style="position:absolute; right:0; height:41%; background-color:cornflowerblue; color:white; border:2px solid white" type="submit">Log out</button>
+                        <button style="background-color:darkred; color:white; border:1px solid white" type="submit">Log out</button>
                     </form>
                 </li>
                 {% else %}
