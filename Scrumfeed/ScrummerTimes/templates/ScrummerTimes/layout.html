@@ -5,42 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'ScrummerTimes/style.css' %}">
     <title>The Scrummer Times</title>
 </head>
 {% load static %}
 <body background="{% static 'ScrummerTimes/spiration-light.png' %}">
-    <header class="container center-align" style="position:relative">
-        <h1>The Scrummer Times</h1>
-        <nav>
-            <ul>
-                <li class="brand-logo right" >
-                    {% load static %}
-                    <img src="{% static 'ScrummerTimes/LogoMakr_2o6PKh.png' %}" style="width:250px;margin-top: 10px;">
-                </li>
-                <li>
-                    <a href="/ScrummerTimes">Home</a>
-                </li>
-                <li>
-                    <a href="/admin">Admin</a>
-                </li>
-                <li><a href="/ScrummerTimes/createArticle">New article</a></li>
-                {% if user.is_authenticated %}
-                <li>
-                    <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
-                        {% csrf_token %}
-                        <button style="background-color:darkred; color:white; border:1px solid white" type="submit">Log out</button>
-                    </form>
-                </li>
-                {% else %}
-                    <li>
-                        <a href="{% url 'accounts:login' %}">Log in</a>
+    <header style="position:relative">
+        <!--<h1>The Scrummer Times</h1>-->
+        <div class="navbar-fixed">
+            <nav>
+                <ul>
+                    <li class="brand-logo right" >
+                        {% load static %}
+                        <img src="{% static 'ScrummerTimes/LogoMakr_2o6PKh.png' %}" style="width:250px;margin-top: 10px;">
                     </li>
                     <li>
-                        <a href="{% url 'accounts:signup' %}">Sign up</a>
+                        <a href="/ScrummerTimes">Home</a>
                     </li>
-                {% endif %}
-            </ul>
-        </nav>
+                    <li>
+                        <a href="/admin">Admin</a>
+                    </li>
+                    <li><a href="/ScrummerTimes/createArticle">New article</a></li>
+                    {% if user.is_authenticated %}
+                    <li>
+                        <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
+                            {% csrf_token %}
+                            <button style="background-color:darkred; color:white; border:1px solid white" type="submit">Log out</button>
+                        </form>
+                    </li>
+                    {% else %}
+                        <li>
+                            <a href="{% url 'accounts:login' %}">Log in</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'accounts:signup' %}">Sign up</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
     </header>
     <br>
     <div class="container center-align">
