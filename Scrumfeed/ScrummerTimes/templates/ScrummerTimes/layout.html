@@ -23,7 +23,9 @@
                 <li>
                     <a href="/admin">Admin</a>
                 </li>
-                <li><a href="/ScrummerTimes/createArticle">New article</a></li>
+                <li>
+                    <a href="/ScrummerTimes/createArticle">New article</a>
+                </li>
                 {% if user.is_authenticated %}
                 <li>
                     <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">

@@ -2,15 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c1c234c4-66b0-474d-84e6-55a74794d596" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/18.iml" afterPath="$PROJECT_DIR$/.idea/18.iml" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/Scrumfeed/.idea/workspace.xml" afterPath="$PROJECT_DIR$/Scrumfeed/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/forms.py" afterPath="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/forms.py" />
-      <change beforePath="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/migrations/0001_initial.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/migrations/0002_auto_20180929_1424.py" afterPath="" />
       <change beforePath="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/createarticle.html" afterPath="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/createarticle.html" />
+      <change beforePath="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/layout.html" afterPath="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/layout.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -48,11 +42,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="createarticle.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="createarticle.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/createarticle.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="20" column="26" lean-forward="true" selection-start-line="20" selection-start-column="26" selection-end-line="20" selection-end-column="26" />
+            <state relative-caret-position="153">
+              <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
               <folding>
                 <element signature="n#style#0;n#p#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#p#1;n#!!top" expanded="true" />
@@ -66,8 +60,18 @@
       <file leaf-file-name="feed.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/feed.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="5" lean-forward="false" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+            <state relative-caret-position="102">
+              <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="layout.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/layout.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="425">
+              <caret line="25" column="20" lean-forward="true" selection-start-line="25" selection-start-column="20" selection-end-line="25" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -168,16 +172,16 @@
         <option value="$PROJECT_DIR$/Scrumfeed/accounts/urls.py" />
         <option value="$PROJECT_DIR$/Scrumfeed/accounts/templates/accounts/login.html" />
         <option value="$PROJECT_DIR$/Scrumfeed/accounts/views.py" />
-        <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/feed.html" />
         <option value="$PROJECT_DIR$/Scrumfeed/Scrumfeed/urls.py" />
         <option value="$PROJECT_DIR$/Scrumfeed/manage.py" />
-        <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/layout.html" />
         <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/views.py" />
         <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/choices.py" />
         <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/article.html" />
         <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/models.py" />
         <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/forms.py" />
         <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/createarticle.html" />
+        <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/feed.html" />
+        <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/layout.html" />
       </list>
     </option>
   </component>
@@ -341,7 +345,14 @@
       <option name="project" value="LOCAL" />
       <updated>1538484486006</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Nå kan authors legge til kategorier uten å endre CSSen. Vi kan sikkert fikse dette enda bedre når vi har en egen stylesheet (Hvis vi får det noen gang).">
+      <created>1538485157096</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1538485157096</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -380,7 +391,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Merged directory" />
     <MESSAGE value="Authors kan legge til kategori. Må få dropdownen til å vises. Will fix soon" />
-    <option name="LAST_COMMIT_MESSAGE" value="Authors kan legge til kategori. Må få dropdownen til å vises. Will fix soon" />
+    <MESSAGE value="Nå kan authors legge til kategorier uten å endre CSSen. Vi kan sikkert fikse dette enda bedre når vi har en egen stylesheet (Hvis vi får det noen gang)." />
+    <option name="LAST_COMMIT_MESSAGE" value="Nå kan authors legge til kategorier uten å endre CSSen. Vi kan sikkert fikse dette enda bedre når vi har en egen stylesheet (Hvis vi får det noen gang)." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -548,14 +560,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/layout.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="35" column="53" lean-forward="true" selection-start-line="35" selection-start-column="53" selection-end-line="35" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Scrumfeed/manage.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -596,14 +600,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/article.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="14" lean-forward="false" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -611,6 +607,14 @@
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/article.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="14" lean-forward="false" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="14" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -624,24 +628,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/feed.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="5" lean-forward="false" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/createarticle.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="26" lean-forward="true" selection-start-line="20" selection-start-column="26" selection-end-line="20" selection-end-column="26" />
+        <state relative-caret-position="153">
+          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding>
             <element signature="n#style#0;n#p#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#p#1;n#!!top" expanded="true" />
             <element signature="n#style#0;n#p#2;n#!!top" expanded="true" />
             <element signature="n#style#0;n#p#3;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/feed.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/layout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="25" column="20" lean-forward="true" selection-start-line="25" selection-start-column="20" selection-end-line="25" selection-end-column="20" />
+          <folding />
         </state>
       </provider>
     </entry>
