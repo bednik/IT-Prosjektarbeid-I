@@ -1,3 +1,4 @@
+from django.forms import forms
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
@@ -62,25 +63,21 @@ def createarticle(request):
     return render(request, 'ScrummerTimes/createarticle.html', context)
 
 
+
 @login_required(login_url="/accounts/login/")
 def editarticle(request, id=None):
-    article = None
-    form = None
-    if id:
-        article = get_object_or_404(Article, pk=id)
-        form = ArticleForm(initial={'header_image': article.header_image, 'title': article.title, 'text': article.text})
-        #if article.author != request.user:
-         #   return HttpResponseForbidden()
-    #else:
-        #article = Article(author=request.user)
-
+    article = get_object_or_404(Article, pk=id)
+    form = ArticleForm(initial={'header_image': article.header_image, 'title': article.title, 'text': article.text})
 
     if request.method == "POST":
         form = ArticleForm(request.POST, request.FILES)
 
         if form.is_valid():
             #Takes the data from the form into the database by creating an article object
-            article.header_image = form.cleaned_data["header_image"]
+            image = form.cleaned_data["header_image"]
+
+            if(image != None):
+                article.header_image = form.cleaned_data["header_image"]
             article.text = form.cleaned_data["text"]
             article.title = form.cleaned_data["title"]
             article.save()
@@ -88,9 +85,11 @@ def editarticle(request, id=None):
             # return HttpResponseRedirect(reversed('ScrummerTimes/feed'))
             return HttpResponseRedirect('ScrummerTimes/feed')
             #return HttpResponseRedirect(reverse(feed))
-
+        else:
+            raise forms.ValidationError({"lo"})
     context = {
-        'form': form
+        'form': form,
+        'id': id
     }
 
     return render(request, 'ScrummerTimes/editarticle.html', context)

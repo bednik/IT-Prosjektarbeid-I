@@ -11,7 +11,10 @@
 
         <a href="/ScrummerTimes/article/{{article.id}}/edit"> | edit</a>
         <br>
+        <!-- The image is not required in the article, therefore we must first check if this article has an image-->
+        {% if article.header_image %}
         <img src="{{article.header_image.url}}" width="400">
+        {% endif %}
     </li>
     <br>
     {% endfor %}
