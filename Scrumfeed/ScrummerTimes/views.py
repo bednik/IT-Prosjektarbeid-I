@@ -35,6 +35,21 @@ def proofreading_feed(request):
 
     return render(request, 'ScrummerTimes/feedUnread.html',context)
 
+
+
+def myarticles(request):
+    #Must be logged in
+    if(request.user.is_authenticated):
+        articles = Article.objects.filter(authors=request.user)
+
+        context = {
+            'title': 'The Scrummer Times',
+            'articles': articles
+        }
+
+        return render(request, 'ScrummerTimes/myArticles.html',context)
+    return render(request, 'ScrummerTimes/myArticles.html', None)
+
 def article(request, id):
     thisArticle = Article.objects.get(id=id)
     context = {
@@ -44,7 +59,7 @@ def article(request, id):
     return render(request, 'ScrummerTimes/article.html',
                   context)
 
-@login_required(login_url="/accounts/login/")
+@permission_required('ScrummerTimes.create_article', login_url='/accounts/login/')
 def createarticle(request):
     form = ArticleForm()
     if request.method == "POST":
@@ -55,6 +70,7 @@ def createarticle(request):
             article = Article(text=form.cleaned_data["text"], header_image=form.cleaned_data["header_image"],
                               title=form.cleaned_data["title"])
             article.is_read = False
+            article.authors = request.user
             article.save()
             #Redirects back to the feed
             # return HttpResponseRedirect(reversed('ScrummerTimes/feed'))
@@ -87,17 +103,16 @@ def editarticle(request, id=None):
                 article.header_image = form.cleaned_data["header_image"]
             article.text = form.cleaned_data["text"]
             article.title = form.cleaned_data["title"]
-            article.is_read = form.cleaned_data["is_read"]
+
+            #Only editors can publish the article, not the author
+            if(request.user.has_perm("ScrummerTimes.publish_article")):
+                article.is_read = form.cleaned_data["is_read"]
             article.save()
             #Redirects back to the feed
             # return HttpResponseRedirect(reversed('ScrummerTimes/feed'))
             next = request.POST.get('next','/')
             return HttpResponseRedirect(next)
-            #redirects to previous visited paged, does not work if browser is in incognito mode
-            #return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-            #return HttpResponseRedirect(reverse(feed))
-        else:
-            raise forms.ValidationError({"lo"})
+
     context = {
         'form': form,
         'id': id

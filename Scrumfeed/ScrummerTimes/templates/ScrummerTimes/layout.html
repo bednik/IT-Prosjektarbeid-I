@@ -26,10 +26,25 @@
                     <li>
                         <a href="/admin">Admin</a>
                     </li>
+                    <!-- Only Authors can create an article -->
+                    {% if user.is_authenticated %}
+                        {% if perms.ScrummerTimes.create_article %}
                     <li>
                         <!-- Goes to the form that does the editing, also saves what the previous site was! -->
                         <a href="{% url 'createarticle' %}?next={{ request.path|urlencode }}">New article</a>
                     </li>
+                        {% endif %}
+                    {% endif %}
+
+                    {% if user.is_authenticated %}
+                        {% if perms.ScrummerTimes.create_article %}
+                    <li>
+                        <!-- Goes to the form that does the editing, also saves what the previous site was! -->
+                        <a href="{% url 'myarticles' %}?next={{ request.path|urlencode }}">My Articles</a>
+                    </li>
+                        {% endif %}
+                    {% endif %}
+
                     {% if user.is_authenticated %}
                         {% if perms.ScrummerTimes.review_article %}
                         <li>

@@ -5,7 +5,7 @@ from PIL import Image
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.forms import forms, CharField, IntegerField, ImageField, URLField, TypedChoiceField, RadioSelect
-
+from ScrummerTimes.models import Article
 
 # Noe tull
 class ArticleForm(forms.Form):
@@ -17,9 +17,15 @@ class ArticleForm(forms.Form):
     choices=((True, 'Yes'), (False, 'No')),
     widget=RadioSelect,
     coerce=lambda x: x == 'True',
-    initial="False"
+    initial="False",
+    required= False
 )
     text = CharField()
+
+    class Meta:
+        #The two below has something to do with assigning who the author of the article is
+        model = Article
+        exclude = ('user',)
 
     #Check if the things that is written in the form are valid
     def clean(self):
