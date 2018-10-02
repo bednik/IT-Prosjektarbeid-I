@@ -1,7 +1,7 @@
 from django.forms import forms
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.contrib.auth.decorators import login_required, permission_required
 # Create your views here.
 from django.urls import reverse
@@ -89,7 +89,12 @@ def createarticle(request):
 
 @login_required(login_url="/accounts/login/")
 def editarticle(request, id=None):
+
     article = get_object_or_404(Article, pk=id)
+    #User has to be either an editor or the author to edit this article
+    if (not request.user.has_perm("ScrummerTimes.review_article") and not request.user == article.authors):
+        return HttpResponseNotFound("You do not have the rights for this page")
+
     form = ArticleForm(initial={'header_image': article.header_image, 'title': article.title, 'text': article.text, 'is_read': article.is_read})
 
     if request.method == "POST":
