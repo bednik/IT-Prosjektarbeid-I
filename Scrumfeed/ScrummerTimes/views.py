@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 # Create your views here.
+from django.urls import reverse
 
 from .models import Article
 
@@ -52,9 +53,18 @@ def createarticle(request):
 
 
 @login_required(login_url="/accounts/login/")
-def editarticle(request, id):
-    article = Article.objects.get(id=id)
-    form = ArticleForm(inital={'header_image':article.header_image, 'title':article.title, 'text':article.text})
+def editarticle(request, id=None):
+    article = None
+    form = None
+    if id:
+        article = get_object_or_404(Article, pk=id)
+        form = ArticleForm(initial={'header_image': article.header_image, 'title': article.title, 'text': article.text})
+        #if article.author != request.user:
+         #   return HttpResponseForbidden()
+    #else:
+        #article = Article(author=request.user)
+
+
     if request.method == "POST":
         form = ArticleForm(request.POST, request.FILES)
 
@@ -67,6 +77,7 @@ def editarticle(request, id):
             #Redirects back to the feed
             # return HttpResponseRedirect(reversed('ScrummerTimes/feed'))
             return HttpResponseRedirect('ScrummerTimes/feed')
+            #return HttpResponseRedirect(reverse(feed))
 
     context = {
         'form': form
