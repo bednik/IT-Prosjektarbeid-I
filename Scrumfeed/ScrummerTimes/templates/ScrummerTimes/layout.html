@@ -31,7 +31,7 @@
                         <a href="{% url 'createarticle' %}?next={{ request.path|urlencode }}">New article</a>
                     </li>
                     {% if user.is_authenticated %}
-                        {% if perms.ScrummerTimes.change_article %}
+                        {% if perms.ScrummerTimes.review_article %}
                         <li>
                             <a href="/ScrummerTimes/feedUnread">Proofreading</a>
                         </li>

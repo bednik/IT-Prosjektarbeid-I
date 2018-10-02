@@ -12,3 +12,15 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title.__str__()
+
+
+    #Custom permisions for this object Article.
+    #Review and publish are permissions for Editors
+    #Any user can create an article
+    #To use these, write something like @permission_required('ScrummerTimes.review_article', login_url='/accounts/login/')
+    class Meta:
+        permissions = (
+            ("create_article", "can create an article on the site"),
+            ("review_article", "can review an article, for editors"),
+            ("publish_article", "can publish an article")
+        )

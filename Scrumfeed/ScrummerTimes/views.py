@@ -21,8 +21,14 @@ def feed(request):
 
     return render(request, 'ScrummerTimes/feed.html',context)
 
-@permission_required('entity.can_edit', login_url='/accounts/login/')
+
+def user_can_edit_article(user):
+    return user.is_authenticated() and user.has_perm("article.can_change")
+
+#@permission_required('entity.can_edit', login_url='/accounts/login/')
+@permission_required('ScrummerTimes.review_article', login_url='/accounts/login/')
 def proofreading_feed(request):
+
     articles = Article.objects.filter(is_read=False)
 
     context = {
