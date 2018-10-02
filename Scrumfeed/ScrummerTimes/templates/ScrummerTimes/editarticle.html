@@ -7,7 +7,7 @@
     <!--{{ form }}-->
 
     <div>
-        <h3>Create a new article</h3>
+        <h3>Edit the Article</h3>
         <br>
     </div>
 
@@ -20,6 +20,9 @@
     {{ form.title }}
     <p style="font-size:20px;" class="left-align">Text:</p>
     {{ form.text }}
+
+    <!--Used to redirect to the previous site, more in view.py-->
+    <input type="hidden" name="next" value="{{ request.GET.next }}">
 
     <input type="submit" value="Submit" />
 </form>

@@ -26,7 +26,10 @@
                     <li>
                         <a href="/admin">Admin</a>
                     </li>
-                    <li><a href="/ScrummerTimes/createArticle">New article</a></li>
+                    <li>
+                        <!-- Goes to the form that does the editing, also saves what the previous site was! -->
+                        <a href="{% url 'createarticle' %}?next={{ request.path|urlencode }}">New article</a>
+                    </li>
                     {% if user.is_authenticated %}
                         {% if perms.ScrummerTimes.change_article %}
                         <li>

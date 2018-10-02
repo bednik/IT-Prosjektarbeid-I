@@ -54,7 +54,10 @@ def createarticle(request):
             article.save()
             #Redirects back to the feed
             # return HttpResponseRedirect(reversed('ScrummerTimes/feed'))
-            return HttpResponseRedirect('ScrummerTimes/feed')
+
+            # redirects to previous visited paged, does not work if browser is in incognito mode
+            next = request.POST.get('next', '/')
+            return HttpResponseRedirect(next)
 
     context = {
         'form': form
@@ -83,7 +86,10 @@ def editarticle(request, id=None):
             article.save()
             #Redirects back to the feed
             # return HttpResponseRedirect(reversed('ScrummerTimes/feed'))
-            return HttpResponseRedirect('ScrummerTimes/feed')
+            next = request.POST.get('next','/')
+            return HttpResponseRedirect(next)
+            #redirects to previous visited paged, does not work if browser is in incognito mode
+            #return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
             #return HttpResponseRedirect(reverse(feed))
         else:
             raise forms.ValidationError({"lo"})

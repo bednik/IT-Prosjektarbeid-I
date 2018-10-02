@@ -8,7 +8,8 @@
 <ul>
     {% for article in articles%}
     <li><a href="/ScrummerTimes/article/{{article.id}}"> {{article.title}}</a>
-         <a href="/ScrummerTimes/article/edit/{{article.id}}/"> | edit</a>
+       <!-- Goes to the form that does the editing, also saves what the previous site was! -->
+        <a href="{% url 'editarticle' article.id %}?next={{ request.path|urlencode }}"> | edit</a>
         <br>
          <!-- The image is not required in the article, therefore we must first check if this article has an image-->
         {% if article.header_image %}
