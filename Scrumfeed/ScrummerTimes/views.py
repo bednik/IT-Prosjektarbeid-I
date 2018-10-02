@@ -22,9 +22,6 @@ def feed(request):
     return render(request, 'ScrummerTimes/feed.html',context)
 
 
-def user_can_edit_article(user):
-    return user.is_authenticated() and user.has_perm("article.can_change")
-
 #@permission_required('entity.can_edit', login_url='/accounts/login/')
 @permission_required('ScrummerTimes.review_article', login_url='/accounts/login/')
 def proofreading_feed(request):
@@ -57,6 +54,7 @@ def createarticle(request):
             #Takes the data from the form into the database by creating an article object
             article = Article(text=form.cleaned_data["text"], header_image=form.cleaned_data["header_image"],
                               title=form.cleaned_data["title"])
+            article.is_read = False
             article.save()
             #Redirects back to the feed
             # return HttpResponseRedirect(reversed('ScrummerTimes/feed'))
@@ -76,7 +74,7 @@ def createarticle(request):
 @login_required(login_url="/accounts/login/")
 def editarticle(request, id=None):
     article = get_object_or_404(Article, pk=id)
-    form = ArticleForm(initial={'header_image': article.header_image, 'title': article.title, 'text': article.text})
+    form = ArticleForm(initial={'header_image': article.header_image, 'title': article.title, 'text': article.text, 'is_read': article.is_read})
 
     if request.method == "POST":
         form = ArticleForm(request.POST, request.FILES)
@@ -89,6 +87,7 @@ def editarticle(request, id=None):
                 article.header_image = form.cleaned_data["header_image"]
             article.text = form.cleaned_data["text"]
             article.title = form.cleaned_data["title"]
+            article.is_read = form.cleaned_data["is_read"]
             article.save()
             #Redirects back to the feed
             # return HttpResponseRedirect(reversed('ScrummerTimes/feed'))

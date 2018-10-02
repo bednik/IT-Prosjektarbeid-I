@@ -4,7 +4,7 @@ import io
 from PIL import Image
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
-from django.forms import forms, CharField, IntegerField, ImageField, URLField
+from django.forms import forms, CharField, IntegerField, ImageField, URLField, TypedChoiceField, RadioSelect
 
 
 # Noe tull
@@ -13,6 +13,12 @@ class ArticleForm(forms.Form):
     #Required has to be False, because i did not find a way that i could edit an article without uplouding an image again.
     header_image = ImageField(required=False)
 
+    is_read = TypedChoiceField(
+    choices=((True, 'Yes'), (False, 'No')),
+    widget=RadioSelect,
+    coerce=lambda x: x == 'True',
+    initial="False"
+)
     text = CharField()
 
     #Check if the things that is written in the form are valid

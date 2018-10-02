@@ -21,6 +21,9 @@
     <p style="font-size:20px;" class="left-align">Text:</p>
     {{ form.text }}
 
+    <p style="font-size:20px;" class="left-align">Make Article Public:</p>
+    {{ form.is_read }}
+
     <!--Used to redirect to the previous site, more in view.py-->
     <input type="hidden" name="next" value="{{ request.GET.next }}">
 
