@@ -49,3 +49,27 @@ def createarticle(request):
     }
 
     return render(request, 'ScrummerTimes/createarticle.html', context)
+
+
+@login_required(login_url="/accounts/login/")
+def editarticle(request, id):
+    article = Article.objects.get(id=id)
+    form = ArticleForm(inital={'header_image':article.header_image, 'title':article.title, 'text':article.text})
+    if request.method == "POST":
+        form = ArticleForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            #Takes the data from the form into the database by creating an article object
+            article.header_image = form.cleaned_data["header_image"]
+            article.text = form.cleaned_data["text"]
+            article.title = form.cleaned_data["title"]
+            article.save()
+            #Redirects back to the feed
+            # return HttpResponseRedirect(reversed('ScrummerTimes/feed'))
+            return HttpResponseRedirect('ScrummerTimes/feed')
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'ScrummerTimes/editarticle.html', context)
