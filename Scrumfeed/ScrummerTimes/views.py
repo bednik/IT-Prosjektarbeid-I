@@ -38,7 +38,7 @@ def createarticle(request):
         if form.is_valid():
             #Takes the data from the form into the database by creating an article object
             article = Article(text=form.cleaned_data["text"], header_image=form.cleaned_data["header_image"],
-                              title=form.cleaned_data["title"])
+                              title=form.cleaned_data["title"], category=form.cleaned_data["category"])
             article.save()
             #Redirects back to the feed
             # return HttpResponseRedirect(reversed('ScrummerTimes/feed'))

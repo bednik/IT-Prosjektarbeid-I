@@ -1,11 +1,13 @@
 from django.core.exceptions import ValidationError
-from django.forms import forms, CharField, IntegerField, ImageField
+from django.forms import forms, CharField, IntegerField, ImageField, ChoiceField
+from ScrummerTimes.choices import CATEGORIES
 
 # Noe tull
 class ArticleForm(forms.Form):
     title = CharField(max_length=120)
     header_image = ImageField()
     text = CharField()
+    category = ChoiceField(choices=CATEGORIES,)
 
     #Check if the things that is written in the form are valid
     def clean(self):
