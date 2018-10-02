@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 # Create your views here.
 
 from .models import Article
@@ -10,7 +10,7 @@ from .forms import ArticleForm
 
 
 def feed(request):
-    articles = Article.objects.all()[:10]
+    articles = Article.objects.filter(is_read=True)[:10]
 
     context = {
         'title': 'The Scrummer Times',
@@ -19,6 +19,16 @@ def feed(request):
 
     return render(request, 'ScrummerTimes/feed.html',context)
 
+@permission_required('entity.can_edit', login_url='/accounts/login/')
+def proofreading_feed(request):
+    articles = Article.objects.filter(is_read=False)
+
+    context = {
+        'title': 'The Scrummer Times',
+        'articles': articles
+    }
+
+    return render(request, 'ScrummerTimes/feedUnread.html',context)
 
 def article(request, id):
     thisArticle = Article.objects.get(id=id)

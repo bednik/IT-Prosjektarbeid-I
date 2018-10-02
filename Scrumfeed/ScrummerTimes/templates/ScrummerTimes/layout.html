@@ -28,6 +28,11 @@
                     </li>
                     <li><a href="/ScrummerTimes/createArticle">New article</a></li>
                     {% if user.is_authenticated %}
+                        {% if perms.ScrummerTimes.change_article %}
+                        <li>
+                            <a href="/ScrummerTimes/feedUnread">Proofreading</a>
+                        </li>
+                        {% endif %}
                     <li>
                         <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
                             {% csrf_token %}
