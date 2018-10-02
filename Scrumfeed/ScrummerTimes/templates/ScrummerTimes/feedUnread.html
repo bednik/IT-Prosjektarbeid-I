@@ -8,7 +8,9 @@
 <ul>
     {% for article in articles%}
     <li><a href="/ScrummerTimes/article/{{article.id}}"> {{article.title}}</a>
+         <a href="/ScrummerTimes/article/{{article.id}}/edit"> | edit</a>
         <br>
+
         <img src="{{article.header_image.url}}" width="400">
     </li>
     <br>
