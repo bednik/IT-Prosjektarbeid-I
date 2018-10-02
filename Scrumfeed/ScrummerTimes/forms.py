@@ -7,7 +7,7 @@ class ArticleForm(forms.Form):
     title = CharField(max_length=120)
     header_image = ImageField()
     text = CharField()
-    category = ChoiceField(choices=CATEGORIES,)
+    category = ChoiceField(choices=CATEGORIES)
 
     #Check if the things that is written in the form are valid
     def clean(self):

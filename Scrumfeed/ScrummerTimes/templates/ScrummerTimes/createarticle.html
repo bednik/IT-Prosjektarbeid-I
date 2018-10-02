@@ -2,6 +2,12 @@
 {% extends 'ScrummerTimes/layout.html' %}
 
 {% block content %}
+<style>
+    select {
+        display: block;
+    }
+</style>
+
 <form action={% url 'createarticle' %}  method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <!--{{ form }}-->
