@@ -8,6 +8,14 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'ScrummerTimes/style.css' %}">
     <title>The Scrummer Times</title>
+    <style>
+        #dropdown-content { /* Change this */
+            display: none;
+            float: left;
+            max-width: 40px;
+            margin-left: 10%;
+        }
+    </style>
 </head>
 {% load static %}
 <body background="{% static 'ScrummerTimes/spiration-light.png' %}">
@@ -20,8 +28,13 @@
                         {% load static %}
                         <img src="{% static 'ScrummerTimes/LogoMakr_2o6PKh.png' %}" style="width:250px;margin-top: 10px;">
                     </li>
+                    {% if request.path == '/ScrummerTimes/feed/' %}
+                        <li>
+                            <button onclick="toggleCategories()">Dropdown</button>
+                        </li>
+                    {% endif %}
                     <li>
-                        <a href="/ScrummerTimes">Home</a>
+                        <a href="/ScrummerTimes/feed">Home</a>
                     </li>
                     <li>
                         <a href="/admin">Admin</a>
@@ -69,12 +82,26 @@
             </nav>
         </div>
     </header>
+    <div id="dropdown-content">
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA <!-- Change this -->
+    </div>
     <br>
     <div class="container center-align">
         {% block content %}
         {% endblock %}
         <br>
     </div>
-
+<script>
+    let clicked = false;
+    function toggleCategories() {
+        if (!clicked) {
+            clicked = true;
+            document.getElementById("dropdown-content").style.display="block"
+        } else {
+            clicked = false;
+            document.getElementById("dropdown-content").style.display="none";
+        }
+    }
+</script>
 </body>
 </html>
