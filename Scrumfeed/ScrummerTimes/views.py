@@ -74,6 +74,7 @@ def createarticle(request):
                               title=form.cleaned_data["title"])
             article.is_read = False
             article.authors = request.user
+                              title=form.cleaned_data["title"], category=form.cleaned_data["category"])
             article.save()
             #Redirects back to the feed
             # return HttpResponseRedirect(reversed('ScrummerTimes/feed'))

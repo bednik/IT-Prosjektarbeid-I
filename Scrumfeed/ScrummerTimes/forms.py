@@ -3,6 +3,8 @@ import io
 
 from PIL import Image
 from django.core.exceptions import ValidationError
+from django.forms import forms, CharField, IntegerField, ImageField, ChoiceField
+from ScrummerTimes.choices import CATEGORIES
 from django.core.files.base import ContentFile
 from django.forms import forms, CharField, IntegerField, ImageField, URLField, TypedChoiceField, RadioSelect
 from ScrummerTimes.models import Article
@@ -21,6 +23,7 @@ class ArticleForm(forms.Form):
     required= False
 )
     text = CharField()
+    category = ChoiceField(choices=CATEGORIES)
 
     class Meta:
         #The two below has something to do with assigning who the author of the article is

@@ -2,6 +2,12 @@
 {% extends 'ScrummerTimes/layout.html' %}
 
 {% block content %}
+<style>
+    select {
+        display: block;
+    }
+</style>
+
 <form action={% url 'createarticle' %}  method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <!--{{ form }}-->
@@ -20,6 +26,10 @@
     {{ form.title }}
     <p style="font-size:20px;" class="left-align">Text:</p>
     {{ form.text }}
+    <p style="font-size:20px;" class="left-align">Category: </p>
+    {{ form.category }}
+    <br>
+    <input type="submit" value="Submit"/>
 
 
     <!--Used to redirect to the previous site, more in view.py-->

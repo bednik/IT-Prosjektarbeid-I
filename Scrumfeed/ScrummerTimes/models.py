@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.contrib.auth.models import User
 from django.db import models
-
+from ScrummerTimes.choices import CATEGORIES
 
 class Article(models.Model):
     title = models.CharField(max_length=200,  blank=True)
@@ -11,6 +11,7 @@ class Article(models.Model):
     is_read = models.BooleanField(blank=False, default=False)
     #The user who made the Article, read up on on_delete ups :)
     authors = models.ForeignKey(User, on_delete=models.PROTECT, null = True)
+    category = models.CharField(max_length=20, choices=CATEGORIES)
 
     def __str__(self):
         return self.title.__str__()
