@@ -59,8 +59,11 @@ def article(request, id):
     return render(request, 'ScrummerTimes/article.html',
                   context)
 
-@permission_required('ScrummerTimes.create_article', login_url='/accounts/login/')
+
 def createarticle(request):
+
+    if(not request.user.is_authenticated and not request.user.has_perm("ScrummerTimes.create_article")):
+        return HttpResponseNotFound("You do not have permission for this page. You have to be an Author.")
     form = ArticleForm()
     if request.method == "POST":
         form = ArticleForm(request.POST, request.FILES)
@@ -93,7 +96,7 @@ def editarticle(request, id=None):
     article = get_object_or_404(Article, pk=id)
     #User has to be either an editor or the author to edit this article
     if (not request.user.has_perm("ScrummerTimes.review_article") and not request.user == article.authors):
-        return HttpResponseNotFound("You do not have the rights for this page")
+        return HttpResponseNotFound("You do not have permission for this page. You have to be an Editor.")
 
     form = ArticleForm(initial={'header_image': article.header_image, 'title': article.title, 'text': article.text, 'is_read': article.is_read})
 
