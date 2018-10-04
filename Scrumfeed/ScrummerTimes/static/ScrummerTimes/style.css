@@ -2,3 +2,10 @@ header{
     width:100%;
 }
 
+#EditLink:hover {
+    text-decoration: underline;
+}
+
+.articleText{
+    font-style: italic;
+}

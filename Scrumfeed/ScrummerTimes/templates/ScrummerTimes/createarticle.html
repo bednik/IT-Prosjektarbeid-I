@@ -1,6 +1,6 @@
 
 {% extends 'ScrummerTimes/layout.html' %}
-
+  {% load static %}
 {% block content %}
 <form action={% url 'createarticle' %}  method="post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -20,6 +20,7 @@
     {{ form.title }}
     <p style="font-size:20px;" class="left-align">Text:</p>
     {{ form.text }}
+
 
 
     <!--Used to redirect to the previous site, more in view.py-->

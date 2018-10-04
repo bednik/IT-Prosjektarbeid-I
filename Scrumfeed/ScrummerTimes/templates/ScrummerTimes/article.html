@@ -1,12 +1,16 @@
 
 {% extends 'ScrummerTimes/layout.html' %}
-
+{%load static%}
 
 {% block content %}
 
 <img src="{{article.header_image.url}}" width="600">
+
+
 <h2>{{article.title}}</h2>
-<p>
+
+
+<p class="articleText">
     {{article.text}}
 </p>
 
