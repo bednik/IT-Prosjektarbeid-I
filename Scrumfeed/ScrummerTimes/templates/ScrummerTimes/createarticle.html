@@ -1,6 +1,6 @@
 
 {% extends 'ScrummerTimes/layout.html' %}
-
+  {% load static %}
 {% block content %}
 <style>
     select {
@@ -30,6 +30,7 @@
     {{ form.category }}
     <br>
     <input type="submit" value="Submit"/>
+
 
 
     <!--Used to redirect to the previous site, more in view.py-->
