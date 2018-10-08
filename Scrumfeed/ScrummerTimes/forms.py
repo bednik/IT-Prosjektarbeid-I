@@ -1,11 +1,34 @@
+import hashlib
+import io
+
+from PIL import Image
 from django.core.exceptions import ValidationError
-from django.forms import forms, CharField, IntegerField, ImageField
+from django.forms import forms, CharField, IntegerField, ImageField, ChoiceField
+from ScrummerTimes.choices import CATEGORIES
+from django.core.files.base import ContentFile
+from django.forms import forms, CharField, IntegerField, ImageField, URLField, TypedChoiceField, RadioSelect
+from ScrummerTimes.models import Article
 
 # Noe tull
 class ArticleForm(forms.Form):
     title = CharField(max_length=120)
-    header_image = ImageField()
+    #Required has to be False, because i did not find a way that i could edit an article without uplouding an image again.
+    header_image = ImageField(required=False)
+
+    is_read = TypedChoiceField(
+    choices=((True, 'Yes'), (False, 'No')),
+    widget=RadioSelect,
+    coerce=lambda x: x == 'True',
+    initial="False",
+    required= False
+)
     text = CharField()
+    category = ChoiceField(choices=CATEGORIES)
+
+    class Meta:
+        #The two below has something to do with assigning who the author of the article is
+        model = Article
+        exclude = ('user',)
 
     #Check if the things that is written in the form are valid
     def clean(self):
@@ -17,3 +40,4 @@ class ArticleForm(forms.Form):
         #except KeyError:
         #    raise ValidationError({'name': "Description must be provided"}, code='invalid')
         #return self.cleaned_data
+

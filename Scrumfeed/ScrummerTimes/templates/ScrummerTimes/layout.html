@@ -1,17 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <link rel="stylesheet" href="{% static 'ScrummerTimes/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'ScrummerTimes/style.css' %}">
     <title>The Scrummer Times</title>
+    <style>
+        #dropdown-content { /* Change this */
+            display: none;
+            float: left;
+            max-width: 40px;
+            margin-left: 10%;
+        }
+    </style>
 </head>
-{% load static %}
+
 <body background="{% static 'ScrummerTimes/spiration-light.png' %}">
     <header style="position:relative">
+
         <!--<h1>The Scrummer Times</h1>-->
         <div class="navbar-fixed">
             <nav>
@@ -20,15 +29,38 @@
                         {% load static %}
                         <img src="{% static 'ScrummerTimes/LogoMakr_2o6PKh.png' %}" style="width:250px;margin-top: 10px;">
                     </li>
+                    {% if request.path == '/ScrummerTimes/feed/' %}
+                        <li>
+                            <button onclick="toggleCategories()">Dropdown</button>
+                        </li>
+                    {% endif %}
                     <li>
-                        <a href="/ScrummerTimes">Home</a>
+                        <a href="/ScrummerTimes/feed">Home</a>
                     </li>
                     <li>
                         <a href="/admin">Admin</a>
                     </li>
-                    <li><a href="/ScrummerTimes/createArticle">New article</a></li>
+                    <!-- Only Authors can create an article -->
                     {% if user.is_authenticated %}
-                        {% if perms.ScrummerTimes.change_article %}
+                        {% if perms.ScrummerTimes.create_article %}
+                    <li>
+                        <!-- Goes to the form that does the editing, also saves what the previous site was! -->
+                        <a href="{% url 'createarticle' %}?next={{ request.path|urlencode }}">New article</a>
+                    </li>
+                        {% endif %}
+                    {% endif %}
+
+                    {% if user.is_authenticated %}
+                        {% if perms.ScrummerTimes.create_article %}
+                    <li>
+                        <!-- Goes to the form that does the editing, also saves what the previous site was! -->
+                        <a href="{% url 'myarticles' %}?next={{ request.path|urlencode }}">My Articles</a>
+                    </li>
+                        {% endif %}
+                    {% endif %}
+
+                    {% if user.is_authenticated %}
+                        {% if perms.ScrummerTimes.review_article %}
                         <li>
                             <a href="/ScrummerTimes/feedUnread">Proofreading</a>
                         </li>
@@ -51,12 +83,33 @@
             </nav>
         </div>
     </header>
+    <div id="dropdown-content">
+        <button class="btn active">Show all</button>
+        <button class="btn">News</button>
+        <button class="btn">Movies/TV</button>
+        <button class="btn">Music</button>
+        <button class="btn">Sports</button>
+        <button class="btn">Travel</button>
+        <button class="btn">Capital</button>
+    </div>
     <br>
+
     <div class="container center-align">
+
         {% block content %}
         {% endblock %}
-        <br>
     </div>
-
+<script>
+    let clicked = false;
+    function toggleCategories() {
+        if (!clicked) {
+            clicked = true;
+            document.getElementById("dropdown-content").style.display="block"
+        } else {
+            clicked = false;
+            document.getElementById("dropdown-content").style.display="none";
+        }
+    }
+</script>
 </body>
 </html>
