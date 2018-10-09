@@ -50,7 +50,7 @@
                         {% if perms.ScrummerTimes.create_article %}
                     <li>
                         <!-- Goes to the form that does the editing, also saves what the previous site was! -->
-                        <a href="{% url 'createarticle' %}?next={{ request.path|urlencode }}">New article</a>
+                        <a href="{% url 'createarticle' %}?next={{ request.path|urlencode }}">New Article</a>
                     </li>
                         {% endif %}
                     {% endif %}
