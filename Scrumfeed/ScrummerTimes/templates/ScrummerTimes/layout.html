@@ -34,7 +34,7 @@
                         {% load static %}
                         <img src="{% static 'ScrummerTimes/LogoMakr_2o6PKh.png' %}" style="width:250px;margin-top: 10px;">
                     </li>
-                    {% if request.path == '/ScrummerTimes/feed/' or request.path == '/ScrummerTimes/feedUnread' %}
+                    {% if request.path == '/ScrummerTimes/feed/' %}
                         <li>
                             <button onclick="toggleCategories()">Filter categories</button>
                         </li>
