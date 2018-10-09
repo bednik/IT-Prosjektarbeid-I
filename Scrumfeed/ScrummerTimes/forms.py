@@ -3,6 +3,8 @@ import io
 
 from PIL import Image
 from django.core.exceptions import ValidationError
+from django.forms import forms, CharField, IntegerField, ImageField, ChoiceField
+from ScrummerTimes.choices import CATEGORIES
 from django.core.files.base import ContentFile
 from django.forms import forms, CharField, IntegerField, ImageField, URLField, TypedChoiceField, RadioSelect
 from ScrummerTimes.models import Article
@@ -18,14 +20,33 @@ class ArticleForm(forms.Form):
     widget=RadioSelect,
     coerce=lambda x: x == 'True',
     initial="False",
-    required= False
+    required=False
 )
     text = CharField()
+    category = ChoiceField(choices=CATEGORIES)
 
     class Meta:
         #The two below has something to do with assigning who the author of the article is
         model = Article
         exclude = ('user',)
+
+    #Check if the things that is written in the form are valid
+    def clean(self):
+        return self.cleaned_data
+
+        #try:
+        #    if self.cleaned_data["description"].startswith(" "):
+        #        raise ValidationError({'name': "Input cannot start with a space"}, code='invalid')
+        #except KeyError:
+        #    raise ValidationError({'name': "Description must be provided"}, code='invalid')
+        #return self.cleaned_data
+
+
+class FilterForm(forms.Form):
+    category = ChoiceField(choices=CATEGORIES)
+
+    class Meta:
+        model = Article
 
     #Check if the things that is written in the form are valid
     def clean(self):
