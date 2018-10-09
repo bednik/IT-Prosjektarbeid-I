@@ -9,11 +9,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
     <title>The Scrummer Times</title>
     <style>
-        #dropdown-content { /* Change this */
+        #dropdown-content {
             display: none;
             float: left;
             max-width: 40px;
             margin-left: 10%;
+        }
+
+        select {
+            display: block;
+            width: 120px;
         }
     </style>
 </head>
@@ -31,7 +36,7 @@
                     </li>
                     {% if request.path == '/ScrummerTimes/feed/' %}
                         <li>
-                            <button onclick="toggleCategories()">Dropdown</button>
+                            <button onclick="toggleCategories()">Filter categories</button>
                         </li>
                     {% endif %}
                     <li>
@@ -84,13 +89,11 @@
         </div>
     </header>
     <div id="dropdown-content">
-        <button class="btn active">Show all</button>
-        <button class="btn">News</button>
-        <button class="btn">Movies/TV</button>
-        <button class="btn">Music</button>
-        <button class="btn">Sports</button>
-        <button class="btn">Travel</button>
-        <button class="btn">Capital</button>
+        <form id="category-filter" method="get">
+            {{form.category}} <br>
+            <input type="submit" value="Submit"/>
+            {% csrf_token %}
+        </form>
     </div>
     <br>
 

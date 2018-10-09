@@ -8,15 +8,30 @@ from django.urls import reverse
 
 from .models import Article
 
-from .forms import ArticleForm
+from .forms import ArticleForm, FilterForm
 
 
 def feed(request):
-    articles = Article.objects.filter(is_read=True)[:10]
+    form = FilterForm()
+    if ("news" in request.get_full_path()):
+        articles = Article.objects.filter(is_read=True, category="news")
+    elif ("movies" in request.get_full_path()):
+        articles = Article.objects.filter(is_read=True, category="movies/tv")
+    elif ("music" in request.get_full_path()):
+        articles = Article.objects.filter(is_read=True, category="music")
+    elif ("sport" in request.get_full_path()):
+        articles = Article.objects.filter(is_read=True, category="sports")
+    elif ("travel" in request.get_full_path()):
+        articles = Article.objects.filter(is_read=True, category="travel")
+    elif ("capital" in request.get_full_path()):
+        articles = Article.objects.filter(is_read=True, category="capital")
+    else:
+        articles = Article.objects.filter(is_read=True)[:10]
 
     context = {
         'title': 'The Scrummer Times',
-        'articles': articles
+        'articles': articles,
+        'form': form
     }
 
     return render(request, 'ScrummerTimes/feed.html',context)
@@ -26,14 +41,27 @@ def feed(request):
 @permission_required('ScrummerTimes.review_article', login_url='/accounts/login/')
 def proofreading_feed(request):
 
-    articles = Article.objects.filter(is_read=False)
+    if ("news" in request.get_full_path()):
+        articles = Article.objects.filter(is_read=False, category="news")
+    elif ("movies" in request.get_full_path()):
+        articles = Article.objects.filter(is_read=False, category="movies/tv")
+    elif ("music" in request.get_full_path()):
+        articles = Article.objects.filter(is_read=False, category="music")
+    elif ("sport" in request.get_full_path()):
+        articles = Article.objects.filter(is_read=False, category="sports")
+    elif ("travel" in request.get_full_path()):
+        articles = Article.objects.filter(is_read=False, category="travel")
+    elif ("capital" in request.get_full_path()):
+        articles = Article.objects.filter(is_read=False, category="capital")
+    else:
+        articles = Article.objects.filter(is_read=False)[:10]
 
     context = {
         'title': 'The Scrummer Times',
         'articles': articles
     }
 
-    return render(request, 'ScrummerTimes/feedUnread.html',context)
+    return render(request, 'ScrummerTimes/feedUnread.html', context)
 
 
 
