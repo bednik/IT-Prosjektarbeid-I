@@ -1,5 +1,6 @@
+from django.contrib import messages
 from django.forms import forms
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, render_to_response
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.contrib.auth.decorators import login_required, permission_required
@@ -126,7 +127,9 @@ def editarticle(request, id=None):
     article = get_object_or_404(Article, pk=id)
     #User has to be either an editor or the author to edit this article
     if (not request.user.has_perm("ScrummerTimes.review_article") and not request.user == article.authors):
-        return HttpResponseNotFound("You do not have permission for this page. You have to be an Editor.")
+        messages.info(request, "You do not have permission for this page. You have to be an Editor.")
+        next = request.POST.get('next', '/')
+        return HttpResponseRedirect(next)
 
     form = ArticleForm(initial={'header_image': article.header_image, 'title': article.title, 'text': article.text, 'is_read': article.is_read,
                                 'category': article.category})

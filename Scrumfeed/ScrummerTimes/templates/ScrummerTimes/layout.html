@@ -88,6 +88,19 @@
             </nav>
         </div>
     </header>
+
+
+        <!-- Testing some messages feedback stuff-->
+{% if messages %}
+  <ul class="messages" style = "text-align: center;padding:auto;">
+    {% for message in messages %}
+      <div style="width:50%; margin: 0 auto;">
+      <li class="{{ message.tags }}" style = "background-color:lightpink; border-radius:5px; margin:auto;">{{ message }}</li>
+          </div>
+    {% endfor %}
+  </ul>
+{% endif %}
+
     <div id="dropdown-content">
         <form id="category-filter" method="get">
             {{form.category}} <br>
@@ -102,6 +115,9 @@
         {% block content %}
         {% endblock %}
     </div>
+
+
+
 <script>
     let clicked = false;
     function toggleCategories() {
@@ -114,5 +130,6 @@
         }
     }
 </script>
+
 </body>
 </html>
