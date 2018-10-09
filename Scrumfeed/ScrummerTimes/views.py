@@ -100,6 +100,8 @@ def createarticle(request):
             #Takes the data from the form into the database by creating an article object
             article = Article(text=form.cleaned_data["text"], header_image=form.cleaned_data["header_image"],
                               title=form.cleaned_data["title"], category=form.cleaned_data["category"])
+
+
             article.is_read = False
             article.authors = request.user
             article.save()
@@ -126,7 +128,8 @@ def editarticle(request, id=None):
     if (not request.user.has_perm("ScrummerTimes.review_article") and not request.user == article.authors):
         return HttpResponseNotFound("You do not have permission for this page. You have to be an Editor.")
 
-    form = ArticleForm(initial={'header_image': article.header_image, 'title': article.title, 'text': article.text, 'is_read': article.is_read})
+    form = ArticleForm(initial={'header_image': article.header_image, 'title': article.title, 'text': article.text, 'is_read': article.is_read,
+                                'category': article.category})
 
     if request.method == "POST":
         form = ArticleForm(request.POST, request.FILES)
@@ -139,11 +142,13 @@ def editarticle(request, id=None):
                 article.header_image = form.cleaned_data["header_image"]
             article.text = form.cleaned_data["text"]
             article.title = form.cleaned_data["title"]
+            article.category = form.cleaned_data["category"]
 
             #Only editors can publish the article, not the author
             if(request.user.has_perm("ScrummerTimes.publish_article")):
                 article.is_read = form.cleaned_data["is_read"]
             article.save()
+
             #Redirects back to the feed
             # return HttpResponseRedirect(reversed('ScrummerTimes/feed'))
             next = request.POST.get('next','/')

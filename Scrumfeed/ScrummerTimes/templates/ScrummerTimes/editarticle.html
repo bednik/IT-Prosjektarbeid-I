@@ -21,10 +21,19 @@
     <p style="font-size:20px;" class="left-align">Text:</p>
     {{ form.text }}
 
+    <p style="font-size:20px;" class="left-align">Category: </p>
+    {{ form.category }}
     <!--Authors can edit their article, but they can't necesarly publish it-->
     {% if perms.ScrummerTimes.publish_article %}
-        <p style="font-size:20px;" class="left-align">Make Article Public:</p>
-        {{ form.is_read }}
+        <p style="font-size:20px;" class="left-align">Make Article Public:
+        <label style="position:relative; top:5px;">
+           <!-- <input type="checkbox" name="publish" value="Yes" >-->
+            {{form.is_read}}
+            <span></span>
+
+        </label>
+        </p>
+
 
     {% else %}
         <p style="font-size:20px;" class="left-align"> You have to be a Editor to publish this article</p>
