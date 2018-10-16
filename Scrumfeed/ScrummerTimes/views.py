@@ -11,6 +11,14 @@ from .models import Article, Category
 
 from .forms import ArticleForm, FilterForm, CreateCategoryForm
 
+#To save image to ImageField
+from django.core.files import File
+import urllib
+from django.contrib.staticfiles.templatetags.staticfiles import static
+from io import BytesIO
+from PIL import Image
+
+
 def manage_site(request):
     form = CreateCategoryForm(initial={'name': ''})
 #
@@ -156,11 +164,15 @@ def createarticle(request):
         form = ArticleForm(request.POST, request.FILES)
 
         if form.is_valid():
+            header_image = form.cleaned_data["header_image"]
+
+            #If no image, use the image "no Image"
             #Takes the data from the form into the database by creating an article object
-            article = Article(text=form.cleaned_data["text"], header_image=form.cleaned_data["header_image"],
+            article = Article(text=form.cleaned_data["text"],
                               title=form.cleaned_data["title"], category=form.cleaned_data["category"])
 
-
+            if(header_image):
+                article.header_image = header_image
             article.is_read = False
             article.authors = request.user
             article.save()

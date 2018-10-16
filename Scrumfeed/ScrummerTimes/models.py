@@ -2,11 +2,11 @@ from datetime import datetime
 
 from django.contrib.auth.models import User
 from django.db import models
-from ScrummerTimes.choices import CATEGORIES
+
 
 class Article(models.Model):
     title = models.CharField(max_length=200,  blank=True)
-    header_image = models.ImageField(upload_to='header_image', blank=True, null=True)
+    header_image = models.ImageField(upload_to='header_image',default='header_image/NoImage.jpg', blank=True, null=True)
     text = models.TextField(blank=True)
     is_read = models.BooleanField(blank=False, default=False)
     #on_delete = models.CASCADE means that if the author is deleted, then the articles are also deleted
