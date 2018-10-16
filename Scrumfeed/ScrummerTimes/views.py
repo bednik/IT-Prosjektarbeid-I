@@ -68,7 +68,7 @@ def proofreading_feed(request):
 def mydrafts(requests):
     # Must be logged in
     if (request.user.is_authenticated):
-        articles = Article.objects.filter(authors=request.user)
+        articles = Article.objects.filter(authors=request.user).filter(draft=true)
 
         context = {
             'title': 'The Scrummer Times',
