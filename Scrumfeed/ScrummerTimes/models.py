@@ -9,10 +9,12 @@ class Article(models.Model):
     header_image = models.ImageField(upload_to='header_image', blank=True, null=True)
     text = models.TextField(blank=True)
     is_read = models.BooleanField(blank=False, default=False)
-    #The user who made the Article, read up on on_delete ups :)
-    authors = models.ForeignKey(User, on_delete=models.PROTECT, null = True)
-    category = models.CharField(max_length=20, choices=CATEGORIES)
-
+    #on_delete = models.CASCADE means that if the author is deleted, then the articles are also deleted
+    authors = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
+    #category = models.CharField(max_length=20, choices=CATEGORIES)
+    #on_delte=models.SET_NULL means if the category is deleted, the catagory is set to null
+    category = models.ForeignKey('Category', null=True, blank=True, on_delete= models.SET_NULL)
+    # tetsetsettestestestsetststest
     def __str__(self):
         return self.title.__str__()
 
@@ -27,3 +29,16 @@ class Article(models.Model):
             ("review_article", "can review an article, for editors"),
             ("publish_article", "can publish an article")
         )
+
+class Category(models.Model):
+    name = models.CharField(max_length=50, null=False, blank=False)
+
+    class Meta:
+        #Make it say "categories" instead of the default "categorys"
+        verbose_name_plural = "categories"
+        permissions = (
+            ("edit_categories", "can delete and add categories"),
+        )
+
+    def __str__(self):
+        return self.name.__str__()
