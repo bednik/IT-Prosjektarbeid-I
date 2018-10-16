@@ -41,21 +41,7 @@ def feed(request):
 #@permission_required('entity.can_edit', login_url='/accounts/login/')
 @permission_required('ScrummerTimes.review_article', login_url='/accounts/login/')
 def proofreading_feed(request):
-
-    if ("news" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=False, category="news")
-    elif ("movies" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=False, category="movies/tv")
-    elif ("music" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=False, category="music")
-    elif ("sport" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=False, category="sports")
-    elif ("travel" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=False, category="travel")
-    elif ("capital" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=False, category="capital")
-    else:
-        articles = Article.objects.filter(is_read=False)[:10]
+    articles = Article.objects.filter(is_read=False).filter(draft=False)[:10]
 
     context = {
         'title': 'The Scrummer Times',
@@ -68,7 +54,7 @@ def proofreading_feed(request):
 def mydrafts(requests):
     # Must be logged in
     if (request.user.is_authenticated):
-        articles = Article.objects.filter(authors=request.user).filter(draft=true)
+        articles = Article.objects.filter(authors=request.user).filter(draft=True)
 
         context = {
             'title': 'The Scrummer Times',
