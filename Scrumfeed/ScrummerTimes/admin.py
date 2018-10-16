@@ -5,3 +5,5 @@ from .models import Article
 
 ##Sup dudesafsa
 admin.site.register(Article)
+
+admin.site.register(Category)
