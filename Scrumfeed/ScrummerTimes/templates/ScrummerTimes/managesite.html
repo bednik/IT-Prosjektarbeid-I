@@ -1,10 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 
-</body>
-</html>
+
+{% extends 'ScrummerTimes/layout.html' %}
+{% load static %}
+{% block content %}
+
+
+<ul>
+    {% if user.is_authenticated %}
+            {% if perms.ScrummerTimes.edit_categories %}
+
+                <form action={% url 'managesite' %}  method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!--{{ form }}-->
+                 <div>
+                    <h3>Edit or Create a new Category</h3>
+                    <br>
+                </div>
+                {{ form }}
+
+                <br>
+                <input type="submit" name="edit_category" value="Submit"/>
+                <input type="submit" name="delete_category" value="Delete"/>
+
+
+                    <!--Used to redirect to the previous site, more in view.py-->
+                    <input type="hidden" name="next" value="{{ request.GET.next }}">
+                </form>
+            {% endif %}
+    {% endif %}
+
+
+
+</ul>
+
+<!--<a href="/ScrummerTimes/createArticle"> Create Article</a>>-->
+
+{% endblock %}
+<!--<imrg src="{{image.url}} alt="">-->
