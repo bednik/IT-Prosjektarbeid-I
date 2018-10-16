@@ -23,7 +23,7 @@ class ArticleForm(forms.Form):
     #initial="False",
    # required=False
 #)
-    draft = BooleanField(required=False, initial=True)
+    draft = BooleanField(required=False, initial=False)
     text = CharField()
     category = ChoiceField(choices=CATEGORIES, required=False)
 

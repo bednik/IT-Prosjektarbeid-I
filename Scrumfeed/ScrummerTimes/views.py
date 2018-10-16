@@ -98,7 +98,8 @@ def createarticle(request):
         if form.is_valid():
             #Takes the data from the form into the database by creating an article object
             article = Article(text=form.cleaned_data["text"], header_image=form.cleaned_data["header_image"],
-                              title=form.cleaned_data["title"], category=form.cleaned_data["category"])
+                              title=form.cleaned_data["title"], category=form.cleaned_data["category"],
+                              draft=form.cleaned_data["draft"],)
 
 
             article.is_read = False
@@ -130,7 +131,7 @@ def editarticle(request, id=None):
         return HttpResponseRedirect(next)
 
     form = ArticleForm(initial={'header_image': article.header_image, 'title': article.title, 'text': article.text, 'is_read': article.is_read,
-                                'category': article.category})
+                                'category': article.category, 'draft': article.draft,})
 
     if request.method == "POST":
         form = ArticleForm(request.POST, request.FILES)
@@ -144,6 +145,9 @@ def editarticle(request, id=None):
             article.text = form.cleaned_data["text"]
             article.title = form.cleaned_data["title"]
             article.category = form.cleaned_data["category"]
+
+            if(request.user.has_perm("ScrummerTimes.save_as_draft")):
+                article.draft = form.cleaned_data["draft"]
 
             #Only editors can publish the article, not the author
             if(request.user.has_perm("ScrummerTimes.publish_article")):
