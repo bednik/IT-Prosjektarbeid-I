@@ -1,5 +1,6 @@
+from django.contrib import messages
 from django.forms import forms
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, render_to_response
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.contrib.auth.decorators import login_required, permission_required
@@ -100,6 +101,8 @@ def createarticle(request):
             #Takes the data from the form into the database by creating an article object
             article = Article(text=form.cleaned_data["text"], header_image=form.cleaned_data["header_image"],
                               title=form.cleaned_data["title"], category=form.cleaned_data["category"])
+
+
             article.is_read = False
             article.authors = request.user
             article.save()
@@ -124,9 +127,12 @@ def editarticle(request, id=None):
     article = get_object_or_404(Article, pk=id)
     #User has to be either an editor or the author to edit this article
     if (not request.user.has_perm("ScrummerTimes.review_article") and not request.user == article.authors):
-        return HttpResponseNotFound("You do not have permission for this page. You have to be an Editor.")
+        messages.info(request, "You do not have permission for this page. You have to be an Editor.")
+        next = request.POST.get('next', '/')
+        return HttpResponseRedirect(next)
 
-    form = ArticleForm(initial={'header_image': article.header_image, 'title': article.title, 'text': article.text, 'is_read': article.is_read})
+    form = ArticleForm(initial={'header_image': article.header_image, 'title': article.title, 'text': article.text, 'is_read': article.is_read,
+                                'category': article.category})
 
     if request.method == "POST":
         form = ArticleForm(request.POST, request.FILES)
@@ -139,11 +145,13 @@ def editarticle(request, id=None):
                 article.header_image = form.cleaned_data["header_image"]
             article.text = form.cleaned_data["text"]
             article.title = form.cleaned_data["title"]
+            article.category = form.cleaned_data["category"]
 
             #Only editors can publish the article, not the author
             if(request.user.has_perm("ScrummerTimes.publish_article")):
                 article.is_read = form.cleaned_data["is_read"]
             article.save()
+
             #Redirects back to the feed
             # return HttpResponseRedirect(reversed('ScrummerTimes/feed'))
             next = request.POST.get('next','/')

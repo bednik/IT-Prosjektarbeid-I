@@ -35,10 +35,15 @@
 
     <!--Used to redirect to the previous site, more in view.py-->
     <input type="hidden" name="next" value="{{ request.GET.next }}">
-    <input type="submit" value="Submit" />
 </form>
 
 
-<a href="/ScrummerTimes/feed"> Go Back</a>
+<button onclick="goBack()">Go Back</button>
+
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>
 
 {% endblock %}
