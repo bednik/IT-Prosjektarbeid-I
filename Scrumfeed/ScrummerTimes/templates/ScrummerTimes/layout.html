@@ -75,6 +75,10 @@
                         <li>
                             <a href="{% url 'managesite' %}?next={{ request.path|urlencode }}">Manage Site</a>
                         </li>
+
+                        <li>
+                            <a href="{% url 'analytics' %}?next={{ request.path|urlencode }}">Analytics</a>
+                        </li>
                         {% endif %}
                     <li>
                         <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">

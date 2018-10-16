@@ -18,6 +18,12 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 from io import BytesIO
 from PIL import Image
 
+def analytics(request):
+    data = [['100', 10], ['90', 9], ['80', 8]]
+    context = {
+        'data':data,
+    }
+    return render(request, 'ScrummerTimes/analytics.html', context)
 
 def manage_site(request):
     form = CreateCategoryForm(initial={'name': ''})
