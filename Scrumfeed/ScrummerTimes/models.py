@@ -27,4 +27,5 @@ class Article(models.Model):
             ("create_article", "can create an article on the site"),
             ("review_article", "can review an article, for editors"),
             ("publish_article", "can publish an article")
+            ("save_as_draft", "can save article as draft")
         )

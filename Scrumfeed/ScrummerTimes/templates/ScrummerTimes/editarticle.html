@@ -41,6 +41,17 @@
             Click submit to save the Article to "My Articles"</p>
     {% endif %}
 
+    {% if perms.ScrummerTimes.save_as_draft %}
+        <p style="font-size:20px;" class="left-align">Save as draft:
+        <label style="position:relative; top:5px;">
+
+            {{form.draft}}
+            <span></span>
+
+        </label>
+        </p>
+    {% endif %}
+
 
     <!--Used to redirect to the previous site, more in view.py-->
     <input type="hidden" name="next" value="{{ request.GET.next }}">
