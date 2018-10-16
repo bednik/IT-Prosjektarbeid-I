@@ -9,6 +9,7 @@
     {% for article in articles%}
     <li><a href="/ScrummerTimes/article/{{article.id}}"> {{article.title}}</a>
          <!-- Goes to the form that does the editing, also saves what the previous site was! -->
+
         <a href="{% url 'editarticle' article.id %}?next={{ request.path|urlencode }}"> | edit</a>
         <br>
 
