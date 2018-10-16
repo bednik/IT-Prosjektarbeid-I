@@ -64,7 +64,19 @@ def proofreading_feed(request):
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)
 
+# View for articles that are not supposed to be reviewed/published/edited by copy editors just yet
+def mydrafts(requests):
+    # Must be logged in
+    if (request.user.is_authenticated):
+        articles = Article.objects.filter(authors=request.user)
 
+        context = {
+            'title': 'The Scrummer Times',
+            'articles': articles
+        }
+
+        return render(request, 'ScrummerTimes/myArticles.html', context)
+    return render(request, 'ScrummerTimes/myArticles.html', None)
 
 def myarticles(request):
     #Must be logged in

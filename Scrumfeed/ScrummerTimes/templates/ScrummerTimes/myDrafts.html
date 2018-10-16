@@ -1,0 +1,20 @@
+{% extends 'ScrummerTimes/layout.html' %}
+{%load static%}
+{% block content %}
+
+<ul>
+    {% for article in articles%}
+    <li><a href="/ScrummerTimes/article/{{article.id}}"> {{article.title}}</a>
+       <!-- Goes to the form that does the editing, also saves what the previous site was! -->
+        <a href="{% url 'editarticle' article.id %}?next={{ request.path|urlencode }}" id="EditLink"> | Edit</a>
+        <br>
+         <!-- The image is not required in the article, therefore we must first check if this article has an image-->
+        {% if article.header_image %}
+        <img src="{{article.header_image.url}}" width="400">
+        {% endif %}
+    </li>
+    <br>
+    {% endfor %}
+</ul>
+
+{% endblock %}
