@@ -163,3 +163,37 @@ def editarticle(request, id=None):
     }
 
     return render(request, 'ScrummerTimes/editarticle.html', context)
+
+def assignEditor(request, id=None):
+
+    article = get_object_or_404(Article, pk=id)
+
+    if request.method == "POST":
+        article.editors = request.user
+        article.save()
+        next = request.POST.get('next', '/ScrummerTimes/feedUnread')
+        return HttpResponseRedirect(next)
+
+    context = {
+        'form': form,
+        'id': id
+    }
+
+    return render(request, 'ScrummerTimes/feedUnread.html', context)
+
+def deleteEditor(request, id=None):
+
+    article = get_object_or_404(Article, pk=id)
+
+    if request.method == "POST":
+        article.editors = None
+        article.save()
+        next = request.POST.get('next', '/ScrummerTimes/feedUnread')
+        return HttpResponseRedirect(next)
+
+    context = {
+        'form': form,
+        'id': id
+    }
+
+    return render(request, 'ScrummerTimes/feedUnread.html', context)
