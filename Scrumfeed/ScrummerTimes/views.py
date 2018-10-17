@@ -19,7 +19,7 @@ from io import BytesIO
 from PIL import Image
 
 def analytics(request):
-    data = [['100', 10], ['90', 9], ['80', 8]]
+    data = [['100', 10], ['500', 9], ['80', 8]]
     context = {
         'data':data,
     }
