@@ -16,7 +16,13 @@
 </div>
 
 <p class="articleText">
-    {{article.text}}
+    {{article.first_text}}
+</p>
+
+<img src="{{article.in_line_image.url}}" width="600">
+
+<p class="articleText">
+    {{article.second_text}}
 </p>
 
 <button onclick="goBack()">Go Back</button>
@@ -27,4 +33,3 @@ function goBack() {
 }
 </script>
 {% endblock %}
-
