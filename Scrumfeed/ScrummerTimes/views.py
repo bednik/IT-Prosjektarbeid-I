@@ -132,7 +132,7 @@ def editarticle(request, id=None):
         return HttpResponseRedirect(next)
 
     form = ArticleForm(initial={'header_image': article.header_image, 'title': article.title, 'text': article.text, 'is_read': article.is_read,
-                                'category': article.category})
+                                'is_completed': article.is_completed, 'category': article.category})
 
     if request.method == "POST":
         form = ArticleForm(request.POST, request.FILES)
@@ -150,6 +150,10 @@ def editarticle(request, id=None):
             #Only editors can publish the article, not the author
             if(request.user.has_perm("ScrummerTimes.publish_article")):
                 article.is_read = form.cleaned_data["is_read"]
+            article.save()
+
+            if(request.user.has_perm("ScrummerTimes.review_article")):
+                article.is_completed = form.cleaned_data["is_completed"]
             article.save()
 
             #Redirects back to the feed

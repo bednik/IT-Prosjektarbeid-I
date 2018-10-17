@@ -4,6 +4,9 @@ import io
 from PIL import Image
 from django.core.exceptions import ValidationError
 from django.forms import forms, CharField, IntegerField, ImageField, ChoiceField
+from pip._vendor.colorama import initialise
+
+from Scrumfeed import forms
 from ScrummerTimes.choices import CATEGORIES
 from django.core.files.base import ContentFile
 from django.forms import forms, CharField, IntegerField, ImageField, URLField, TypedChoiceField, RadioSelect, BooleanField
@@ -16,6 +19,7 @@ class ArticleForm(forms.Form):
     header_image = ImageField(required=False)
 
     is_read = BooleanField(required=False, initial = False)
+
    # is_read = TypedChoiceField(
     #choices=((True, 'Yes'), (False, 'No')),
    # widget=CheckBox,
@@ -25,6 +29,7 @@ class ArticleForm(forms.Form):
 #)
     text = CharField()
     category = ChoiceField(choices=CATEGORIES, required=False)
+    is_complete = BooleanField(required=False, initial = False)
 
     class Meta:
         #The two below has something to do with assigning who the author of the article is
@@ -59,4 +64,5 @@ class FilterForm(forms.Form):
         #except KeyError:
         #    raise ValidationError({'name': "Description must be provided"}, code='invalid')
         #return self.cleaned_data
+
 

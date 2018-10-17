@@ -1,4 +1,5 @@
 from datetime import datetime
+from email.policy import default
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -12,6 +13,7 @@ class Article(models.Model):
     #The user who made the Article, read up on on_delete ups :)
     authors = models.ForeignKey(User, on_delete=models.PROTECT, null = True)
     category = models.CharField(max_length=20, choices=CATEGORIES)
+    is_completed = models.BooleanField(blank=False, default=False)
 
     def __str__(self):
         return self.title.__str__()
