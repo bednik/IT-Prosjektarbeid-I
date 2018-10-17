@@ -9,7 +9,7 @@ from django.urls import reverse
 
 from .models import Article
 
-from .forms import ArticleForm, FilterForm
+from .forms import ArticleForm, FilterForm, DeleteForm
 
 
 def feed(request):
@@ -51,23 +51,30 @@ def proofreading_feed(request):
     return render(request, 'ScrummerTimes/feedUnread.html', context)
 
 # View for articles that are not supposed to be reviewed/published/edited by copy editors just yet
-def mydrafts(requests):
+def mydrafts(request):
     # Must be logged in
     if (request.user.is_authenticated):
         articles = Article.objects.filter(authors=request.user).filter(draft=True)
+
+        if request.method == "POST":
+            form = DeleteForm(request.POST, request.FILES)
+
+            if form.is_valid:
+                print("Poopity scoop") #Change this
+
 
         context = {
             'title': 'The Scrummer Times',
             'articles': articles
         }
 
-        return render(request, 'ScrummerTimes/myArticles.html', context)
-    return render(request, 'ScrummerTimes/myArticles.html', None)
+        return render(request, 'ScrummerTimes/myDrafts.html', context)
+    return render(request, 'ScrummerTimes/myDrafts.html', None)
 
 def myarticles(request):
     #Must be logged in
     if(request.user.is_authenticated):
-        articles = Article.objects.filter(authors=request.user)
+        articles = Article.objects.filter(authors=request.user).filter(draft=False) # Kun ferdige artikler dukker opp. Drafts legger seg i "My Drafts"
 
         context = {
             'title': 'The Scrummer Times',

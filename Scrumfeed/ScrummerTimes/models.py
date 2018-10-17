@@ -10,7 +10,7 @@ class Article(models.Model):
     text = models.TextField(blank=True)
     is_read = models.BooleanField(blank=False, default=False)
     #The user who made the Article, read up on on_delete ups :)
-    authors = models.ForeignKey(User, on_delete=models.PROTECT, null = True)
+    authors = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
     category = models.CharField(max_length=20, choices=CATEGORIES)
     draft = models.BooleanField(blank=False, default=True)
 

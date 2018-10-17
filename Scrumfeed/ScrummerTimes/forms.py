@@ -61,3 +61,10 @@ class FilterForm(forms.Form):
         #    raise ValidationError({'name': "Description must be provided"}, code='invalid')
         #return self.cleaned_data
 
+class DeleteForm(forms.Form):
+
+    class Meta:
+        model = Article
+
+    def clean(self):
+        return self.cleaned_data
