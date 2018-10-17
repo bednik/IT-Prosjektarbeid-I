@@ -12,7 +12,6 @@
 
         <a href="{% url 'editarticle' article.id %}?next={{ request.path|urlencode }}"> | edit</a>
         <br>
-
         <!-- The image is not required in the article, therefore we must first check if this article has an image-->
         {% if article.header_image %}
         <img src="{{article.header_image.url}}" width="400">
