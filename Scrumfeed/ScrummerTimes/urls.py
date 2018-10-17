@@ -10,5 +10,6 @@ urlpatterns = [
   #(?P) = paramaters <id> = parameter, \d+ d = digit, + = one or more digits, \$ = end
   url(r'^article/(?P<id>\d+)/$', views.article, name='article'),
   url(r'^article/edit/(?P<id>\d+)/$', views.editarticle, name='editarticle'),
-  url(r'^feedUnread$', views.proofreading_feed, name='Proofreading')
+  url(r'^feedUnread$', views.proofreading_feed, name='Proofreading'),
+  url('mydrafts', views.mydrafts, name='mydrafts'),
 ]
