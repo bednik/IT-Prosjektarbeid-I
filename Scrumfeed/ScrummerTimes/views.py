@@ -11,7 +11,6 @@ from .models import Article
 
 from .forms import ArticleForm, FilterForm, DeleteForm
 
-
 def feed(request):
     form = FilterForm()
     if ("news" in request.get_full_path()):
@@ -60,7 +59,7 @@ def mydrafts(request):
             form = DeleteForm(request.POST, request.FILES)
 
             if form.is_valid:
-                print("Poopity scoop") #Change this
+                Article.objects.filter(draft=True).delete()
 
 
         context = {
