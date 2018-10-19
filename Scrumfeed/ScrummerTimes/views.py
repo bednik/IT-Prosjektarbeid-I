@@ -15,19 +15,19 @@ from .forms import ArticleForm, FilterForm
 def feed(request):
     form = FilterForm()
     if ("news" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=True, category="news")
+        articles = Article.objects.filter(is_read=True, category="news").order_by('-date')
     elif ("movies" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=True, category="movies/tv")
+        articles = Article.objects.filter(is_read=True, category="movies/tv").order_by('-date')
     elif ("music" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=True, category="music")
+        articles = Article.objects.filter(is_read=True, category="music").order_by('-date')
     elif ("sport" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=True, category="sports")
+        articles = Article.objects.filter(is_read=True, category="sports").order_by('-date')
     elif ("travel" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=True, category="travel")
+        articles = Article.objects.filter(is_read=True, category="travel").order_by('-date')
     elif ("capital" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=True, category="capital")
+        articles = Article.objects.filter(is_read=True, category="capital").order_by('-date')
     else:
-        articles = Article.objects.filter(is_read=True)[:10]
+        articles = Article.objects.filter(is_read=True).order_by('-date')
 
     context = {
         'title': 'The Scrummer Times',
@@ -43,19 +43,19 @@ def feed(request):
 def proofreading_feed(request):
 
     if ("news" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=False, category="news")
+        articles = Article.objects.filter(is_read=False, category="news").order_by('-date')
     elif ("movies" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=False, category="movies/tv")
+        articles = Article.objects.filter(is_read=False, category="movies/tv").order_by('-date')
     elif ("music" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=False, category="music")
+        articles = Article.objects.filter(is_read=False, category="music").order_by('-date')
     elif ("sport" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=False, category="sports")
+        articles = Article.objects.filter(is_read=False, category="sports").order_by('-date')
     elif ("travel" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=False, category="travel")
+        articles = Article.objects.filter(is_read=False, category="travel").order_by('-date')
     elif ("capital" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=False, category="capital")
+        articles = Article.objects.filter(is_read=False, category="capital").order_by('-date')
     else:
-        articles = Article.objects.filter(is_read=False)[:10]
+        articles = Article.objects.filter(is_read=False).order_by('-date')
 
     context = {
         'title': 'The Scrummer Times',
@@ -69,7 +69,7 @@ def proofreading_feed(request):
 def myarticles(request):
     #Must be logged in
     if(request.user.is_authenticated):
-        articles = Article.objects.filter(authors=request.user)
+        articles = Article.objects.filter(authors=request.user).order_by('-date')
 
         context = {
             'title': 'The Scrummer Times',

@@ -25,7 +25,6 @@ class Article(models.Model):
     #Create_article are for Authors
     #To use these, write something like @permission_required('ScrummerTimes.review_article', login_url='/accounts/login/')
     class Meta:
-        ordering = ['-date', ]
         permissions = (
             ("create_article", "can create an article on the site"),
             ("review_article", "can review an article, for editors"),
