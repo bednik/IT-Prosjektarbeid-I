@@ -56,7 +56,7 @@
                     {% endif %}
 
                     {% if user.is_authenticated %}
-                        {% if perms.ScrummerTimes.create_article %}
+                        {% if perms.ScrummerTimes.change_article %}
                     <li>
                         <!-- Goes to the form that does the editing, also saves what the previous site was! -->
                         <a href="{% url 'myarticles' %}?next={{ request.path|urlencode }}">My Articles</a>
@@ -149,10 +149,7 @@
     // Get the checkbox
     var checkBox = document.getElementById("dracula");
     var navbar = document.getElementById("navbar")
-  // Get the output text
 
-
-  // If the checkbox is checked, display the output text
      if (checkBox.checked == true){
         document.body.style.background = "black";
         navbar.style.backgroundColor = "gray";

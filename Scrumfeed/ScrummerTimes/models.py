@@ -14,6 +14,7 @@ class Article(models.Model):
     authors = models.ForeignKey(User, on_delete=models.PROTECT, null = True)
     category = models.CharField(max_length=20, choices=CATEGORIES)
     editors = models.ForeignKey(User, null=True, blank=True, related_name='editor', on_delete=models.DO_NOTHING)
+    date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title.__str__()
@@ -24,6 +25,7 @@ class Article(models.Model):
     #Create_article are for Authors
     #To use these, write something like @permission_required('ScrummerTimes.review_article', login_url='/accounts/login/')
     class Meta:
+        ordering = ['-date', ]
         permissions = (
             ("create_article", "can create an article on the site"),
             ("review_article", "can review an article, for editors"),
