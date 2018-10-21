@@ -99,9 +99,12 @@ def createarticle(request):
 
         if form.is_valid():
             #Takes the data from the form into the database by creating an article object
-            article = Article(text=form.cleaned_data["text"], header_image=form.cleaned_data["header_image"],
-                              title=form.cleaned_data["title"], category=form.cleaned_data["category"])
-
+            article = Article(header_image=form.cleaned_data["header_image"],
+                              title=form.cleaned_data["title"],
+                              first_text=form.cleaned_data["first_text"],
+                              in_line_image=form.cleaned_data["in_line_image"],
+                              second_text=form.cleaned_data["second_text"],
+                              category=form.cleaned_data["category"])
 
             article.is_read = False
             article.authors = request.user
