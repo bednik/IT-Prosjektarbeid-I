@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404, render_to_response
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.datetime_safe import datetime
 # Create your views here.
 from django.urls import reverse
 
@@ -108,6 +109,7 @@ def createarticle(request):
 
             article.is_read = False
             article.authors = request.user
+            article.date = datetime.now()
             article.save()
             #Redirects back to the feed
             # return HttpResponseRedirect(reversed('ScrummerTimes/feed'))

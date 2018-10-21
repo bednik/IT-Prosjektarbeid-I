@@ -6,6 +6,7 @@ from ScrummerTimes.choices import CATEGORIES
 
 
 class Article(models.Model):
+    date = models.DateTimeField()
     title = models.CharField(max_length=200,  blank=True)
     header_image = models.ImageField(upload_to='header_image', blank=True, null=True)
     first_text = models.TextField(blank=True)

@@ -1,4 +1,3 @@
-
 {% extends 'ScrummerTimes/layout.html' %}
 {%load static%}
 
@@ -11,7 +10,7 @@
 
 
 <div class="categoryBox">
-    <h5>Created by user: {{article.authors.username}}<br> Category: {{article.category}} </h5>
+    <h5>Created by user: {{article.authors.username}} on {{ article.date }}<br> Category: {{article.category}} </h5>
 
 </div>
 
