@@ -128,26 +128,33 @@ def createarticle(request):
 def editarticle(request, id=None):
 
     article = get_object_or_404(Article, pk=id)
-    #User has to be either an editor or the author to edit this article
+    # User has to be either an editor or the author to edit this article
     if (not request.user.has_perm("ScrummerTimes.review_article") and not request.user == article.authors):
         messages.info(request, "You do not have permission for this page. You have to be an Editor.")
         next = request.POST.get('next', '/')
         return HttpResponseRedirect(next)
 
-    form = ArticleForm(initial={'header_image': article.header_image, 'title': article.title, 'text': article.text, 'is_read': article.is_read,
-                                'category': article.category})
+    form = ArticleForm(initial={'header_image': article.header_image,
+                                'title': article.title,
+                                'first_text': article.first_text,
+                                'in_line_image': article.in_line_image,
+                                'second_text': article.second_text,
+                                'category': article.category,
+                                'is_read': article.is_read})
 
     if request.method == "POST":
         form = ArticleForm(request.POST, request.FILES)
 
         if form.is_valid():
-            #Takes the data from the form into the database by creating an article object
+            # Takes the data from the form into the database by creating an article object
             image = form.cleaned_data["header_image"]
 
             if(image != None):
                 article.header_image = form.cleaned_data["header_image"]
-            article.text = form.cleaned_data["text"]
             article.title = form.cleaned_data["title"]
+            article.first_text = form.cleaned_data["first_text"]
+            article.in_line_image = form.cleaned_data["in_line_image"]
+            article.second_text = form.cleaned_data["second_text"]
             article.category = form.cleaned_data["category"]
 
             #Only editors can publish the article, not the author
