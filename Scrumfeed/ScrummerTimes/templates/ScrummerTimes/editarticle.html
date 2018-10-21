@@ -13,41 +13,35 @@
 
     <p style="font-size:20px;" class="left-align">Image:</p>
     {{ form.header_image}}
-    <!--<p>
-        <input id="id_image" type="file" class="" name="header_image">
-    </p>-->
-    <p style="font-size:20px;" class="left-align">Name:</p>
+    <p style="font-size:20px;" class="left-align">Article Title:</p>
     {{ form.title }}
-    <p style="font-size:20px;" class="left-align">Text:</p>
-    {{ form.text }}
-
+    <p style="font-size:20px;" class="left-align">First Part of the Article Text:</p>
+    {{ form.first_text }}
+    <p style="font-size:20px;" class="left-align">Image Inside the Article:</p>
+    {{ form.in_line_image}}
+    <p style="font-size:20px;" class="left-align">Second Part of the Article Text:</p>
+    {{ form.second_text }}
     <p style="font-size:20px;" class="left-align">Category: </p>
     {{ form.category }}
     <!--Authors can edit their article, but they can't necesarly publish it-->
     {% if perms.ScrummerTimes.publish_article %}
         <p style="font-size:20px;" class="left-align">Make Article Public:
         <label style="position:relative; top:5px;">
-
             {{form.is_read}}
             <span></span>
-
         </label>
         </p>
-
-
     {% else %}
         <p style="font-size:20px;" class="left-align"> You have to be a Editor to publish this article</p>
     <p style="font-size:20px;" class="left-align">
             Click submit to save the Article to "My Articles"</p>
     {% endif %}
 
-
     <!--Used to redirect to the previous site, more in view.py-->
     <input type="hidden" name="next" value="{{ request.GET.next }}">
 
     <input type="submit" value="Submit" />
 </form>
-
 
 <button onclick="goBack()">Go Back</button>
 

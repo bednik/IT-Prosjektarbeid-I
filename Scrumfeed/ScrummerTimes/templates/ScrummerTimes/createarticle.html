@@ -8,7 +8,7 @@
     }
 </style>
 
-<form action={% url 'createarticle' %}  method="post" enctype="multipart/form-data">
+<form action={% url 'createarticle' %}  method="post" enctype="multipart/form-data" >
     {% csrf_token %}
     <!--{{ form }}-->
 
@@ -17,15 +17,16 @@
         <br>
     </div>
 
-    <p style="font-size:20px;" class="left-align">Image:</p>
+    <p style="font-size:20px;" class="left-align">Header Image:</p>
     {{ form.header_image}}
-    <!--<p>
-        <input id="id_image" type="file" class="" name="header_image">
-    </p>-->
-    <p style="font-size:20px;" class="left-align">Name:</p>
+    <p style="font-size:20px;" class="left-align">Article Title:</p>
     {{ form.title }}
-    <p style="font-size:20px;" class="left-align">Text:</p>
-    {{ form.text }}
+    <p style="font-size:20px;" class="left-align">First Part of the Article Text:</p>
+    {{ form.first_text }}
+    <p style="font-size:20px;" class="left-align">Image Inside the Article:</p>
+    {{ form.in_line_image}}
+    <p style="font-size:20px;" class="left-align">Second Part of the Article Text:</p>
+    {{ form.second_text }}
     <p style="font-size:20px;" class="left-align">Category: </p>
     {{ form.category }}
     <br>

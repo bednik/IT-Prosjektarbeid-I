@@ -13,7 +13,7 @@ class Article(models.Model):
     second_text = models.TextField(blank=True)
     is_read = models.BooleanField(blank=False, default=False)
     # The user who made the Article, read up on on_delete ups :)
-    authors = models.ForeignKey(User, on_delete=models.PROTECT, null = True)
+    authors = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
     category = models.CharField(max_length=20, choices=CATEGORIES)
 
     def __str__(self):
@@ -22,7 +22,8 @@ class Article(models.Model):
     # Custom permisions for this object Article.
     # Review and publish are permissions for Editors
     # Create_article are for Authors
-    # To use these, write something like @permission_required('ScrummerTimes.review_article', login_url='/accounts/login/')
+    # To use these, write something like @permission_required('ScrummerTimes.review_article',
+    # login_url='/accounts/login/')
     class Meta:
         permissions = (
             ("create_article", "can create an article on the site"),

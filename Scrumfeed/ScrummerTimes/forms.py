@@ -12,19 +12,13 @@ from ScrummerTimes.models import Article
 # Noe tull
 class ArticleForm(forms.Form):
     title = CharField(max_length=120)
-    #Required has to be False, because i did not find a way that i could edit an article without uplouding an image again.
+    # Required has to be False, because i did not find a way that i could edit an article without uplouding an image again.
     header_image = ImageField(required=False)
-
-    is_read = BooleanField(required=False, initial = False)
-   # is_read = TypedChoiceField(
-    #choices=((True, 'Yes'), (False, 'No')),
-   # widget=CheckBox,
-    #coerce=lambda x: x == 'True',
-    #initial="False",
-   # required=False
-#)
-    text = CharField()
+    first_text = CharField()  # TODO: TextArea
+    in_line_image = ImageField(required=False)
+    second_text = CharField()  # TODO: TextArea
     category = ChoiceField(choices=CATEGORIES, required=False)
+    is_read = BooleanField(required=False, initial=False)
 
     class Meta:
         #The two below has something to do with assigning who the author of the article is
