@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 from django.forms import forms, CharField, IntegerField, ImageField, ChoiceField
 from ScrummerTimes.choices import CATEGORIES
 from django.core.files.base import ContentFile
-from django.forms import forms, CharField, IntegerField, ImageField, URLField, TypedChoiceField, RadioSelect, BooleanField
+from django.forms import forms, CharField, IntegerField, ImageField, URLField, TypedChoiceField, RadioSelect, BooleanField, Textarea
 from ScrummerTimes.models import Article
 
 # Noe tull
@@ -14,9 +14,9 @@ class ArticleForm(forms.Form):
     title = CharField(max_length=120)
     # Required has to be False, because i did not find a way that i could edit an article without uplouding an image again.
     header_image = ImageField(required=False)
-    first_text = CharField()  # TODO: TextArea
+    first_text = CharField(widget=Textarea)  # TODO: Larger TextArea
     in_line_image = ImageField(required=False)
-    second_text = CharField()  # TODO: TextArea
+    second_text = CharField(widget=Textarea)  # TODO: Larger TextArea
     category = ChoiceField(choices=CATEGORIES, required=False)
     is_read = BooleanField(required=False, initial=False)
 
