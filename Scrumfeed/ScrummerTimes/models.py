@@ -13,7 +13,7 @@ class Article(models.Model):
     #The user who made the Article, read up on on_delete ups :)
     authors = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
     category = models.CharField(max_length=20, choices=CATEGORIES)
-    draft = models.BooleanField(blank=False, default=True)
+    draft = models.BooleanField(blank=False, default=False)
     editors = models.ForeignKey(User, null=True, blank=True, related_name='editor', on_delete=models.DO_NOTHING)
     date = models.DateTimeField(auto_now_add=True)
 
