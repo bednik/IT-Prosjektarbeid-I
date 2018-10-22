@@ -1,3 +1,2 @@
 ScrummerTimes/migrations
-.idea
-db.sqlite3
+/db/*.sqlite3
