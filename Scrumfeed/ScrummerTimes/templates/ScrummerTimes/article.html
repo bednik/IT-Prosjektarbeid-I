@@ -21,6 +21,18 @@
 
 <button onclick="goBack()">Go Back</button>
 
+
+<h4> Comments!</h4>
+<div>
+    {% for comment in comments %}
+    <div>
+        <p> From {{comment.user }}</p>
+        <p> At {{ comment.timestamp }}</p>
+        {{ comment.content }}
+    </div>
+    {% endfor %}
+</div>
+
 <script>
 function goBack() {
     window.history.back();

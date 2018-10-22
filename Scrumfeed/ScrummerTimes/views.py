@@ -1,15 +1,19 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.contenttypes.models import ContentType
 from django.forms import forms
 from django.shortcuts import render, get_object_or_404, render_to_response
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
-from django.contrib.auth.decorators import login_required, permission_required
-# Create your views here.
 from django.urls import reverse
+# Create your views here.
+
 
 from .models import Article
 
 from .forms import ArticleForm, FilterForm
+
+from comments.models import Comment
 
 
 def feed(request):
@@ -81,8 +85,12 @@ def myarticles(request):
 
 def article(request, id):
     thisArticle = Article.objects.get(id=id)
+    content_type = ContentType.objects.get_for_model(Article)
+    obj_id = thisArticle.id
+    comments = Comment.objects.filter(object_id=obj_id)
+
     context = {
-        'article': thisArticle
+        'article': thisArticle, 'comments': comments,
     }
     # Sends to the html file (index.html)
     return render(request, 'ScrummerTimes/article.html',
