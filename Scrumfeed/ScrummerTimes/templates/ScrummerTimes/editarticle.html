@@ -50,6 +50,9 @@
 
         </label>
         </p>
+        {% if article.draft %}
+            <input type="submit" name="delete" value="Delete draft" style="color: red">
+        {% endif %}
     {% endif %}
 
 

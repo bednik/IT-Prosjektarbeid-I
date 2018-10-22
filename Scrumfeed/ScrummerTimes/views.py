@@ -149,29 +149,32 @@ def editarticle(request, id=None):
         form = ArticleForm(request.POST, request.FILES)
 
         if form.is_valid():
-            #Takes the data from the form into the database by creating an article object
-            image = form.cleaned_data["header_image"]
+            if 'delete' in form.data:
+                article.delete()
+            else:
+                #Takes the data from the form into the database by creating an article object
+                image = form.cleaned_data["header_image"]
+                if(image != None):
+                    article.header_image = form.cleaned_data["header_image"]
+                article.text = form.cleaned_data["text"]
+                article.title = form.cleaned_data["title"]
+                article.category = form.cleaned_data["category"]
+                article.draft = form.cleaned_data["draft"]
 
-            if(image != None):
-                article.header_image = form.cleaned_data["header_image"]
-            article.text = form.cleaned_data["text"]
-            article.title = form.cleaned_data["title"]
-            article.category = form.cleaned_data["category"]
-            article.draft = form.cleaned_data["draft"]
+                #Only editors can publish the article, not the author
+                if(request.user.has_perm("ScrummerTimes.publish_article")):
+                    article.is_read = form.cleaned_data["is_read"]
+                article.save()
 
-            #Only editors can publish the article, not the author
-            if(request.user.has_perm("ScrummerTimes.publish_article")):
-                article.is_read = form.cleaned_data["is_read"]
-            article.save()
-
-            #Redirects back to the feed
-            # return HttpResponseRedirect(reversed('ScrummerTimes/feed'))
+                #Redirects back to the feed
+                # return HttpResponseRedirect(reversed('ScrummerTimes/feed'))
             next = request.POST.get('next','/')
             return HttpResponseRedirect(next)
 
     context = {
         'form': form,
-        'id': id
+        'id': id,
+        'article': article,
     }
 
     return render(request, 'ScrummerTimes/editarticle.html', context)
