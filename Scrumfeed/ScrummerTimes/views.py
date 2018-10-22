@@ -136,8 +136,14 @@ def editarticle(request, id=None):
         next = request.POST.get('next', '/')
         return HttpResponseRedirect(next)
 
-    form = ArticleForm(initial={'header_image': article.header_image, 'title': article.title, 'text': article.text, 'is_read': article.is_read,
-                                'category': article.category})
+    form = ArticleForm(initial={'header_image': article.header_image,
+                                'title': article.title,
+                                'text': article.text,
+                                'is_read': article.is_read,
+                                'category': article.category,
+                                'draft': article.draft,
+                                }
+                       )
 
     if request.method == "POST":
         form = ArticleForm(request.POST, request.FILES)
@@ -151,6 +157,7 @@ def editarticle(request, id=None):
             article.text = form.cleaned_data["text"]
             article.title = form.cleaned_data["title"]
             article.category = form.cleaned_data["category"]
+            article.draft = form.cleaned_data["draft"]
 
             #Only editors can publish the article, not the author
             if(request.user.has_perm("ScrummerTimes.publish_article")):
@@ -168,3 +175,37 @@ def editarticle(request, id=None):
     }
 
     return render(request, 'ScrummerTimes/editarticle.html', context)
+
+def assignEditor(request, id=None):
+
+    article = get_object_or_404(Article, pk=id)
+
+    if request.method == "POST":
+        article.editors = request.user
+        article.save()
+        next = request.POST.get('next', '/ScrummerTimes/feedUnread')
+        return HttpResponseRedirect(next)
+
+    context = {
+        'form': form,
+        'id': id
+    }
+
+    return render(request, 'ScrummerTimes/feedUnread.html', context)
+
+def deleteEditor(request, id=None):
+
+    article = get_object_or_404(Article, pk=id)
+
+    if request.method == "POST":
+        article.editors = None
+        article.save()
+        next = request.POST.get('next', '/ScrummerTimes/feedUnread')
+        return HttpResponseRedirect(next)
+
+    context = {
+        'form': form,
+        'id': id
+    }
+
+    return render(request, 'ScrummerTimes/feedUnread.html', context)
