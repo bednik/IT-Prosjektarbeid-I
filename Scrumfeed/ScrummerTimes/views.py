@@ -9,24 +9,25 @@ from django.urls import reverse
 
 from .models import Article
 
-from .forms import ArticleForm, FilterForm, DeleteForm
+from .forms import ArticleForm, FilterForm
+
 
 def feed(request):
     form = FilterForm()
     if ("news" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=True, category="news")
+        articles = Article.objects.filter(is_read=True, category="news").order_by('-date')
     elif ("movies" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=True, category="movies/tv")
+        articles = Article.objects.filter(is_read=True, category="movies/tv").order_by('-date')
     elif ("music" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=True, category="music")
+        articles = Article.objects.filter(is_read=True, category="music").order_by('-date')
     elif ("sport" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=True, category="sports")
+        articles = Article.objects.filter(is_read=True, category="sports").order_by('-date')
     elif ("travel" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=True, category="travel")
+        articles = Article.objects.filter(is_read=True, category="travel").order_by('-date')
     elif ("capital" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=True, category="capital")
+        articles = Article.objects.filter(is_read=True, category="capital").order_by('-date')
     else:
-        articles = Article.objects.filter(is_read=True)[:10]
+        articles = Article.objects.filter(is_read=True).order_by('-date')
 
     context = {
         'title': 'The Scrummer Times',
@@ -73,7 +74,7 @@ def mydrafts(request):
 def myarticles(request):
     #Must be logged in
     if(request.user.is_authenticated):
-        articles = Article.objects.filter(authors=request.user).filter(draft=False) # Kun ferdige artikler dukker opp. Drafts legger seg i "My Drafts"
+        articles = Article.objects.filter(authors=request.user).filter(draft=False).order_by('-date') # Kun ferdige artikler dukker opp. Drafts legger seg i "My Drafts"
 
         context = {
             'title': 'The Scrummer Times',
@@ -104,8 +105,7 @@ def createarticle(request):
         if form.is_valid():
             #Takes the data from the form into the database by creating an article object
             article = Article(text=form.cleaned_data["text"], header_image=form.cleaned_data["header_image"],
-                              title=form.cleaned_data["title"], category=form.cleaned_data["category"],
-                              draft=form.cleaned_data["draft"],)
+                              title=form.cleaned_data["title"], category=form.cleaned_data["category"])
 
 
             article.is_read = False
@@ -137,7 +137,7 @@ def editarticle(request, id=None):
         return HttpResponseRedirect(next)
 
     form = ArticleForm(initial={'header_image': article.header_image, 'title': article.title, 'text': article.text, 'is_read': article.is_read,
-                                'category': article.category, 'draft': article.draft,})
+                                'category': article.category})
 
     if request.method == "POST":
         form = ArticleForm(request.POST, request.FILES)
@@ -151,9 +151,6 @@ def editarticle(request, id=None):
             article.text = form.cleaned_data["text"]
             article.title = form.cleaned_data["title"]
             article.category = form.cleaned_data["category"]
-
-            if(request.user.has_perm("ScrummerTimes.save_as_draft")):
-                article.draft = form.cleaned_data["draft"]
 
             #Only editors can publish the article, not the author
             if(request.user.has_perm("ScrummerTimes.publish_article")):
