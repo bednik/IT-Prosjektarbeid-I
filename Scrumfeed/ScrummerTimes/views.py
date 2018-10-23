@@ -7,28 +7,100 @@ from django.contrib.auth.decorators import login_required, permission_required
 # Create your views here.
 from django.urls import reverse
 
-from .models import Article
+from .models import Article, Category
 
-from .forms import ArticleForm, FilterForm
+from .forms import ArticleForm, FilterForm, CreateCategoryForm
 
+#To save image to ImageField
+from django.core.files import File
+import urllib
+from django.contrib.staticfiles.templatetags.staticfiles import static
+from io import BytesIO
+from PIL import Image
+
+def analytics(request):
+    data = [['100', 10], ['90', 9], ['80', 8]]
+    context = {
+        'data':data,
+    }
+    return render(request, 'ScrummerTimes/analytics.html', context)
+
+def manage_site(request):
+    form = CreateCategoryForm(initial={'name': ''})
+#
+    if request.method == "POST":
+        form = CreateCategoryForm(request.POST)
+
+        if form.is_valid():
+            category_object = form.cleaned_data["category"]
+            name = form.cleaned_data["name"]
+            #If editing
+            #testests
+            if('edit_category' in request.POST):
+                if(name == ""):
+                    messages.info(request, "Name can not be blank")
+
+                elif(not category_object):
+                    category = Category(name=name)
+                    category.save()
+                    messages.info(request, "Successfully added the category  " + form.cleaned_data["name"])
+                else:
+                    messages.info(request, "Successfully changed the name of the category  " + category_object.name + "  to  " + form.cleaned_data["name"])
+                    category_object.name = form.cleaned_data["name"]
+                    category_object.save()
+            #if deleting
+            if('delete_category' in request.POST):
+                if (category_object):
+                    category_object.delete()
+                    messages.info(request, "Successfully deleted the category  " + category_object.name)
+                else:
+                    messages.info(request, "You did not select or write anything")
+
+            #Redirects back to the feed
+            # return HttpResponseRedirect(reversed('ScrummerTimes/feed'))
+
+
+            #Redirect to same page
+            return HttpResponseRedirect(reverse(manage_site))
+        else:
+            messages.info(request, form.errors)
+            # Redirect to same page
+            return HttpResponseRedirect(reverse(manage_site))
+
+    all_categories = Category.objects.all()
+    context = {
+        'form': form,
+        'categories': all_categories,
+    }
+
+    return render(request, 'ScrummerTimes/managesite.html', context)
 
 def feed(request):
     form = FilterForm()
-    if ("news" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=True, category="news")
-    elif ("movies" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=True, category="movies/tv")
-    elif ("music" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=True, category="music")
-    elif ("sport" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=True, category="sports")
-    elif ("travel" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=True, category="travel")
-    elif ("capital" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=True, category="capital")
-    else:
-        articles = Article.objects.filter(is_read=True)[:10]
+    articles = Article.objects.filter(is_read=True)[:10]
+    if request.method == "POST":
+        form = FilterForm(request.POST)
 
+        if form.is_valid():
+            selected_category = form.cleaned_data["category"]
+            articles = Article.objects.filter(is_read = True, category=selected_category)
+
+    #if(request.get)
+   # if ("news" in request.get_full_path()):
+    #    articles = Article.objects.filter(is_read=True, category="news")
+   # elif ("movies" in request.get_full_path()):
+    #    articles = Article.objects.filter(is_read=True, category="movies/tv")
+    #elif ("music" in request.get_full_path()):
+    #    articles = Article.objects.filter(is_read=True, category="music")
+    #elif ("sport" in request.get_full_path()):
+    #    articles = Article.objects.filter(is_read=True, category="sports")
+    #elif ("travel" in request.get_full_path()):
+    #    articles = Article.objects.filter(is_read=True, category="travel")
+    #elif ("capital" in request.get_full_path()):
+   #     articles = Article.objects.filter(is_read=True, category="capital")
+   # else:
+   #     articles = Article.objects.filter(is_read=True)[:10]
+#
     context = {
         'title': 'The Scrummer Times',
         'articles': articles,
@@ -98,15 +170,19 @@ def createarticle(request):
         form = ArticleForm(request.POST, request.FILES)
 
         if form.is_valid():
+            header_image = form.cleaned_data["header_image"]
+
+            #If no image, use the image "no Image"
             #Takes the data from the form into the database by creating an article object
-            article = Article(text=form.cleaned_data["text"], header_image=form.cleaned_data["header_image"],
+            article = Article(text=form.cleaned_data["text"],
                               title=form.cleaned_data["title"], category=form.cleaned_data["category"])
 
-
+            if(header_image):
+                article.header_image = header_image
             article.is_read = False
             article.authors = request.user
             article.save()
-            #Redirects back to the feed
+            #Redirects back to the feedtesttest
             # return HttpResponseRedirect(reversed('ScrummerTimes/feed'))
 
             # redirects to previous visited paged, does not work if browser is in incognito mode
@@ -132,7 +208,7 @@ def editarticle(request, id=None):
         return HttpResponseRedirect(next)
 
     form = ArticleForm(initial={'header_image': article.header_image, 'title': article.title, 'text': article.text, 'is_read': article.is_read,
-                                'is_completed': article.is_completed, 'category': article.category})
+                                 'category':article.category})
 
     if request.method == "POST":
         form = ArticleForm(request.POST, request.FILES)
@@ -145,15 +221,12 @@ def editarticle(request, id=None):
                 article.header_image = form.cleaned_data["header_image"]
             article.text = form.cleaned_data["text"]
             article.title = form.cleaned_data["title"]
+            #article.category = form.cleaned_data["category"]
             article.category = form.cleaned_data["category"]
 
             #Only editors can publish the article, not the author
             if(request.user.has_perm("ScrummerTimes.publish_article")):
                 article.is_read = form.cleaned_data["is_read"]
-            article.save()
-
-            if(request.user.has_perm("ScrummerTimes.review_article")):
-                article.is_completed = form.cleaned_data["is_completed"]
             article.save()
 
             #Redirects back to the feed

@@ -1,0 +1,36 @@
+
+{% extends 'ScrummerTimes/layout.html' %}
+
+{% block content %}
+
+
+<div id="chart_div">
+
+</div>
+
+<button onclick="goBack()">Go Back</button>
+
+
+<!--Google Charts-->
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+google.load('visualization', '1.0', {'packages':['corechart']});
+google.setOnLoadCallback(drawChart);
+function drawChart() {
+  var data = new google.visualization.DataTable();
+  data.addColumn('string', 'Number');
+  data.addColumn('number', 'Number/10');
+  data.addRows( {{ data|safe}} );
+
+var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+chart.draw(data, {width: 400, height: 240, title: "Numbers"});
+}
+</script>
+
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>
+
+{% endblock %}

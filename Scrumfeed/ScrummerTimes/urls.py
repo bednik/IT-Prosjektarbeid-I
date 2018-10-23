@@ -7,6 +7,8 @@ urlpatterns = [
   url('feed/', views.feed, name='feed'),
   url('createArticle/', views.createarticle, name='createarticle'),
   url('myarticles/', views.myarticles, name='myarticles'),
+  url('managesite/', views.manage_site, name='managesite'),
+  url('analytics/', views.analytics, name='analytics'),
   #(?P) = paramaters <id> = parameter, \d+ d = digit, + = one or more digits, \$ = end
   url(r'^article/(?P<id>\d+)/$', views.article, name='article'),
   url(r'^article/edit/(?P<id>\d+)/$', views.editarticle, name='editarticle'),

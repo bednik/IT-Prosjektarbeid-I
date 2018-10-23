@@ -70,6 +70,16 @@
                             <a href="/ScrummerTimes/feedUnread">Proofreading</a>
                         </li>
                         {% endif %}
+
+                     {% if perms.ScrummerTimes.edit_categories%}
+                        <li>
+                            <a href="{% url 'managesite' %}?next={{ request.path|urlencode }}">Manage Site</a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'analytics' %}?next={{ request.path|urlencode }}">Analytics</a>
+                        </li>
+                        {% endif %}
                     <li>
                         <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
                             {% csrf_token %}
@@ -102,7 +112,7 @@
 {% endif %}
 
     <div id="dropdown-content">
-        <form id="category-filter" method="get">
+        <form id="category-filter" method="post">
             {{form.category}} <br>
             <input type="submit" value="Submit"/>
             {% csrf_token %}
