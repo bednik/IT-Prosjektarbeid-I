@@ -9,3 +9,12 @@ header{
 .articleText{
     font-style: italic;
 }
+
+textarea{
+    height:auto !important;
+    background-color: #ffffff !important;
+}
+
+#id_title{
+    background-color: #ffffff !important;
+}

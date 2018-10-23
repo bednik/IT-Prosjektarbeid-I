@@ -14,14 +14,14 @@ class ArticleForm(forms.Form):
     title = CharField(max_length=120)
     # Required has to be False, because i did not find a way that i could edit an article without uplouding an image again.
     header_image = ImageField(required=False)
-    first_text = CharField(widget=Textarea)  # TODO: Larger TextArea
+    first_text = CharField(widget=Textarea)
     in_line_image = ImageField(required=False)
-    second_text = CharField(widget=Textarea)  # TODO: Larger TextArea
+    second_text = CharField(widget=Textarea)
     category = ChoiceField(choices=CATEGORIES, required=False)
     is_read = BooleanField(required=False, initial=False)
 
     class Meta:
-        #The two below has something to do with assigning who the author of the article is
+        # The two below has something to do with assigning who the author of the article is
         model = Article
         exclude = ('user',)
 
