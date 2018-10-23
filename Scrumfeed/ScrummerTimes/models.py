@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-
 class Article(models.Model):
     title = models.CharField(max_length=200,  blank=True)
     header_image = models.ImageField(upload_to='header_image', default='header_image/NoImage.jpg', blank=True,
@@ -38,11 +37,12 @@ class Article(models.Model):
             ("save_as_draft", "can save article as draft"),
         )
 
+
 class Category(models.Model):
     name = models.CharField(max_length=50, null=False, blank=False)
 
     class Meta:
-        #Make it say "categories" instead of the default "categorys"
+        # Make it say "categories" instead of the default "categorys"
         verbose_name_plural = "categories"
         permissions = (
             ("edit_categories", "can delete and add categories"),

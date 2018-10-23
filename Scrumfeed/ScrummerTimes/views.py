@@ -5,19 +5,11 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.datetime_safe import datetime
-# Create your views here.
 from django.urls import reverse
-
 from .models import Article, Category
-
 from .forms import ArticleForm, FilterForm, CreateCategoryForm
 
-#To save image to ImageField
-from django.core.files import File
-import urllib
-from django.contrib.staticfiles.templatetags.staticfiles import static
-from io import BytesIO
-from PIL import Image
+
 
 def analytics(request):
     data = [['100', 10], ['500', 9], ['80', 8]]
@@ -35,13 +27,12 @@ def manage_site(request):
         if form.is_valid():
             category_object = form.cleaned_data["category"]
             name = form.cleaned_data["name"]
-            #If editing
-            #testests
-            if('edit_category' in request.POST):
-                if(name == ""):
+            # If editing
+            if 'edit_category' in request.POST:
+                if name == "":
                     messages.info(request, "Name can not be blank")
 
-                elif(not category_object):
+                elif not category_object:
                     category = Category(name=name)
                     category.save()
                     messages.info(request, "Successfully added the category  " + form.cleaned_data["name"])
@@ -49,17 +40,13 @@ def manage_site(request):
                     messages.info(request, "Successfully changed the name of the category  " + category_object.name + "  to  " + form.cleaned_data["name"])
                     category_object.name = form.cleaned_data["name"]
                     category_object.save()
-            #if deleting
-            if('delete_category' in request.POST):
-                if (category_object):
+            # if deleting
+            if 'delete_category' in request.POST :
+                if category_object:
                     category_object.delete()
                     messages.info(request, "Successfully deleted the category  " + category_object.name)
                 else:
                     messages.info(request, "You did not select or write anything")
-
-            #Redirects back to the feed
-            # return HttpResponseRedirect(reversed('ScrummerTimes/feed'))
-
 
             #Redirect to same page
             return HttpResponseRedirect(reverse(manage_site))
@@ -76,6 +63,7 @@ def manage_site(request):
 
     return render(request, 'ScrummerTimes/managesite.html', context)
 
+
 def feed(request):
     form = FilterForm()
     articles = Article.objects.filter(is_read=True)[:10]
@@ -84,7 +72,7 @@ def feed(request):
 
         if form.is_valid():
             selected_category = form.cleaned_data["category"]
-            articles = Article.objects.filter(is_read = True, category=selected_category)
+            articles = Article.objects.filter(is_read=True, category=selected_category)
 
     context = {
         'title': 'The Scrummer Times',
@@ -92,10 +80,10 @@ def feed(request):
         'form': form
     }
 
-    return render(request, 'ScrummerTimes/feed.html',context)
+    return render(request, 'ScrummerTimes/feed.html', context)
 
 
-#@permission_required('entity.can_edit', login_url='/accounts/login/')
+# @permission_required('entity.can_edit', login_url='/accounts/login/')
 @permission_required('ScrummerTimes.review_article', login_url='/accounts/login/')
 def proofreading_feed(request):
     articles = Article.objects.filter(is_read=False).filter(draft=False)[:10]
@@ -107,10 +95,11 @@ def proofreading_feed(request):
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)
 
+
 # View for articles that are not supposed to be reviewed/published/edited by copy editors just yet
 def mydrafts(request):
     # Must be logged in
-    if (request.user.is_authenticated):
+    if request.user.is_authenticated:
         articles = Article.objects.filter(authors=request.user).filter(draft=True)
 
         if request.method == "POST":
@@ -128,9 +117,10 @@ def mydrafts(request):
         return render(request, 'ScrummerTimes/myDrafts.html', context)
     return render(request, 'ScrummerTimes/myDrafts.html', None)
 
+
 def myarticles(request):
-    #Must be logged in
-    if(request.user.is_authenticated):
+    # Must be logged in
+    if request.user.is_authenticated:
         articles = Article.objects.filter(authors=request.user).filter(draft=False).order_by('-date') # Kun ferdige artikler dukker opp. Drafts legger seg i "My Drafts"
 
         context = {
@@ -140,6 +130,7 @@ def myarticles(request):
 
         return render(request, 'ScrummerTimes/myArticles.html',context)
     return render(request, 'ScrummerTimes/myArticles.html', None)
+
 
 def article(request, id):
     thisArticle = Article.objects.get(id=id)
@@ -153,7 +144,7 @@ def article(request, id):
 
 def createarticle(request):
 
-    if(not request.user.is_authenticated and not request.user.has_perm("ScrummerTimes.create_article")):
+    if not request.user.is_authenticated and not request.user.has_perm("ScrummerTimes.create_article"):
         return HttpResponseNotFound("You do not have permission for this page. You have to be an Author.")
     form = ArticleForm()
     if request.method == "POST":
@@ -162,8 +153,7 @@ def createarticle(request):
         if form.is_valid():
             header_image = form.cleaned_data["header_image"]
 
-            #If no image, use the image "no Image"
-            #Takes the data from the form into the database by creating an article object
+            # Takes the data from the form into the database by creating an article object
             article = Article(header_image=form.cleaned_data["header_image"],
                               title=form.cleaned_data["title"],
                               first_text=form.cleaned_data["first_text"],
@@ -177,8 +167,6 @@ def createarticle(request):
             article.draft = form.cleaned_data["draft"]
             article.editors = None
             article.save()
-            #Redirects back to the feed
-            # return HttpResponseRedirect(reversed('ScrummerTimes/feed'))
 
             # redirects to previous visited paged, does not work if browser is in incognito mode
             next = request.POST.get('next', '/')
@@ -191,13 +179,12 @@ def createarticle(request):
     return render(request, 'ScrummerTimes/createarticle.html', context)
 
 
-
 @login_required(login_url="/accounts/login/")
 def editarticle(request, id=None):
 
     article = get_object_or_404(Article, pk=id)
     # User has to be either an editor or the author to edit this article
-    if (not request.user.has_perm("ScrummerTimes.review_article") and not request.user == article.authors):
+    if not request.user.has_perm("ScrummerTimes.review_article") and not request.user == article.authors:
         messages.info(request, "You do not have permission for this page. You have to be an Editor.")
         next = request.POST.get('next', '/')
         return HttpResponseRedirect(next)
@@ -233,13 +220,11 @@ def editarticle(request, id=None):
                 article.category = form.cleaned_data["category"]
                 article.draft = form.cleaned_data["draft"]
 
-                #Only editors can publish the article, not the author
-                if(request.user.has_perm("ScrummerTimes.publish_article")):
+                # Only editors can publish the article, not the author
+                if request.user.has_perm("ScrummerTimes.publish_article"):
                     article.is_read = form.cleaned_data["is_read"]
                 article.save()
 
-                #Redirects back to the feed
-                # return HttpResponseRedirect(reversed('ScrummerTimes/feed'))
             next = request.POST.get('next','/')
             return HttpResponseRedirect(next)
 
@@ -250,6 +235,7 @@ def editarticle(request, id=None):
     }
 
     return render(request, 'ScrummerTimes/editarticle.html', context)
+
 
 def assignEditor(request, id=None):
 
@@ -268,6 +254,7 @@ def assignEditor(request, id=None):
     }
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)
+
 
 def deleteEditor(request, id=None):
 
@@ -285,7 +272,7 @@ def deleteEditor(request, id=None):
     }
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)
-   # return render(request, 'ScrummerTimes/editarticle.html', context)
+
 
 def assignEditor(request, id=None):
 
@@ -303,6 +290,7 @@ def assignEditor(request, id=None):
     }
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)
+
 
 def deleteEditor(request, id=None):
 
