@@ -7,27 +7,24 @@ from django.forms import forms, CharField, IntegerField, ImageField, ChoiceField
 from ScrummerTimes.choices import CATEGORIES
 from django.core.files.base import ContentFile
 from django.forms import *
+from django.forms import forms, CharField, IntegerField, ImageField, URLField, TypedChoiceField, RadioSelect, BooleanField, Textarea
 from ScrummerTimes.models import Article
 
 # Noe tull
 class ArticleForm(forms.Form):
     title = CharField(max_length=120)
-    #Required has to be False, because i did not find a way that i could edit an article without uplouding an image again.
+    # Required has to be False, because i did not find a way that i could edit an article without uplouding an image again.
     header_image = ImageField(required=False)
-
-    is_read = BooleanField(required=False, initial = False)
-   # is_read = TypedChoiceField(
-    #choices=((True, 'Yes'), (False, 'No')),
-   # widget=CheckBox,
-    #coerce=lambda x: x == 'True',
-    #initial="False",
-   # required=False
-#)
+    draft = BooleanField(required=False, initial=False)
     text = CharField()
+    first_text = CharField(widget=Textarea)
+    in_line_image = ImageField(required=False)
+    second_text = CharField(widget=Textarea)
     category = ChoiceField(choices=CATEGORIES, required=False)
+    is_read = BooleanField(required=False, initial=False)
 
     class Meta:
-        #The two below has something to do with assigning who the author of the article is
+        # The two below has something to do with assigning who the author of the article is
         model = Article
         exclude = ('user',)
 
@@ -59,6 +56,14 @@ class FilterForm(forms.Form):
         #except KeyError:
         #    raise ValidationError({'name': "Description must be provided"}, code='invalid')
         #return self.cleaned_data
+
+class DeleteForm(forms.Form):
+
+    class Meta:
+        model = Article
+
+    def clean(self):
+        return self.cleaned_data
 
 
 class NewCommentForm(forms.Form):
