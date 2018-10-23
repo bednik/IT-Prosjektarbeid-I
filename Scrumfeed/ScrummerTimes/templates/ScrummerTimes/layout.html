@@ -139,7 +139,7 @@
     </div>
     <br>
 
-    <div class="container center-align">
+    <div id="container" class="container center-align">
 
         {% block content %}
         {% endblock %}
@@ -167,9 +167,19 @@
      if (checkBox.checked == true){
         document.body.style.background = "black";
         navbar.style.backgroundColor = "gray";
+        y = document.getElementById('container');
+        y.style.color="white";
+
+
      }
      else if(checkBox.checked == false){
          document.body.style.background = "white";
+         x = document.querySelectorAll("p");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.color = "black";
+        }
+         y = document.getElementById('container');
+        y.style.color="black";
          navbar.style.backgroundColor = "#e57373";
      }
 }

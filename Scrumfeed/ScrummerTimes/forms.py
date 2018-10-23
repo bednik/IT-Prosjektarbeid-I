@@ -4,7 +4,6 @@ import io
 from PIL import Image
 from django.core.exceptions import ValidationError
 from django.forms import forms, CharField, IntegerField, ImageField, ChoiceField
-from ScrummerTimes.choices import CATEGORIES
 from django.core.files.base import ContentFile
 from django.forms import forms, CharField, IntegerField, ImageField, URLField, TypedChoiceField, RadioSelect, BooleanField, Textarea, ModelChoiceField
 from ScrummerTimes.models import Article, Category
