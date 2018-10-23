@@ -12,7 +12,7 @@
     </div>
 
     <p style="font-size:20px;" class="left-align">Image:</p>
-    {{ form.header_image}}
+    {{ form.header_image
     <!--<p>
         <input id="id_image" type="file" class="" name="header_image">
     </p>-->
@@ -38,11 +38,11 @@
         <p style="font-size:20px;" class="left-align">Article Completed
             <label style="position:relative; top:5px;">
 
-                {{form.is_complete}}
+                {{form.is_completed}}
+
                 <span></span>
             </label>
         </p>
-
     {% else %}
         <p style="font-size:20px;" class="left-align"> You have to be an Editor to publish this article</p>
     <p style="font-size:20px;" class="left-align">

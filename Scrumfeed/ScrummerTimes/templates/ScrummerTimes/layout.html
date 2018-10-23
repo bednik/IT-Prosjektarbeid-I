@@ -71,7 +71,13 @@
                         </li>
                         {% endif %}
 
-                     {% if perms.ScrummerTimes.edit_categories%}
+                    {% if perms.ScrummerTimes.publish_article %}
+                        <li>
+                            <a href="/ScrummerTimes/feedUnpublished">Publishing</a>
+                        </li>
+                        {% endif %}
+
+                    {% if perms.ScrummerTimes.edit_categories%}
                         <li>
                             <a href="{% url 'managesite' %}?next={{ request.path|urlencode }}">Manage Site</a>
                         </li>

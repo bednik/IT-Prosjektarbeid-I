@@ -12,10 +12,12 @@ from ScrummerTimes.models import Article, Category
 # Noe tull
 class ArticleForm(forms.Form):
     title = CharField(max_length=120)
-    #Required has to be False, because i did not find a way that i could edit an article without uplouding an image again.
+    #Required has to be False, because i did not find a way that i could edit an article without uploading an image again.
     header_image = ImageField(required=False)
 
     is_read = BooleanField(required=False, initial = False)
+
+    is_completed = BooleanField(required=False, initial=False)
    # is_read = TypedChoiceField(
     #choices=((True, 'Yes'), (False, 'No')),
    # widget=CheckBox,

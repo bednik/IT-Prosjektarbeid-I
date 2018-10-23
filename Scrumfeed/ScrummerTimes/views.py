@@ -136,7 +136,28 @@ def proofreading_feed(request):
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)
 
+@permission_required('ScrummerTimes.publish_article', login_url='/accounts/login/')
+def publishing_feed(request):
+    if ("news" in request.get_full_path()):
+        articles = Article.objects.filter(is_completed=True, category="news")
+    elif ("movies" in request.get_full_path()):
+        articles = Article.objects.filter(is_completed=True, category="movies/tv")
+    elif ("music" in request.get_full_path()):
+        articles = Article.objects.filter(is_completed=True, category="music")
+    elif ("sport" in request.get_full_path()):
+        articles = Article.objects.filter(is_completed=True, category="sports")
+    elif ("travel" in request.get_full_path()):
+        articles = Article.objects.filter(is_completed=True, category="travel")
+    elif ("capital" in request.get_full_path()):
+        articles = Article.objects.filter(is_completed=True, category="capital")
+    else:
+        articles = Article.objects.filter(is_completed=True)[:10]
 
+    context = {
+        'title': 'The Scrummer Times',
+        'articles': articles
+    }
+    return render(request, 'ScrummerTimes/feedUnpublished.html', context)
 
 def myarticles(request):
     #Must be logged in
@@ -227,6 +248,10 @@ def editarticle(request, id=None):
             #Only editors can publish the article, not the author
             if(request.user.has_perm("ScrummerTimes.publish_article")):
                 article.is_read = form.cleaned_data["is_read"]
+            article.save()
+
+            if(request.user.has_perm("ScrummerTimes.review_article")):
+                article.is_completed = form.cleaned_data["is_completed"]
             article.save()
 
             #Redirects back to the feed

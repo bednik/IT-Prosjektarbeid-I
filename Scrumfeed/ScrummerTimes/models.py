@@ -10,6 +10,7 @@ class Article(models.Model):
     text = models.TextField(blank=True)
     is_read = models.BooleanField(blank=False, default=False)
     #on_delete = models.CASCADE means that if the author is deleted, then the articles are also deleted
+    is_completed = models.BooleanField(blank=False, default=False)
     authors = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
     #category = models.CharField(max_length=20, choices=CATEGORIES)
     #on_delte=models.SET_NULL means if the category is deleted, the catagory is set to null
