@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 from django.forms import forms, CharField, IntegerField, ImageField, ChoiceField
 from ScrummerTimes.choices import CATEGORIES
 from django.core.files.base import ContentFile
-from django.forms import forms, CharField, IntegerField, ImageField, URLField, TypedChoiceField, RadioSelect, BooleanField
+from django.forms import *
 from ScrummerTimes.models import Article
 
 # Noe tull
@@ -49,7 +49,7 @@ class FilterForm(forms.Form):
     class Meta:
         model = Article
 
-    #Check if the things that is written in the form are valid
+    # Check if the things that is written in the form are valid
     def clean(self):
         return self.cleaned_data
 
@@ -60,3 +60,9 @@ class FilterForm(forms.Form):
         #    raise ValidationError({'name': "Description must be provided"}, code='invalid')
         #return self.cleaned_data
 
+
+class NewCommentForm(forms.Form):
+    content_type = CharField(widget=HiddenInput)
+    object_id = IntegerField(widget=HiddenInput)
+    parent_id = IntegerField(widget=HiddenInput, required=False)
+    content = CharField(widget=Textarea)

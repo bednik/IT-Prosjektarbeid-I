@@ -22,14 +22,23 @@
 <button onclick="goBack()">Go Back</button>
 
 
-<h4> Comments!</h4>
+<h4> Comments! </h4>
+<br>
 <div>
+
+    <form method="post" action=".">
+        {% csrf_token %}
+        {{ comment_form }}
+        <input type="submit" value="Post">
+    </form>
+
     {% for comment in comments %}
     <div>
-        <p> From {{comment.user }}</p>
-        <p> At {{ comment.timestamp }}</p>
+        <small><p> From {{comment.user }} At {{ comment.timestamp }}</p></small>
         {{ comment.content }}
     </div>
+    <hr>
+    <br>
     {% endfor %}
 </div>
 
