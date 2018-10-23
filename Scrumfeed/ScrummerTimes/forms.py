@@ -14,6 +14,9 @@ class ArticleForm(forms.Form):
     title = CharField(max_length=120)
     # Required has to be False, because i did not find a way that i could edit an article without uplouding an image again.
     header_image = ImageField(required=False)
+    is_read = BooleanField(required=False, initial = False)
+    draft = BooleanField(required=False, initial=False)
+    text = CharField()
     first_text = CharField(widget=Textarea)
     in_line_image = ImageField(required=False)
     second_text = CharField(widget=Textarea)
@@ -54,3 +57,10 @@ class FilterForm(forms.Form):
         #    raise ValidationError({'name': "Description must be provided"}, code='invalid')
         #return self.cleaned_data
 
+class DeleteForm(forms.Form):
+
+    class Meta:
+        model = Article
+
+    def clean(self):
+        return self.cleaned_data

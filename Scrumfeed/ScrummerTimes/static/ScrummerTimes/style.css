@@ -8,6 +8,8 @@ header{
 
 .articleText{
     font-style: italic;
+    border: outset;
+    color: white;
 }
 
 textarea{

@@ -28,7 +28,7 @@
 
         <!--<h1>The Scrummer Times</h1>-->
         <div class="navbar-fixed">
-            <nav>
+            <nav id="navbar">
                 <ul>
                     <li class="brand-logo right" >
                         {% load static %}
@@ -36,7 +36,7 @@
                     </li>
                     {% if request.path == '/ScrummerTimes/feed/' %}
                         <li>
-                            <button onclick="toggleCategories()">Filter categories</button>
+                            <button class="waves-effect waves-light btn-small" onclick="toggleCategories()">Filter categories</button>
                         </li>
                     {% endif %}
                     <li>
@@ -48,15 +48,18 @@
                     <!-- Only Authors can create an article -->
                     {% if user.is_authenticated %}
                         {% if perms.ScrummerTimes.create_article %}
-                    <li>
-                        <!-- Goes to the form that does the editing, also saves what the previous site was! -->
-                        <a href="{% url 'createarticle' %}?next={{ request.path|urlencode }}">New Article</a>
-                    </li>
+                            <li>
+                                <!-- Goes to the form that does the editing, also saves what the previous site was! -->
+                                <a href="{% url 'createarticle' %}?next={{ request.path|urlencode }}">New Article</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'mydrafts' %}">My Drafts</a>
+                            </li>
                         {% endif %}
                     {% endif %}
 
                     {% if user.is_authenticated %}
-                        {% if perms.ScrummerTimes.create_article %}
+                        {% if perms.ScrummerTimes.change_article %}
                     <li>
                         <!-- Goes to the form that does the editing, also saves what the previous site was! -->
                         <a href="{% url 'myarticles' %}?next={{ request.path|urlencode }}">My Articles</a>
@@ -70,10 +73,11 @@
                             <a href="/ScrummerTimes/feedUnread">Proofreading</a>
                         </li>
                         {% endif %}
-                    <li>
+                    <li class="right" style="margin-right: 300px">
                         <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
                             {% csrf_token %}
-                            <button style="background-color:darkred; color:white; border:1px solid white" type="submit">Log out</button>
+                            <button class="waves-effect waves-light btn-small" type="submit" method="post">Log out</button>
+
                         </form>
                     </li>
                     {% else %}
@@ -84,12 +88,26 @@
                             <a href="{% url 'accounts:signup' %}">Sign up</a>
                         </li>
                     {% endif %}
+                     {% if user.is_authenticated %}
+                    <li class="right" style="margin-right: 10px">
+                        {{request.user}}
+                    </li>
+                    {% endif %}
                 </ul>
             </nav>
         </div>
     </header>
 
 
+  <!-- Switch -->
+  <div class="switch">
+    <label>
+      Off
+      <input type="checkbox" id="dracula" onclick="dracula()">
+      <span class="lever"></span>
+      On
+    </label>
+  </div>
         <!-- Testing some messages feedback stuff-->
 {% if messages %}
   <ul class="messages" style = "text-align: center;padding:auto;">
@@ -129,6 +147,23 @@
             document.getElementById("dropdown-content").style.display="none";
         }
     }
+
+    function dracula() {
+    // Get the checkbox
+    var checkBox = document.getElementById("dracula");
+    var navbar = document.getElementById("navbar")
+
+     if (checkBox.checked == true){
+        document.body.style.background = "black";
+        navbar.style.backgroundColor = "gray";
+     }
+     else if(checkBox.checked == false){
+         document.body.style.background = "white";
+         navbar.style.backgroundColor = "#e57373";
+     }
+}
+
+
 </script>
 
 </body>
