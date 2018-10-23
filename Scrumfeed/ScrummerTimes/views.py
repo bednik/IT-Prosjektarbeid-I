@@ -95,6 +95,22 @@ def proofreading_feed(request):
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)
 
+@permission_required('ScrummerTimes.publish_article', login_url='/accounts/login/')
+def publishing_feed(request):
+    form = FilterForm()
+    articles = Article.objects.filter(is_completed=True)[:10]
+    if request.method == "POST":
+        form = FilterForm(request.POST)
+
+        if form.is_valid():
+            selected_category = form.cleaned_data["category"]
+            articles = Article.objects.filter(is_read=True, category=selected_category)
+
+    context = {
+        'title': 'The Scrummer Times',
+        'articles': articles
+    }
+    return render(request, 'ScrummerTimes/feedUnpublished.html', context)
 
 # View for articles that are not supposed to be reviewed/published/edited by copy editors just yet
 def mydrafts(request):

@@ -22,6 +22,7 @@ class ArticleForm(forms.Form):
     is_read = BooleanField(required=False, initial=False)
     # category = ChoiceField(choices=CATEGORIES, required=False)
     category = ModelChoiceField(queryset=Category.objects.all())
+    is_completed = BooleanField(required=False, initial=False)
 
     class Meta:
         # The two below has something to do with assigning who the author of the article is

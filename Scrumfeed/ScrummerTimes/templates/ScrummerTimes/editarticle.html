@@ -27,12 +27,23 @@
     {% if perms.ScrummerTimes.publish_article %}
         <p style="font-size:20px;" class="left-align">Make Article Public:
         <label style="position:relative; top:5px;">
+
             {{form.is_read}}
             <span></span>
         </label>
         </p>
+
+    {% elif perms.ScrummerTimes.review_article %}
+        <p style="font-size:20px;" class="left-align">Article Completed
+            <label style="position:relative; top:5px;">
+
+                {{form.is_completed}}
+
+                <span></span>
+            </label>
+        </p>
     {% else %}
-        <p style="font-size:20px;" class="left-align"> You have to be a Editor to publish this article</p>
+        <p style="font-size:20px;" class="left-align"> You have to be an Editor to publish this article</p>
     <p style="font-size:20px;" class="left-align">
             Click submit to save the Article to "My Articles"</p>
     {% endif %}
@@ -56,6 +67,7 @@
     <input type="hidden" name="next" value="{{ request.GET.next }}">
 
     <input type="submit" value="Submit" />
+
 </form>
 
 <button onclick="goBack()">Go Back</button>

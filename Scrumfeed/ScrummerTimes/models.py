@@ -20,6 +20,7 @@ class Article(models.Model):
     draft = models.BooleanField(blank=False, default=False)
     editors = models.ForeignKey(User, null=True, blank=True, related_name='editor', on_delete=models.DO_NOTHING)
     date = models.DateTimeField(auto_now_add=True)
+    is_completed = models.BooleanField(blank=False, default=False)
 
     def __str__(self):
         return self.title.__str__()
