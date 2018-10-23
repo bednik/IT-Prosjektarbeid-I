@@ -150,12 +150,14 @@ def editarticle(request, id=None):
         if form.is_valid():
             # Takes the data from the form into the database by creating an article object
             image = form.cleaned_data["header_image"]
+            image2 = form.cleaned_data["in_line_image"]
 
-            if(image != None):
-                article.header_image = form.cleaned_data["header_image"]
+            if image is not None:
+                article.header_image = image
+            if image2 is not None:
+                article.in_line_image = image2
             article.title = form.cleaned_data["title"]
             article.first_text = form.cleaned_data["first_text"]
-            article.in_line_image = form.cleaned_data["in_line_image"]
             article.second_text = form.cleaned_data["second_text"]
             article.category = form.cleaned_data["category"]
 
