@@ -140,15 +140,15 @@ def editarticle(request, id=None):
         messages.info(request, "You do not have permission for this page. You have to be an Editor.")
         next = request.POST.get('next', '/')
         return HttpResponseRedirect(next)
-                       )
+
     form = ArticleForm(initial={'header_image': article.header_image,
                                 'title': article.title,
                                 'first_text': article.first_text,
                                 'in_line_image': article.in_line_image,
                                 'second_text': article.second_text,
                                 'category': article.category,
-                                'is_read': article.is_read}
-                                'draft': article.draft,
+                                'is_read': article.is_read,
+                                'draft': article.draft,}
                        )
 
     if request.method == "POST":
@@ -189,6 +189,42 @@ def editarticle(request, id=None):
     }
 
     return render(request, 'ScrummerTimes/editarticle.html', context)
+
+def assignEditor(request, id=None):
+
+    article = get_object_or_404(Article, pk=id)
+
+    if request.method == "POST":
+        article.editors = request.user
+        article.save()
+        next = request.POST.get('next', '/ScrummerTimes/feedUnread')
+        return HttpResponseRedirect(next)
+
+    context = {
+        'form': form,
+        'id': id,
+        'article': article,
+    }
+
+    return render(request, 'ScrummerTimes/feedUnread.html', context)
+
+def deleteEditor(request, id=None):
+
+    article = get_object_or_404(Article, pk=id)
+
+    if request.method == "POST":
+        article.editors = None
+        article.save()
+        next = request.POST.get('next', '/ScrummerTimes/feedUnread')
+        return HttpResponseRedirect(next)
+
+    context = {
+        'form': form,
+        'id': id
+    }
+
+    return render(request, 'ScrummerTimes/feedUnread.html', context)
+   # return render(request, 'ScrummerTimes/editarticle.html', context)
 
 def assignEditor(request, id=None):
 

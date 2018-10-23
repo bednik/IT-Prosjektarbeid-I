@@ -22,4 +22,6 @@ textarea{
 }
 p{
     text-align:left !important;
+    border: outset;
+    color: white;
 }
