@@ -29,16 +29,30 @@
     <p style="font-size:20px;" class="left-align">Category: </p>
     {{ form.category }}
     <br>
+    <p style="font-size:20px;" class="left-align">Save as draft:
+        <label style="position:relative; top:5px;">
+
+            {{form.draft}}
+            <span></span>
+
+        </label>
+    </p><br>
+
     <input type="submit" value="Submit"/>
 
 
 
     <!--Used to redirect to the previous site, more in view.py-->
     <input type="hidden" name="next" value="{{ request.GET.next }}">
-    <input type="submit" value="Submit" />
 </form>
 
 
-<a href="/ScrummerTimes/feed"> Go Back</a>
+<button onclick="goBack()">Go Back</button>
+
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>
 
 {% endblock %}

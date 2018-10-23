@@ -4,6 +4,8 @@
 
 {% block content %}
 
+{{article.date}}<br>
+
 <img src="{{article.header_image.url}}" width="600">
 
 
@@ -11,12 +13,20 @@
 
 
 <div class="categoryBox">
-    {{article.category}}
+    <h5>Created by user: {{article.authors.username}}<br> Category: {{article.category}} </h5>
+
 </div>
+
 <p class="articleText">
     {{article.text}}
 </p>
 
-<a href="/ScrummerTimes/feed"> Go Back</a>
+<button onclick="goBack()">Go Back</button>
 
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>
 {% endblock %}
+

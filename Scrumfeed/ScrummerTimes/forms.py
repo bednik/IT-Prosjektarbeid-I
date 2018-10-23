@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 from django.forms import forms, CharField, IntegerField, ImageField, ChoiceField
 from ScrummerTimes.choices import CATEGORIES
 from django.core.files.base import ContentFile
-from django.forms import forms, CharField, IntegerField, ImageField, URLField, TypedChoiceField, RadioSelect
+from django.forms import forms, CharField, IntegerField, ImageField, URLField, TypedChoiceField, RadioSelect, BooleanField
 from ScrummerTimes.models import Article
 
 # Noe tull
@@ -15,15 +15,17 @@ class ArticleForm(forms.Form):
     #Required has to be False, because i did not find a way that i could edit an article without uplouding an image again.
     header_image = ImageField(required=False)
 
-    is_read = TypedChoiceField(
-    choices=((True, 'Yes'), (False, 'No')),
-    widget=RadioSelect,
-    coerce=lambda x: x == 'True',
-    initial="False",
-    required=False
-)
+    is_read = BooleanField(required=False, initial = False)
+   # is_read = TypedChoiceField(
+    #choices=((True, 'Yes'), (False, 'No')),
+   # widget=CheckBox,
+    #coerce=lambda x: x == 'True',
+    #initial="False",
+   # required=False
+#)
+    draft = BooleanField(required=False, initial=False)
     text = CharField()
-    category = ChoiceField(choices=CATEGORIES)
+    category = ChoiceField(choices=CATEGORIES, required=False)
 
     class Meta:
         #The two below has something to do with assigning who the author of the article is
@@ -59,3 +61,10 @@ class FilterForm(forms.Form):
         #    raise ValidationError({'name': "Description must be provided"}, code='invalid')
         #return self.cleaned_data
 
+class DeleteForm(forms.Form):
+
+    class Meta:
+        model = Article
+
+    def clean(self):
+        return self.cleaned_data
