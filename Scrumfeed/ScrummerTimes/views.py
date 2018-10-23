@@ -42,7 +42,7 @@ def feed(request):
     return render(request, 'ScrummerTimes/feed.html',context)
 
 
-#@permission_required('entity.can_edit', login_url='/accounts/login/')
+# @permission_required('entity.can_edit', login_url='/accounts/login/')
 @permission_required('ScrummerTimes.review_article', login_url='/accounts/login/')
 def proofreading_feed(request):
 
@@ -86,28 +86,26 @@ def myarticles(request):
 def article(request, id):
     thisArticle = Article.objects.get(id=id)
 
-    # Gets the type and id from the instance of Article that is needed for the comments
-    content_type = ContentType.objects.get_for_model(Article)
-    obj_id = thisArticle.id
-    comments = Comment.objects.filter(content_type=content_type, object_id=obj_id)
-
     # Adds the form for people to comment on stuff
     initial_data_comment = {
-        "content_type": content_type, "object_id": obj_id
+        "content_type": thisArticle.get_content_type,
+        "object_id": thisArticle.id
     }
 
     # Checks the form and posts the comment if all is well
     comment_form = NewCommentForm(request.POST or None, initial=initial_data_comment)
+
     if comment_form.is_valid():
-        c_content_type  = content_type.objects.get(model=form.cleaned_data.get("content_type"))
-        c_obj_id = form.cleaned_data.get("object_id")
-        c_data = form.cleaned_data.get("content")
+        c_content_type = ContentType.objects.get(model=comment_form.cleaned_data.get("content_type"))
+        c_obj_id = comment_form.cleaned_data.get("object_id")
+        c_data = comment_form.cleaned_data.get("content")
         new_comment, created = Comment.objects.get_or_create(
-                user = request.user,
-                content_type = c_content_type,
-                object_id = c_obj_id,
-                content = c_data
+            user = request.user,
+            content_type = c_content_type,
+            object_id = c_obj_id,
+            content = c_data
         )
+    comments = Comment.objects.filter_by_instance(thisArticle)
 
     context = {
         'article': thisArticle, 'comments': comments, 'comment_form': comment_form
@@ -162,6 +160,27 @@ def editarticle(request, id=None):
     form = ArticleForm(initial={'header_image': article.header_image, 'title': article.title, 'text': article.text, 'is_read': article.is_read,
                                 'category': article.category})
 
+    # Adds the form for people to comment on stuff
+    initial_data_comment = {
+        "content_type": article.get_content_type,
+        "object_id": article.id
+    }
+
+    # Checks the form and posts the comment if all is well
+    comment_form = NewCommentForm(request.POST or None, initial=initial_data_comment)
+
+    if comment_form.is_valid():
+        c_content_type = ContentType.objects.get(model=comment_form.cleaned_data.get("content_type"))
+        c_obj_id = comment_form.cleaned_data.get("object_id")
+        c_data = comment_form.cleaned_data.get("content")
+        new_comment, created = Comment.objects.get_or_create(
+            user=request.user,
+            content_type=c_content_type,
+            object_id=c_obj_id,
+            content=c_data
+        )
+    comments = Comment.objects.filter_by_instance(article)
+
     if request.method == "POST":
         form = ArticleForm(request.POST, request.FILES)
 
@@ -187,7 +206,9 @@ def editarticle(request, id=None):
 
     context = {
         'form': form,
-        'id': id
+        'id': id,
+        'comments': comments,
+        'comment_form': comment_form
     }
 
     return render(request, 'ScrummerTimes/editarticle.html', context)
