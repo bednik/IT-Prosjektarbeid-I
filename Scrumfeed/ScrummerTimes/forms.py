@@ -6,29 +6,25 @@ from django.core.exceptions import ValidationError
 from django.forms import forms, CharField, IntegerField, ImageField, ChoiceField
 from ScrummerTimes.choices import CATEGORIES
 from django.core.files.base import ContentFile
-from django.forms import forms, CharField, IntegerField, ImageField, URLField, TypedChoiceField, RadioSelect, BooleanField, ModelChoiceField
+from django.forms import forms, CharField, IntegerField, ImageField, URLField, TypedChoiceField, RadioSelect, BooleanField, Textarea, ModelChoiceField
 from ScrummerTimes.models import Article, Category
 
 # Noe tull
 class ArticleForm(forms.Form):
     title = CharField(max_length=120)
-    #Required has to be False, because i did not find a way that i could edit an article without uplouding an image again.
+    # Required has to be False, because i did not find a way that i could edit an article without uplouding an image again.
     header_image = ImageField(required=False)
-
-    is_read = BooleanField(required=False, initial = False)
-   # is_read = TypedChoiceField(
-    #choices=((True, 'Yes'), (False, 'No')),
-   # widget=CheckBox,
-    #coerce=lambda x: x == 'True',
-    #initial="False",
-   # required=False
-#)
-    text = CharField()
+    draft = BooleanField(required=False, initial=False)
+    first_text = CharField(widget=Textarea)
+    in_line_image = ImageField(required=False)
+    second_text = CharField(widget=Textarea)
+    # category = ChoiceField(choices=CATEGORIES, required=False)
+    is_read = BooleanField(required=False, initial=False)
     #category = ChoiceField(choices=CATEGORIES, required=False)
     category = ModelChoiceField(queryset=Category.objects.all())
 
     class Meta:
-        #The two below has something to do with assigning who the author of the article is
+        # The two below has something to do with assigning who the author of the article is
         model = Article
         exclude = ('user',)
 
@@ -75,5 +71,11 @@ class CreateCategoryForm(forms.Form):
             raise forms.ValidationError("Your category can not have spaces", code='invalid')
         if(Category.objects.filter(name = name).exists()):
             raise forms.ValidationError("A category with this name already exists", code='invalid')
+        return self.cleaned_data
+class DeleteForm(forms.Form):
 
+    class Meta:
+        model = Article
+
+    def clean(self):
         return self.cleaned_data

@@ -8,4 +8,20 @@ header{
 
 .articleText{
     font-style: italic;
+    border: outset;
+    color: white;
+}
+
+textarea{
+    height:auto !important;
+    background-color: #ffffff !important;
+}
+
+#id_title{
+    background-color: #ffffff !important;
+}
+p{
+    text-align:left !important;
+    border: outset;
+    color: white;
 }
