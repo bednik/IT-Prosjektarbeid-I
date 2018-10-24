@@ -86,7 +86,7 @@ def feed(request):
 # @permission_required('entity.can_edit', login_url='/accounts/login/')
 @permission_required('ScrummerTimes.review_article', login_url='/accounts/login/')
 def proofreading_feed(request):
-    articles = Article.objects.filter(is_read=False).filter(draft=False)[:10]
+    articles = Article.objects.filter(is_read=False).filter(draft=False).filter(is_completed=False)[:10]
 
     context = {
         'title': 'The Scrummer Times',
@@ -212,7 +212,8 @@ def editarticle(request, id=None):
                                 'second_text': article.second_text,
                                 'category': article.category,
                                 'is_read': article.is_read,
-                                'draft': article.draft,}
+                                'draft': article.draft,
+                                'is_completed' : article.is_completed}
                        )
 
     if request.method == "POST":
@@ -235,6 +236,7 @@ def editarticle(request, id=None):
                 article.second_text = form.cleaned_data["second_text"]
                 article.category = form.cleaned_data["category"]
                 article.draft = form.cleaned_data["draft"]
+                article.is_completed = form.cleaned_data["is_completed"]
 
                 # Only editors can publish the article, not the author
                 if request.user.has_perm("ScrummerTimes.publish_article"):

@@ -59,7 +59,7 @@
                     {% endif %}
 
                     {% if user.is_authenticated %}
-                        {% if perms.ScrummerTimes.change_article %}
+                        {% if perms.ScrummerTimes.create_article %}
                     <li>
                         <!-- Goes to the form that does the editing, also saves what the previous site was! -->
                         <a href="{% url 'myarticles' %}?next={{ request.path|urlencode }}">My Articles</a>
