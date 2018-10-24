@@ -78,6 +78,6 @@ class DeleteForm(forms.Form):
 
 class NewCommentForm(forms.Form):
     content_type = CharField(widget=HiddenInput)
-#    object_id = IntegerField(widget=HiddenInput)
-#    parent_id = IntegerField(widget=HiddenInput, required=False)
-#    content = CharField(widget=Textarea, required=False)
+    object_id = IntegerField(widget=HiddenInput)
+    parent_id = IntegerField(widget=HiddenInput, required=False)
+    content = CharField(widget=Textarea, required=False)

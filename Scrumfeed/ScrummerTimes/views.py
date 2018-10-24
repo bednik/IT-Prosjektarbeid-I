@@ -246,7 +246,7 @@ def editarticle(request, id=None):
     }
 
     # Checks the form and posts the comment if all is well
-    #comment_form = NewCommentForm(request.POST or None, initial=initial_data_comment)
+    comment_form = NewCommentForm(request.POST or None, initial=initial_data_comment)
 
     if 'post_comment' in request.POST:
         print("test1")
@@ -291,8 +291,7 @@ def editarticle(request, id=None):
                     # Deleting comments if this option was changed
                     if article.is_read != form.cleaned_data["is_read"]:
                         Comment.objects.filter_by_instance(article).delete()
-
-                    article.is_read = form.cleaned_data["is_read"]
+                        article.is_read = form.cleaned_data["is_read"]
                 # if request.user.has_perm("ScrummerTimes.publish_article"):
                 #     article.is_read = form.cleaned_data["is_read"]
                 article.save()
@@ -309,7 +308,7 @@ def editarticle(request, id=None):
         'id': id,
         'article': article,
         'comments': comments,
-        # 'comment_form': comment_form
+        'comment_form': comment_form
     }
 
     return render(request, 'ScrummerTimes/editarticle.html', context)

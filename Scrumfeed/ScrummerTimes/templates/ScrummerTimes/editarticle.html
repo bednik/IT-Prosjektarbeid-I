@@ -74,12 +74,12 @@
 <br>
 <div>
     {% if user.is_authenticated %}
-        <!-- <span>Add a comment: </span>
+        <span>Add a comment: </span>
         <form method="post" action=".">
             {% csrf_token %}
             {{ comment_form }}
             <input type="submit" value="Post comment" name="post_comment">
-        </form> -->
+        </form>
     {% else %}
         <span>Please register or log in to leave a comment</span>
     {% endif %}
