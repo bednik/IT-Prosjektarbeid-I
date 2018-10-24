@@ -186,24 +186,30 @@ def editarticle(request, id=None):
     }
 
     # Checks the form and posts the comment if all is well
-    comment_form = NewCommentForm(request.POST or None, initial=initial_data_comment)
+    #comment_form = NewCommentForm(request.POST or None, initial=initial_data_comment)
 
-    if comment_form.is_valid():
-        c_content_type = ContentType.objects.get(model=comment_form.cleaned_data.get("content_type"))
-        c_obj_id = comment_form.cleaned_data.get("object_id")
-        c_data = comment_form.cleaned_data.get("content")
-        new_comment, created = Comment.objects.get_or_create(
-            user=request.user,
-            content_type=c_content_type,
-            object_id=c_obj_id,
-            content=c_data
-        )
+    if 'post_comment' in request.POST:
+        print("test1")
+        if comment_form.is_valid():
+            c_content_type = ContentType.objects.get(model=comment_form.cleaned_data.get("content_type"))
+            c_obj_id = comment_form.cleaned_data.get("object_id")
+            c_data = comment_form.cleaned_data.get("content")
+            new_comment, created = Comment.objects.get_or_create(
+                user=request.user,
+                content_type=c_content_type,
+                object_id=c_obj_id,
+                content=c_data
+            )
+
     comments = Comment.objects.filter_by_instance(article)
 
-    if request.method == "POST":
+    # if request.method == "POST":
+    if 'submit_article' in request.POST:
+        print("test2")
         form = ArticleForm(request.POST, request.FILES)
 
         if form.is_valid():
+            print("test3")
             if 'delete' in form.data:
                 article.delete()
             else:
@@ -223,24 +229,32 @@ def editarticle(request, id=None):
 
                 #Only editors can publish the article, not the author
                 if(request.user.has_perm("ScrummerTimes.publish_article")):
+
+                    # Deleting comments if this option was changed
+                    if article.is_read != form.cleaned_data["is_read"]:
+                        Comment.objects.filter_by_instance(article).delete()
+
                     article.is_read = form.cleaned_data["is_read"]
                 article.save()
 
+
                 #Redirects back to the feed
                 # return HttpResponseRedirect(reversed('ScrummerTimes/feed'))
+
             next = request.POST.get('next','/')
             return HttpResponseRedirect(next)
+
 
     context = {
         'form': form,
         'id': id,
         'article': article,
-        'id': id,
         'comments': comments,
-        'comment_form': comment_form
+        #'comment_form': comment_form
     }
 
     return render(request, 'ScrummerTimes/editarticle.html', context)
+
 
 def assignEditor(request, id=None):
 
@@ -259,6 +273,7 @@ def assignEditor(request, id=None):
     }
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)
+
 
 def deleteEditor(request, id=None):
 
@@ -278,6 +293,7 @@ def deleteEditor(request, id=None):
     return render(request, 'ScrummerTimes/feedUnread.html', context)
    # return render(request, 'ScrummerTimes/editarticle.html', context)
 
+
 def assignEditor(request, id=None):
 
     article = get_object_or_404(Article, pk=id)
@@ -294,6 +310,7 @@ def assignEditor(request, id=None):
     }
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)
+
 
 def deleteEditor(request, id=None):
 

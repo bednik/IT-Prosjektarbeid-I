@@ -16,7 +16,7 @@ class ArticleForm(forms.Form):
     # Required has to be False, because i did not find a way that i could edit an article without uplouding an image again.
     header_image = ImageField(required=False)
     draft = BooleanField(required=False, initial=False)
-    text = CharField()
+
     first_text = CharField(widget=Textarea)
     in_line_image = ImageField(required=False)
     second_text = CharField(widget=Textarea)
@@ -68,6 +68,6 @@ class DeleteForm(forms.Form):
 
 class NewCommentForm(forms.Form):
     content_type = CharField(widget=HiddenInput)
-    object_id = IntegerField(widget=HiddenInput)
-    parent_id = IntegerField(widget=HiddenInput, required=False)
-    content = CharField(widget=Textarea)
+#    object_id = IntegerField(widget=HiddenInput)
+#    parent_id = IntegerField(widget=HiddenInput, required=False)
+#    content = CharField(widget=Textarea, required=False)

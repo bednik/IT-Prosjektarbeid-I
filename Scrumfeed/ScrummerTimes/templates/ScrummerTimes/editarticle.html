@@ -55,28 +55,32 @@
     <!--Used to redirect to the previous site, more in view.py-->
     <input type="hidden" name="next" value="{{ request.GET.next }}">
 
-    <input type="submit" value="Submit" />
+    <input type="submit" value="Submit" name="submit_article"/>
 </form>
 
 
-<h4> Comments! </h4>
+<h4> Comments </h4>
 <br>
 <div>
+    {% if user.is_authenticated %}
+        <!-- <span>Add a comment: </span>
+        <form method="post" action=".">
+            {% csrf_token %}
+            {{ comment_form }}
+            <input type="submit" value="Post comment" name="post_comment">
+        </form> -->
+    {% else %}
+        <span>Please register or log in to leave a comment</span>
+    {% endif %}
 
-    <form method="post" action=".">
-        {% csrf_token %}
-        {{ comment_form }}
-        <input type="submit" value="Post">
-    </form>
-
-    {% for comment in comments %}
-    <div>
-        <small><p> From {{comment.user }} At {{ comment.timestamp }}</p></small>
-        {{ comment.content }}
-    </div>
-    <hr>
-    <br>
-    {% endfor %}
+        {% for comment in comments %}
+            <div>
+                <small><p> From {{comment.user }} At {{ comment.timestamp }}</p></small>
+                {{ comment.content }}
+            </div>
+            <hr>
+            <br>
+        {% endfor %}
 </div>
 
 

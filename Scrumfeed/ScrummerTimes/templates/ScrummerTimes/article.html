@@ -29,25 +29,30 @@
 <button onclick="goBack()">Go Back</button>
 
 
-<h4> Comments! </h4>
+<h4> Comments </h4>
 <br>
 <div>
+    {% if user.is_authenticated %}
+        <span>Add a comment: </span>
+        <form method="post" action=".">
+            {% csrf_token %}
+            {{ comment_form }}
+            <input type="submit" value="Post comment" name="post_comment">
+        </form>
+    {% else %}
+        <span>Please register or log in to leave a comment</span>
+    {% endif %}
 
-    <form method="post" action=".">
-        {% csrf_token %}
-        {{ comment_form }}
-        <input type="submit" value="Post">
-    </form>
-
-    {% for comment in comments %}
-    <div>
-        <small><p> From {{comment.user }} At {{ comment.timestamp }}</p></small>
-        {{ comment.content }}
-    </div>
-    <hr>
-    <br>
-    {% endfor %}
+        {% for comment in comments %}
+            <div>
+                <small><p> From {{comment.user }} At {{ comment.timestamp }}</p></small>
+                {{ comment.content }}
+            </div>
+            <hr>
+            <br>
+        {% endfor %}
 </div>
+
 
 <script>
 function goBack() {
