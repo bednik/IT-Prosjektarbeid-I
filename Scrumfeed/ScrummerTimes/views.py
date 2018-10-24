@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404, render_to_response
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.datetime_safe import datetime
 # Create your views here.
 from django.urls import reverse
 
@@ -104,12 +105,16 @@ def createarticle(request):
 
         if form.is_valid():
             #Takes the data from the form into the database by creating an article object
-            article = Article(text=form.cleaned_data["text"], header_image=form.cleaned_data["header_image"],
-                              title=form.cleaned_data["title"], category=form.cleaned_data["category"])
-
+            article = Article(header_image=form.cleaned_data["header_image"],
+                              title=form.cleaned_data["title"],
+                              first_text=form.cleaned_data["first_text"],
+                              in_line_image=form.cleaned_data["in_line_image"],
+                              second_text=form.cleaned_data["second_text"],
+                              category=form.cleaned_data["category"])
 
             article.is_read = False
             article.authors = request.user
+            article.date = datetime.now()
             article.save()
             #Redirects back to the feed
             # return HttpResponseRedirect(reversed('ScrummerTimes/feed'))
@@ -130,7 +135,7 @@ def createarticle(request):
 def editarticle(request, id=None):
 
     article = get_object_or_404(Article, pk=id)
-    #User has to be either an editor or the author to edit this article
+    # User has to be either an editor or the author to edit this article
     if (not request.user.has_perm("ScrummerTimes.review_article") and not request.user == article.authors):
         messages.info(request, "You do not have permission for this page. You have to be an Editor.")
         next = request.POST.get('next', '/')
@@ -138,11 +143,12 @@ def editarticle(request, id=None):
 
     form = ArticleForm(initial={'header_image': article.header_image,
                                 'title': article.title,
-                                'text': article.text,
-                                'is_read': article.is_read,
+                                'first_text': article.first_text,
+                                'in_line_image': article.in_line_image,
+                                'second_text': article.second_text,
                                 'category': article.category,
-                                'draft': article.draft,
-                                }
+                                'is_read': article.is_read,
+                                'draft': article.draft,}
                        )
 
     if request.method == "POST":
@@ -152,12 +158,17 @@ def editarticle(request, id=None):
             if 'delete' in form.data:
                 article.delete()
             else:
-                #Takes the data from the form into the database by creating an article object
+                # Takes the data from the form into the database by creating an article object
                 image = form.cleaned_data["header_image"]
-                if(image != None):
-                    article.header_image = form.cleaned_data["header_image"]
-                article.text = form.cleaned_data["text"]
+                image2 = form.cleaned_data["in_line_image"]
+
+                if image is not None:
+                    article.header_image = image
+                if image2 is not None:
+                    article.in_line_image = image2
                 article.title = form.cleaned_data["title"]
+                article.first_text = form.cleaned_data["first_text"]
+                article.second_text = form.cleaned_data["second_text"]
                 article.category = form.cleaned_data["category"]
                 article.draft = form.cleaned_data["draft"]
 
@@ -178,6 +189,42 @@ def editarticle(request, id=None):
     }
 
     return render(request, 'ScrummerTimes/editarticle.html', context)
+
+def assignEditor(request, id=None):
+
+    article = get_object_or_404(Article, pk=id)
+
+    if request.method == "POST":
+        article.editors = request.user
+        article.save()
+        next = request.POST.get('next', '/ScrummerTimes/feedUnread')
+        return HttpResponseRedirect(next)
+
+    context = {
+        'form': form,
+        'id': id,
+        'article': article,
+    }
+
+    return render(request, 'ScrummerTimes/feedUnread.html', context)
+
+def deleteEditor(request, id=None):
+
+    article = get_object_or_404(Article, pk=id)
+
+    if request.method == "POST":
+        article.editors = None
+        article.save()
+        next = request.POST.get('next', '/ScrummerTimes/feedUnread')
+        return HttpResponseRedirect(next)
+
+    context = {
+        'form': form,
+        'id': id
+    }
+
+    return render(request, 'ScrummerTimes/feedUnread.html', context)
+   # return render(request, 'ScrummerTimes/editarticle.html', context)
 
 def assignEditor(request, id=None):
 
