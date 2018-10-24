@@ -73,7 +73,25 @@
                             <a href="/ScrummerTimes/feedUnread">Proofreading</a>
                         </li>
                         {% endif %}
+
+                    {% if perms.ScrummerTimes.publish_article %}
+                        <li>
+                            <a href="/ScrummerTimes/feedUnpublished">Publishing</a>
+                        </li>
+                        {% endif %}
+
+                    {% if perms.ScrummerTimes.edit_categories%}
+                        <li>
+                            <a href="{% url 'managesite' %}?next={{ request.path|urlencode }}">Manage Site</a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'analytics' %}?next={{ request.path|urlencode }}">Analytics</a>
+                        </li>
+                        {% endif %}
+
                     <li class="right" style="margin-right: 300px">
+
                         <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
                             {% csrf_token %}
                             <button class="waves-effect waves-light btn-small" type="submit" method="post">Log out</button>
@@ -87,6 +105,11 @@
                         <li>
                             <a href="{% url 'accounts:signup' %}">Sign up</a>
                         </li>
+                    {% endif %}
+                     {% if user.is_authenticated %}
+                    <li class="right" style="margin-right: 10px">
+                        {{request.user}}
+                    </li>
                     {% endif %}
                      {% if user.is_authenticated %}
                     <li class="right" style="margin-right: 10px">
@@ -120,7 +143,7 @@
 {% endif %}
 
     <div id="dropdown-content">
-        <form id="category-filter" method="get">
+        <form id="category-filter" method="post">
             {{form.category}} <br>
             <input type="submit" value="Submit"/>
             {% csrf_token %}
@@ -128,7 +151,7 @@
     </div>
     <br>
 
-    <div class="container center-align">
+    <div id="container" class="container center-align">
 
         {% block content %}
         {% endblock %}
@@ -156,9 +179,15 @@
      if (checkBox.checked == true){
         document.body.style.background = "black";
         navbar.style.backgroundColor = "gray";
+        y = document.getElementById('container');
+        y.style.color="white";
+
+
      }
      else if(checkBox.checked == false){
          document.body.style.background = "white";
+         y = document.getElementById('container');
+        y.style.color="black";
          navbar.style.backgroundColor = "#e57373";
      }
 }

@@ -1,0 +1,43 @@
+
+{% extends 'ScrummerTimes/layout.html' %}
+
+{% block content %}
+
+
+<div id="chart_div" style = "display: inline-block; margin: 0 auto;border-style: solid;">
+
+</div>
+<br>
+<div id="piechart" style = "display: inline-block; margin: 0 auto;border-style: solid;">
+
+</div>
+<br>
+<button onclick="goBack()">Go Back</button>
+
+
+<!--Google Charts-->
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+google.load('visualization', '1.0', {'packages':['corechart']});
+google.setOnLoadCallback(drawChart);
+function drawChart() {
+  var data = new google.visualization.DataTable();
+  data.addColumn('string', 'Number');
+  data.addColumn('number', 'Number/10');
+  data.addRows( {{ data|safe}} );
+  var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+  chart.draw(data, {width: 800, height: 480, title: "Numbers"});
+
+  var chart2 = new google.visualization.PieChart(document.getElementById('piechart'));
+  chart2.draw(data, {width: 800, height: 480, title: "Numbers"});
+
+}
+</script>
+
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>
+
+{% endblock %}

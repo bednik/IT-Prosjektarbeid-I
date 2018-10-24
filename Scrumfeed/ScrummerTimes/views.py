@@ -7,34 +7,74 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.datetime_safe import datetime
-# Create your views here.
 from django.urls import reverse
-# Create your views here.
-
-
-from .models import Article
-
-from .forms import ArticleForm, FilterForm, NewCommentForm
-
+from .models import Article, Category
+from .forms import ArticleForm, FilterForm, CreateCategoryForm, NewCommentForm
 from comments.models import Comment
+
+
+def analytics(request):
+    data = [['100', 10], ['500', 9], ['80', 8]]
+    context = {
+        'data':data,
+    }
+    return render(request, 'ScrummerTimes/analytics.html', context)
+
+
+def manage_site(request):
+    form = CreateCategoryForm(initial={'name': ''})
+#
+    if request.method == "POST":
+        form = CreateCategoryForm(request.POST)
+        if form.is_valid():
+            category_object = form.cleaned_data["category"]
+            name = form.cleaned_data["name"]
+            # If editing
+            if 'edit_category' in request.POST:
+                if name == "":
+                    messages.info(request, "Name can not be blank")
+
+                elif not category_object:
+                    category = Category(name=name)
+                    category.save()
+                    messages.info(request, "Successfully added the category  " + form.cleaned_data["name"])
+                else:
+                    messages.info(request, "Successfully changed the name of the category  " + category_object.name + "  to  " + form.cleaned_data["name"])
+                    category_object.name = form.cleaned_data["name"]
+                    category_object.save()
+            # if deleting
+            if 'delete_category' in request.POST :
+                if category_object:
+                    category_object.delete()
+                    messages.info(request, "Successfully deleted the category  " + category_object.name)
+                else:
+                    messages.info(request, "You did not select or write anything")
+
+            #Redirect to same page
+            return HttpResponseRedirect(reverse(manage_site))
+        else:
+            messages.info(request, form.errors)
+            # Redirect to same page
+            return HttpResponseRedirect(reverse(manage_site))
+
+    all_categories = Category.objects.all()
+    context = {
+        'form': form,
+        'categories': all_categories,
+    }
+
+    return render(request, 'ScrummerTimes/managesite.html', context)
 
 
 def feed(request):
     form = FilterForm()
-    if ("news" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=True, category="news").order_by('-date')
-    elif ("movies" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=True, category="movies/tv").order_by('-date')
-    elif ("music" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=True, category="music").order_by('-date')
-    elif ("sport" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=True, category="sports").order_by('-date')
-    elif ("travel" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=True, category="travel").order_by('-date')
-    elif ("capital" in request.get_full_path()):
-        articles = Article.objects.filter(is_read=True, category="capital").order_by('-date')
-    else:
-        articles = Article.objects.filter(is_read=True).order_by('-date')
+    articles = Article.objects.filter(is_read=True)[:10]
+    if request.method == "POST":
+        form = FilterForm(request.POST)
+
+        if form.is_valid():
+            selected_category = form.cleaned_data["category"]
+            articles = Article.objects.filter(is_read=True, category=selected_category)
 
     context = {
         'title': 'The Scrummer Times',
@@ -42,7 +82,7 @@ def feed(request):
         'form': form
     }
 
-    return render(request, 'ScrummerTimes/feed.html',context)
+    return render(request, 'ScrummerTimes/feed.html', context)
 
 
 # @permission_required('entity.can_edit', login_url='/accounts/login/')
@@ -57,10 +97,27 @@ def proofreading_feed(request):
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)
 
+@permission_required('ScrummerTimes.publish_article', login_url='/accounts/login/')
+def publishing_feed(request):
+    form = FilterForm()
+    articles = Article.objects.filter(is_completed=True)[:10]
+    if request.method == "POST":
+        form = FilterForm(request.POST)
+
+        if form.is_valid():
+            selected_category = form.cleaned_data["category"]
+            articles = Article.objects.filter(is_read=True, category=selected_category)
+
+    context = {
+        'title': 'The Scrummer Times',
+        'articles': articles
+    }
+    return render(request, 'ScrummerTimes/feedUnpublished.html', context)
+
 # View for articles that are not supposed to be reviewed/published/edited by copy editors just yet
 def mydrafts(request):
     # Must be logged in
-    if (request.user.is_authenticated):
+    if request.user.is_authenticated:
         articles = Article.objects.filter(authors=request.user).filter(draft=True)
 
         if request.method == "POST":
@@ -78,9 +135,10 @@ def mydrafts(request):
         return render(request, 'ScrummerTimes/myDrafts.html', context)
     return render(request, 'ScrummerTimes/myDrafts.html', None)
 
+
 def myarticles(request):
-    #Must be logged in
-    if(request.user.is_authenticated):
+    # Must be logged in
+    if request.user.is_authenticated:
         articles = Article.objects.filter(authors=request.user).filter(draft=False).order_by('-date') # Kun ferdige artikler dukker opp. Drafts legger seg i "My Drafts"
 
         context = {
@@ -90,6 +148,7 @@ def myarticles(request):
 
         return render(request, 'ScrummerTimes/myArticles.html',context)
     return render(request, 'ScrummerTimes/myArticles.html', None)
+
 
 def article(request, id):
     thisArticle = Article.objects.get(id=id)
@@ -125,14 +184,16 @@ def article(request, id):
 
 def createarticle(request):
 
-    if(not request.user.is_authenticated and not request.user.has_perm("ScrummerTimes.create_article")):
+    if not request.user.is_authenticated and not request.user.has_perm("ScrummerTimes.create_article"):
         return HttpResponseNotFound("You do not have permission for this page. You have to be an Author.")
     form = ArticleForm()
     if request.method == "POST":
         form = ArticleForm(request.POST, request.FILES)
 
         if form.is_valid():
-            #Takes the data from the form into the database by creating an article object
+            header_image = form.cleaned_data["header_image"]
+
+            # Takes the data from the form into the database by creating an article object
             article = Article(header_image=form.cleaned_data["header_image"],
                               title=form.cleaned_data["title"],
                               first_text=form.cleaned_data["first_text"],
@@ -143,9 +204,9 @@ def createarticle(request):
             article.is_read = False
             article.authors = request.user
             article.date = datetime.now()
+            article.draft = form.cleaned_data["draft"]
+            article.editors = None
             article.save()
-            #Redirects back to the feed
-            # return HttpResponseRedirect(reversed('ScrummerTimes/feed'))
 
             # redirects to previous visited paged, does not work if browser is in incognito mode
             next = request.POST.get('next', '/')
@@ -158,13 +219,12 @@ def createarticle(request):
     return render(request, 'ScrummerTimes/createarticle.html', context)
 
 
-
 @login_required(login_url="/accounts/login/")
 def editarticle(request, id=None):
 
     article = get_object_or_404(Article, pk=id)
     # User has to be either an editor or the author to edit this article
-    if (not request.user.has_perm("ScrummerTimes.review_article") and not request.user == article.authors):
+    if not request.user.has_perm("ScrummerTimes.review_article") and not request.user == article.authors:
         messages.info(request, "You do not have permission for this page. You have to be an Editor.")
         next = request.POST.get('next', '/')
         return HttpResponseRedirect(next)
@@ -205,11 +265,9 @@ def editarticle(request, id=None):
 
     # if request.method == "POST":
     if 'submit_article' in request.POST:
-        print("test2")
         form = ArticleForm(request.POST, request.FILES)
 
         if form.is_valid():
-            print("test3")
             if 'delete' in form.data:
                 article.delete()
             else:
@@ -235,6 +293,8 @@ def editarticle(request, id=None):
                         Comment.objects.filter_by_instance(article).delete()
 
                     article.is_read = form.cleaned_data["is_read"]
+                # if request.user.has_perm("ScrummerTimes.publish_article"):
+                #     article.is_read = form.cleaned_data["is_read"]
                 article.save()
 
 
@@ -244,13 +304,12 @@ def editarticle(request, id=None):
             next = request.POST.get('next','/')
             return HttpResponseRedirect(next)
 
-
     context = {
         'form': form,
         'id': id,
         'article': article,
         'comments': comments,
-        #'comment_form': comment_form
+        # 'comment_form': comment_form
     }
 
     return render(request, 'ScrummerTimes/editarticle.html', context)
@@ -291,7 +350,6 @@ def deleteEditor(request, id=None):
     }
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)
-   # return render(request, 'ScrummerTimes/editarticle.html', context)
 
 
 def assignEditor(request, id=None):

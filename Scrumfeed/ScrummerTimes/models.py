@@ -4,24 +4,27 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from ScrummerTimes.choices import CATEGORIES
+
 
 from comments.models import Comment
 
 
 class Article(models.Model):
     title = models.CharField(max_length=200,  blank=True)
-    header_image = models.ImageField(upload_to='header_image', blank=True, null=True)
+    header_image = models.ImageField(upload_to='header_image', default='header_image/NoImage.jpg', blank=True,
+                                     null=True)
     first_text = models.TextField(blank=True)
     in_line_image = models.ImageField(upload_to='in_line_image', blank=True, null=True)
     second_text = models.TextField(blank=True)
     is_read = models.BooleanField(blank=False, default=False)
-    #The user who made the Article, read up on on_delete ups :)
+    # on_delete = models.CASCADE means that if the author is deleted, then the articles are also deleted
     authors = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
-    category = models.CharField(max_length=20, choices=CATEGORIES)
+    # on_delte=models.SET_NULL means if the category is deleted, the catagory is set to null
+    category = models.ForeignKey('Category', null=True, blank=True, on_delete=models.SET_NULL)
     draft = models.BooleanField(blank=False, default=False)
     editors = models.ForeignKey(User, null=True, blank=True, related_name='editor', on_delete=models.DO_NOTHING)
     date = models.DateTimeField(auto_now_add=True)
+    is_completed = models.BooleanField(blank=False, default=False)
 
     @property
     def comments(self):
@@ -34,6 +37,7 @@ class Article(models.Model):
         instance = self
         content_type = ContentType.objects.get_for_model(instance.__class__)
         return content_type
+
 
     def __str__(self):
         return self.title.__str__()
@@ -50,3 +54,17 @@ class Article(models.Model):
             ("publish_article", "can publish an article"),
             ("save_as_draft", "can save article as draft"),
         )
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=50, null=False, blank=False)
+
+    class Meta:
+        # Make it say "categories" instead of the default "categorys"
+        verbose_name_plural = "categories"
+        permissions = (
+            ("edit_categories", "can delete and add categories"),
+        )
+
+    def __str__(self):
+        return self.name.__str__()
