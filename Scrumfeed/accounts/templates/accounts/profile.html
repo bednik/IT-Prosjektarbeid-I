@@ -1,0 +1,21 @@
+{% extends 'ScrummerTimes/layout.html' %}
+{%load static%}
+{% block content %}
+
+<div class="container">
+    <h1>Profile</h1>
+    <p>Username: {{ user }}</p>
+    <p>First name: {{ user.first_name }}</p>
+    <p>Last name: {{ user.last_name }}</p>
+    <p>Email: {{ user.enail }}</p>
+    <form action="{% url 'accounts:edit_profile' %}">
+        <button class="waves-effect waves-light btn-small" type="submit">Edit profile</button>
+    </form>
+    <form method="get" action="{% url 'accounts:change_password' %}">
+        <button class="waves-effect waves-light btn-small" type="submit">Change password</button>
+    </form>
+
+</div>
+
+
+{% endblock %}

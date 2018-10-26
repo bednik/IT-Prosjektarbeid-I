@@ -108,7 +108,7 @@
                     {% endif %}
                      {% if user.is_authenticated %}
                     <li class="right" style="margin-right: 10px">
-                        {{request.user}}
+                        <a href="{% url 'accounts:profile' %}">{{request.user}}</a>
                     </li>
                     {% endif %}
                 </ul>

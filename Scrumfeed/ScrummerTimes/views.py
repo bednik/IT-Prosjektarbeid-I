@@ -68,13 +68,13 @@ def manage_site(request):
 
 def feed(request):
     form = FilterForm()
-    articles = Article.objects.filter(is_read=True)[:10]
+    articles = Article.objects.filter(is_read=True).order_by('-date')[:10]
     if request.method == "POST":
         form = FilterForm(request.POST)
 
         if form.is_valid():
             selected_category = form.cleaned_data["category"]
-            articles = Article.objects.filter(is_read=True, category=selected_category)
+            articles = Article.objects.filter(is_read=True, category=selected_category).order_by('-date')
 
     context = {
         'title': 'The Scrummer Times',
@@ -88,7 +88,7 @@ def feed(request):
 # @permission_required('entity.can_edit', login_url='/accounts/login/')
 @permission_required('ScrummerTimes.review_article', login_url='/accounts/login/')
 def proofreading_feed(request):
-    articles = Article.objects.filter(is_read=False).filter(draft=False).filter(is_completed=False)[:10]
+    articles = Article.objects.filter(is_read=False).filter(draft=False).filter(is_completed=False).order_by('-date')[:10]
 
     context = {
         'title': 'The Scrummer Times',
@@ -100,13 +100,13 @@ def proofreading_feed(request):
 @permission_required('ScrummerTimes.publish_article', login_url='/accounts/login/')
 def publishing_feed(request):
     form = FilterForm()
-    articles = Article.objects.filter(is_completed=True)[:10]
+    articles = Article.objects.filter(is_completed=True).order_by('-date')[:10]
     if request.method == "POST":
         form = FilterForm(request.POST)
 
         if form.is_valid():
             selected_category = form.cleaned_data["category"]
-            articles = Article.objects.filter(is_read=True, category=selected_category)
+            articles = Article.objects.filter(is_read=True, category=selected_category).order_by('-date')
 
     context = {
         'title': 'The Scrummer Times',
@@ -118,7 +118,7 @@ def publishing_feed(request):
 def mydrafts(request):
     # Must be logged in
     if request.user.is_authenticated:
-        articles = Article.objects.filter(authors=request.user).filter(draft=True)
+        articles = Article.objects.filter(authors=request.user).filter(draft=True).order_by('-date')
 
         if request.method == "POST":
             form = DeleteForm(request.POST, request.FILES)
