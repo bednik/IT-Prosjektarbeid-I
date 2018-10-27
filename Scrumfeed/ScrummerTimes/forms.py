@@ -81,3 +81,20 @@ class NewCommentForm(forms.Form):
     object_id = IntegerField(widget=HiddenInput)
     parent_id = IntegerField(widget=HiddenInput, required=False)
     content = CharField(widget=Textarea, required=False)
+
+
+# Drop-down bar for editors
+
+
+
+
+class FilterForm(forms.Form):
+    perm = Permission.objects.get(codename='editors')
+    editor_users = User.objects.filter(Q(groups__permissions=perm) | Q(user_permissions=perm)).distinct()
+
+    class Meta:
+        model = User
+
+    # Check if the things that is written in the form are valid
+    def clean(self):
+        return self.cleaned_data
