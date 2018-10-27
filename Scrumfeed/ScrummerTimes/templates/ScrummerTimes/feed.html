@@ -24,6 +24,27 @@
     {% endfor %}
 </ul>
 
+<!--
+{% for article in articles%}
+<div class="row">
+    <div class="col s12 m7">
+      <div class="card">
+        <div class="card-image">
+          <img src="{{article.header_image.url}}">
+          <span class="card-title"><li><a href="/ScrummerTimes/article/{{article.id}}"> {{article.title}}</a></span>
+        </div>
+        <div class="card-content">
+          <p>I am a very simple card. I am good at containing small bits of information.
+          I am convenient because I require little markup to use effectively.</p>
+        </div>
+        <div class="card-action">
+          <a href="#">This is a link</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+-->
 <!--<a href="/ScrummerTimes/createArticle"> Create Article</a>>-->
 
 {% endblock %}
