@@ -89,11 +89,13 @@ class NewCommentForm(forms.Form):
 
 
 class FilterForm(forms.Form):
-    perm = Permission.objects.get(codename='editors')
-    editor_users = User.objects.filter(Q(groups__permissions=perm) | Q(user_permissions=perm)).distinct()
+    if Úser.has_perm('assign_article'):
+
+        perm = Permission.objects.get(codename='editors')
+        editor_users = User.objects.filter(Q(groups__permissions=perm) | Q(user_permissions=perm)).distinct()
 
     class Meta:
-        model = User
+        model = Article
 
     # Check if the things that is written in the form are valid
     def clean(self):
