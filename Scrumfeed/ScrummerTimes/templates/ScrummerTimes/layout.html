@@ -89,7 +89,9 @@
                             <a href="{% url 'analytics' %}?next={{ request.path|urlencode }}">Analytics</a>
                         </li>
                         {% endif %}
-
+                        <li>
+                            <a href="{% url 'requestrole' %}?next={{ request.path|urlencode }}">Request Role</a>
+                        </li>
                     <li class="right" style="margin-right: 300px">
 
                         <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">

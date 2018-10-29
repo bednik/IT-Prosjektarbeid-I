@@ -70,15 +70,16 @@ class Category(models.Model):
         return self.name.__str__()
 
 
-class role(models.Model):
-    name = models.CharField(max_length=50, null=False, blank=False)
+class Role(models.Model):
+    ROLE_TYPES = (
+        (1, 'author'),
+        (2, 'copyeditor'),
+        (3, 'executiveeditor'),
+    )
 
-    class Meta:
-        # Make it say "categories" instead of the default "categorys"
-        verbose_name_plural = "categories"
-        permissions = (
-            ("edit_categories", "can delete and add categories"),
-        )
+    reason = models.CharField(max_length=500, null=False, blank=True)
+    role = models.CharField(max_length=1, choices=ROLE_TYPES)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
 
     def __str__(self):
         return self.name.__str__()

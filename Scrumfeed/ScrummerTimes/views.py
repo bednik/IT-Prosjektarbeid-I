@@ -8,9 +8,10 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.datetime_safe import datetime
 from django.urls import reverse
-from .models import Article, Category
-from .forms import ArticleForm, FilterForm, CreateCategoryForm, NewCommentForm
+from .models import Article, Category, Role
+from .forms import ArticleForm, FilterForm, CreateCategoryForm, NewCommentForm, RequestRole
 from comments.models import Comment
+from django.contrib.auth.models import Permission, User
 
 
 def analytics(request):
@@ -180,6 +181,90 @@ def article(request, id):
     # Sends to the html file (index.html)
     return render(request, 'ScrummerTimes/article.html',
                   context)
+
+
+def give_author_permissions(user):
+    p1 = Permission.objects.get(codename='create_article')
+    p2 = Permission.objects.get(codename='save_as_draft')
+    user.user_permissions.add(p1)
+    user.user_permissions.add(p2)
+
+
+def give_copyeditor_permissions(user):
+    p1 = Permission.objects.get(codename='review_article')
+    user.user_permissions.add(p1)
+
+
+def give_executiveeditor_permissions(user):
+    p1 = Permission.objects.get(codename='publish_article')
+    user.user_permissions.add(p1)
+    give_copyeditor_permissions(user)
+
+
+def requestrole(request):
+
+    if not request.user.is_authenticated:
+        return HttpResponseNotFound("You have to be a registered user")
+    form = RequestRole()
+    if request.method == "POST":
+        form = RequestRole(request.POST)
+        if form.is_valid():
+            if 'create_request' in request.POST:
+                role = Role(reason=form.cleaned_data["reason"],
+                            role=form.cleaned_data["role"])
+                role.user = request.user
+                role.save()
+
+            # redirects to previous visited paged, does not work if browser is in incognito mode
+            next = request.POST.get('next', '/')
+            return HttpResponseRedirect(next)
+
+
+
+
+
+    roles = None
+    if request.user.is_superuser:
+        roles = Role.objects.all()
+    context = {
+        'form': form,
+        'roles': roles
+    }
+
+    return render(request, 'ScrummerTimes/requestRole.html', context)
+
+
+def assignroles(request, id=None):
+
+    if not request.user.is_authenticated and not request.user.is_superuser:
+        return HttpResponseNotFound("You have to be admin")
+    if request.method == "POST":
+        if 'allow_request' in request.POST:
+            roleRequest = get_object_or_404(Role, pk=id)
+            user = User.objects.get(pk=roleRequest.user.id)
+            if roleRequest.role == "1":
+                give_author_permissions(user)
+            elif roleRequest.role == "2":
+                give_copyeditor_permissions(user)
+            elif roleRequest.role == "3":
+                give_executiveeditor_permissions(user)
+
+            roleRequest.delete()
+
+        elif 'deny_request' in request.POST:
+            roleRequest = get_object_or_404(Role, pk=id)
+            roleRequest.delete()
+
+        # redirects to previous visited paged, does not work if browser is in incognito mode
+        # next = request.POST.get('next', '/')
+        return HttpResponseRedirect(reverse(requestrole))
+
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'ScrummerTimes/requestRole.html', context)
 
 
 def createarticle(request):

@@ -6,22 +6,41 @@
 
 
 <ul>
-    {% for article in articles%}
-    <li><a href="/ScrummerTimes/article/{{article.id}}"> {{article.title}}</a>
-         <!-- Goes to the form that does the editing, also saves what the previous site was! -->
-        {% if user.is_authenticated %}
-            {% if perms.ScrummerTimes.change_article %}
-        <a href="{% url 'editarticle' article.id %}?next={{ request.path|urlencode }}"> | edit</a>
-            {% endif %}
-        {% endif %}
-        <br>
-        <!-- The image is not required in the article, therefore we must first check if this article has an image-->
-        {% if article.header_image %}
-        <img src="{{article.header_image.url}}" width="400">
-        {% endif %}
-    </li>
-    <br>
+
+    {% if request.user.is_superuser %}
+     {% for role in roles%}
+        <div>
+            <p>User : {{role.user.username}}, requests for becoming a {{role.get_role_display}}</p>
+            <p>
+                {{role.reason}}
+            </p>
+            <form action={% url 'assignroles' role.id %}  method="post" enctype="multipart/form-data" >
+            {% csrf_token %}
+
+            <input type="submit" name="allow_request"  value="Allow"/>
+            <input type="submit" name="deny_request"  value="Deny"/>
+        </div>
     {% endfor %}
+    {% else %}
+
+
+    <form action={% url 'requestrole' %}  method="post" enctype="multipart/form-data" >
+        {% csrf_token %}
+
+        <div>
+            <h3>Request the role you want</h3>
+            <br>
+        </div>
+
+        <p style="font-size:20px;" class="left-align">Pick a role:</p>
+            {{ form.role}}
+
+        <p style="font-size:20px;" class="left-align">Why should you have this role?</p>
+        {{ form.reason}}
+
+        <input type="submit" name="create_request"  value="Submit"/>
+{% endif %}
+
 </ul>
 
 <!--<a href="/ScrummerTimes/createArticle"> Create Article</a>>-->
