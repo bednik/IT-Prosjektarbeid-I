@@ -219,10 +219,6 @@ def requestrole(request):
             next = request.POST.get('next', '/')
             return HttpResponseRedirect(next)
 
-
-
-
-
     roles = None
     if request.user.is_superuser:
         roles = Role.objects.all()
