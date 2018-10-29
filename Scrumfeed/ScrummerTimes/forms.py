@@ -35,6 +35,16 @@ class ArticleForm(forms.Form):
     def clean(self):
         return self.cleaned_data
 
+class RequestRole(forms.Form):
+    reason = CharField(widget=Textarea, required=False)
+    ROLE_TYPES = (
+        (1, 'author'),
+        (2, 'copyeditor'),
+        (3, 'executiveeditor'),
+    )
+    role = ChoiceField(choices=ROLE_TYPES, required=true)
+    def clean(self):
+        return self.cleaned_data
 
 class FilterForm(forms.Form):
     # category = ChoiceField(choices=CATEGORIES)

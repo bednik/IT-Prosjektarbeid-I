@@ -68,3 +68,17 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name.__str__()
+
+
+class role(models.Model):
+    name = models.CharField(max_length=50, null=False, blank=False)
+
+    class Meta:
+        # Make it say "categories" instead of the default "categorys"
+        verbose_name_plural = "categories"
+        permissions = (
+            ("edit_categories", "can delete and add categories"),
+        )
+
+    def __str__(self):
+        return self.name.__str__()
