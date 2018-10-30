@@ -1,3 +1,4 @@
+/* GOLDEN THEME */
 header{
     width:100%;
 }
@@ -27,4 +28,45 @@ p{
     /*
     border: outset;
     color: white;*/
+}
+
+.theme-first-text{
+    color: #D0AF4F !important;
+}
+
+.theme-second-text{
+    color: #D0AF4F !important;
+}
+.theme-date{
+    display: block !important;
+}
+.theme-category{
+    display: block !important;
+}
+.theme-info{
+    background-color: #D0AF4F !important;
+    margin: 0 auto !important;
+    width: auto !important;
+    display: inline-flex !important;
+    padding: 10px 10px !important;
+}
+
+.theme-card{
+    background-color: white !important;
+    border-style: solid !important;
+    border-width: 3px !important;
+    border-radius: 10px !important;
+    border-color:#D0AF4F;
+    font-family: "Times New Roman", Times, serif !important;
+}
+
+.theme-comment2{
+    background-color: #D0AF4F !important;
+    color: white !important;
+}
+
+body{
+    background-image: url("gold.jpg");
+    background-size: 600px 600px;
+
 }

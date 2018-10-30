@@ -12,12 +12,13 @@ from comments.models import Comment
 
 class Article(models.Model):
     THEMES = (
+        (0, 'Normal'),
         (1, 'Golden'),
-        (2, 'Darkness'),
-        (3, 'Fancy'),
+        (2, 'News'),
+        (3, 'Cute'),
     )
 
-    theme = models.CharField(max_length=1, choices=THEMES, default=1)
+    theme = models.CharField(max_length=1, choices=THEMES, default=0)
 
     def getthemename(self):
         d = dict(self.THEMES)

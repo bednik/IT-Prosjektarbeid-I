@@ -1,4 +1,4 @@
-/* NEWS THEME */
+/* CUTE THEME */
 header{
     width:100%;
 }
@@ -43,37 +43,33 @@ p{
 .theme-category{
     display: block !important;
 }
-.theme-second-image{
-    box-shadow: 40px 40px grey !important;
-}
 .theme-info{
+
     margin: 0 auto !important;
     width: auto !important;
     display: inline-flex !important;
     padding: 10px 10px !important;
 
-    border-style: solid !important;
+    border-style: dashed !important;
     border-width: 1px !important;
     border-color:black;
 }
 
-.card-title{
-    font-weight:bold !important;
-    font-size:40px !important;
-}
-
 .theme-card{
     background-color: white !important;
-    font-family: "Times New Roman", Times, serif !important;
+    border-style: dashed !important;
+    border-width: 1px !important;
+    border-color:black;
+    font-family: Arial Black,Arial Bold,Gadget,sans-serif !important;
 }
 
 .theme-comment2{
-    background-color: white !important;
-    color: black !important;
+    background-color: black !important;
+    color: white !important;
 }
 
 body{
-    background-image: url("news.jpg");
+    background-image: url("cute.jpg");
     background-size: 300px 300px;
 
 }

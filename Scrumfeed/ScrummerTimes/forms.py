@@ -28,7 +28,7 @@ class ArticleForm(forms.Form):
     # category = ChoiceField(choices=CATEGORIES, required=False)
     category = ModelChoiceField(queryset=Category.objects.all())
 
-    theme = ChoiceField(choices=Article.THEMES, initial=1)
+    theme = ChoiceField(choices=Article.THEMES, initial=0)
     is_completed = BooleanField(required=False, initial=False)
 
     class Meta:

@@ -2,10 +2,14 @@
 {%load static%}
 
 {% block css %}
-    {% if article.theme == '1' %}
+    {% if article.theme == '0' %}
+        <link rel="stylesheet" href="{% static 'ScrummerTimes/style.css' %}">
+    {% elif article.theme == '1' %}
         <link rel="stylesheet" href="{% static 'ScrummerTimes/theme1.css' %}">
     {% elif article.theme == '2' %}
         <link rel="stylesheet" href="{% static 'ScrummerTimes/theme2.css' %}">
+    {% elif article.theme == '3' %}
+        <link rel="stylesheet" href="{% static 'ScrummerTimes/theme3.css' %}">
     {% else %}
         <link rel="stylesheet" href="{% static 'ScrummerTimes/theme1.css' %}">
     {% endif %}
@@ -18,23 +22,26 @@
 
  <div class="row">
     <div class="col s12 m12">
-      <div class="card">
+      <div class="card theme-card">
         <div class="card-image">
           <img src="{{article.header_image.url}}">
             <span class="card-title"><strong>{{article.title}}</strong></span>
           <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">Sub</i></a>
         </div>
-        <div class="card-content">
-            <i>{{article.date}} created by user <strong> {{article.authors.username}} </strong></i> <br>
-            <i>Category: {{article.category}}</i>
+        <div class="card-content theme-content">
+            <div class = "theme-info">
+            <i class="theme-date">{{article.date}} created by user <strong> {{article.authors.username}}  </strong>  </i> <br>
+                <i class="theme-category">Category: {{article.category}}</i>
+                </div>
             <br><br>
-          <p>{{article.first_text|linebreaks}}</p>
-            <br><br>
-            <img src="{{article.in_line_image.url}}" width="80%">
-            <br><br>
-            <p class="articleText">
-                {{article.second_text|linebreaks}}
-            </p>
+          <div class="theme-first-text"><p >{{article.first_text|linebreaks}}</p>
+            </div><br><br>
+            <div class=theme-second-image">
+            <img src="{{article.in_line_image.url}}"  width="80%">
+            </div>
+                <br><br>
+            <div class="theme-second-text"><p >{{article.second_text|linebreaks}}</p>
+            </div><br><br>
         </div>
           <div class="card-tabs">
           <ul class="tabs tabs-fixed-width">
@@ -59,10 +66,10 @@
             {% for comment in comments %}
                   <div class="row">
                     <div class="col s12 m12">
-                      <div class="card blue-grey darken-1">
-                        <div class="card-content white-text" style="padding-top: 0px;">
-                            <span class="card-title"> <strong>{{comment.user }}</strong> <small>{{ comment.timestamp }}</small> </span>
-                          <p>{{ comment.content }}</p>
+                      <div class="card theme-comment2">
+                        <div class="card-content theme-comment" style="padding-top: 0px;">
+                            <span class="card-title theme-comment-title"> <strong>{{comment.user }}</strong> <small>{{ comment.timestamp }}</small> </span>
+                          <p class="theme-comment-content">{{ comment.content }}</p>
                         </div>
                       </div>
                     </div>
