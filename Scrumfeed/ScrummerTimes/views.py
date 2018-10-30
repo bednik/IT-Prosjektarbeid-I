@@ -392,12 +392,13 @@ def deleteEditor(request, id=None):
 
 def newContent(request, id=None):
 
-    subscribedAuthors = None  # request.user.subscriptions.authors  # TODO: Må samkjøres med story 15
-    subscribedCategories = None  # request.user.subscriptions.categories # TODO: Må samkjøres med story 15
+    subscribedAuthors = 'admin'  # request.user.subscriptions.authors  # TODO: Må samkjøres med story 15
+    subscribedCategories = 'Home'  # request.user.subscriptions.categories # TODO: Må samkjøres med story 15
 
     if request.user.is_authenticated:
-        articles = Article.objects.filter(authors=subscribedAuthors).filter(draft=False).order_by('-date')
-        articles += Article.objects.filter(category=subscribedCategories).filter(draft=False).order_by('-date')
+        authorArticles = Article.objects.filter(draft=False)  # .filter(authors=subscribedAuthors)
+        categoryArticles = Article.objects.filter(draft=False)  # .filter(category=subscribedCategories)
+        articles = (authorArticles | categoryArticles).order_by('-date')
         context = {
             'title': 'The Scrummer Times',
             'articles': articles
