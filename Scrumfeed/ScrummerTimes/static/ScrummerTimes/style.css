@@ -8,8 +8,9 @@ header{
 
 .articleText{
     font-style: italic;
+    /*
     border: outset;
-    color: white;
+    color: white;*/
 }
 
 textarea{
@@ -22,6 +23,7 @@ textarea{
 }
 p{
     text-align:left !important;
+    /*
     border: outset;
-    color: white;
+    color: white;*/
 }
