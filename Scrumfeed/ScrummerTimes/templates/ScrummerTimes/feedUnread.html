@@ -22,6 +22,11 @@
             {% csrf_token %}
         <button type="submit">Assign self</button>
         </form>
+        {% elif article.editors == request.editor %}
+        <form class="assignEditor" action="{% url 'assignEditor' article.id %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="submit" name="assign_editor" value="Submit"/>
+        </form>
         {% else %}
         <br>
         {% endif %}
