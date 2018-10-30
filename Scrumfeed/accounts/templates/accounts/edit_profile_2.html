@@ -3,11 +3,9 @@
 {% block content %}
 
 <div class="container">
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        First name: {{ form.first_name }}
-        Last name: {{ form.last_name }}
-        Email: {{ form.email }}
+        {{ form.as_p }}
 
         <button type="submit">Submit</button>
     </form>
