@@ -25,6 +25,7 @@
         {% elif article.editors == request.editor %}
         <form class="assignEditor" action="{% url 'assignEditor' article.id %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
+            {{ form.editor }}
             <input type="submit" name="assign_editor" value="Submit"/>
         </form>
         {% else %}

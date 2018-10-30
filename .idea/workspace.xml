@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d8f34008-853f-48ab-8c13-9c90e9a25431" name="Default" comment="">
+    <list default="true" id="d8f34008-853f-48ab-8c13-9c90e9a25431" name="Default" comment="Fjerna filter categories fra unread">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scrumfeed/db.sqlite3" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/forms.py" afterPath="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/forms.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/models.py" afterPath="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/models.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/feedUnread.html" afterPath="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/feedUnread.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/views.py" afterPath="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -58,12 +62,28 @@
       <file leaf-file-name="layout.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/layout.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
+            <state relative-caret-position="0">
               <caret line="26" column="19" lean-forward="false" selection-start-line="26" selection-start-column="19" selection-end-line="26" selection-end-column="19" />
               <folding>
                 <element signature="n#style#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#0;n#li#0;n#ul#0;n#nav#0;n#div#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1540448494597" expanded="true" signature="6932:6992" ph="{...}" />
+                <marker date="1540890718803" expanded="true" signature="4919:5069" ph="..." />
+                <marker date="1540890718803" expanded="true" signature="4931:5060" ph="..." />
+                <marker date="1540890718803" expanded="false" signature="5174:5206" ph="..." />
+                <marker date="1540890718803" expanded="true" signature="5207:5456" ph="..." />
+                <marker date="1540890718803" expanded="false" signature="5261:5287" ph="..." />
+                <marker date="1540890718803" expanded="true" signature="5288:5431" ph="..." />
+                <marker date="1540890718803" expanded="false" signature="5336:5395" ph="..." />
+                <marker date="1540890718803" expanded="true" signature="5501:5692" ph="..." />
+                <marker date="1540890718803" expanded="true" signature="5551:5681" ph="..." />
+                <marker date="1540890718803" expanded="true" signature="5758:5821" ph="..." />
+                <marker date="1540890718803" expanded="true" signature="5833:6788" ph="..." />
+                <marker date="1540890718803" expanded="true" signature="5892:6163" ph="{...}" />
+                <marker date="1540890718803" expanded="true" signature="6039:6157" ph="{...}" />
+                <marker date="1540890718803" expanded="true" signature="6188:6777" ph="{...}" />
+                <marker date="1540890718803" expanded="true" signature="6355:6543" ph="{...}" />
+                <marker date="1540890718803" expanded="true" signature="6583:6775" ph="{...}" />
+                <marker date="1540890718803" expanded="true" signature="6715:6775" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -90,31 +110,44 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2489">
-              <caret line="188" column="24" lean-forward="false" selection-start-line="188" selection-start-column="24" selection-end-line="188" selection-end-column="24" />
+            <state relative-caret-position="-1612">
+              <caret line="12" column="1" lean-forward="false" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
               <folding>
-                <marker date="1540448494598" expanded="true" signature="13766:13931" ph="..." />
-                <marker date="1540448494598" expanded="true" signature="13948:13992" ph="..." />
+                <element signature="e#0#35#0" expanded="true" />
+                <marker date="1540883945841" expanded="true" signature="13775:13940" ph="..." />
+                <marker date="1540883945841" expanded="true" signature="13957:14001" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="25" column="50" lean-forward="true" selection-start-line="25" selection-start-column="50" selection-end-line="25" selection-end-column="50" />
+            <state relative-caret-position="248">
+              <caret line="26" column="4" lean-forward="false" selection-start-line="26" selection-start-column="4" selection-end-line="26" selection-end-column="4" />
+              <folding>
+                <element signature="e#0#29#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="feedUnread.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/feedUnread.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-81">
+              <caret line="27" column="26" lean-forward="false" selection-start-line="27" selection-start-column="26" selection-end-line="27" selection-end-column="26" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="feedUnread.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/feedUnread.html">
+      <file leaf-file-name="managesite.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/managesite.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="14" column="8" lean-forward="false" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
+            <state relative-caret-position="257">
+              <caret line="21" column="74" lean-forward="false" selection-start-line="21" selection-start-column="15" selection-end-line="21" selection-end-column="74" />
               <folding />
             </state>
           </provider>
@@ -123,8 +156,8 @@
       <file leaf-file-name="forms.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/forms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="232">
-              <caret line="97" column="23" lean-forward="true" selection-start-line="97" selection-start-column="23" selection-end-line="97" selection-end-column="23" />
+            <state relative-caret-position="1320">
+              <caret line="88" column="0" lean-forward="false" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -144,6 +177,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>python</find>
+      <find>comments</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -173,12 +207,13 @@
         <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/static/ScrummerTimes/style.css" />
         <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/feed.html" />
         <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/myArticles.html" />
-        <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/views.py" />
-        <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/feedUnread.html" />
         <option value="$PROJECT_DIR$/../stuff/ayy.py" />
         <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/layout.html" />
         <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/createarticle.html" />
         <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/forms.py" />
+        <option value="$PROJECT_DIR$/Scrumfeed/manage.py" />
+        <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/views.py" />
+        <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/feedUnread.html" />
         <option value="$PROJECT_DIR$/Scrumfeed/ScrummerTimes/models.py" />
       </list>
     </option>
@@ -263,6 +298,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../stuff/ayy.py" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -406,7 +442,28 @@
       <option name="project" value="LOCAL" />
       <updated>1540660102496</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Fjerna filter categories fra unread">
+      <created>1540734543841</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1540734543841</updated>
+    </task>
+    <task id="LOCAL-00014" summary="forms/models/brukerhistorie 29">
+      <created>1540886075043</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1540886075044</updated>
+    </task>
+    <task id="LOCAL-00015" summary="fdsf">
+      <created>1540887379522</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1540887379523</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -417,7 +474,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32907802" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32916668" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -469,7 +526,9 @@
     <MESSAGE value="Eneste måten i får merga. I'm sorry" />
     <MESSAGE value="Virke det? Ska være merga no" />
     <MESSAGE value="Fjerna filter categories fra unread" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fjerna filter categories fra unread" />
+    <MESSAGE value="forms/models/brukerhistorie 29" />
+    <MESSAGE value="fdsf" />
+    <option name="LAST_COMMIT_MESSAGE" value="fdsf" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -478,13 +537,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/article.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="7" lean-forward="false" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Scrumfeed/Scrumfeed/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -510,13 +562,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Scrumfeed/manage.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -563,7 +608,23 @@
           <folding>
             <element signature="n#style#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#li#0;n#ul#0;n#nav#0;n#div#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1540448494597" expanded="true" signature="6932:6992" ph="{...}" />
+            <marker date="1540890718803" expanded="true" signature="4919:5069" ph="..." />
+            <marker date="1540890718803" expanded="true" signature="4931:5060" ph="..." />
+            <marker date="1540890718803" expanded="false" signature="5174:5206" ph="..." />
+            <marker date="1540890718803" expanded="true" signature="5207:5456" ph="..." />
+            <marker date="1540890718803" expanded="false" signature="5261:5287" ph="..." />
+            <marker date="1540890718803" expanded="true" signature="5288:5431" ph="..." />
+            <marker date="1540890718803" expanded="false" signature="5336:5395" ph="..." />
+            <marker date="1540890718803" expanded="true" signature="5501:5692" ph="..." />
+            <marker date="1540890718803" expanded="true" signature="5551:5681" ph="..." />
+            <marker date="1540890718803" expanded="true" signature="5758:5821" ph="..." />
+            <marker date="1540890718803" expanded="true" signature="5833:6788" ph="..." />
+            <marker date="1540890718803" expanded="true" signature="5892:6163" ph="{...}" />
+            <marker date="1540890718803" expanded="true" signature="6039:6157" ph="{...}" />
+            <marker date="1540890718803" expanded="true" signature="6188:6777" ph="{...}" />
+            <marker date="1540890718803" expanded="true" signature="6355:6543" ph="{...}" />
+            <marker date="1540890718803" expanded="true" signature="6583:6775" ph="{...}" />
+            <marker date="1540890718803" expanded="true" signature="6715:6775" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -584,7 +645,23 @@
           <folding>
             <element signature="n#style#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#li#0;n#ul#0;n#nav#0;n#div#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1540448494597" expanded="true" signature="6932:6992" ph="{...}" />
+            <marker date="1540890718803" expanded="true" signature="4919:5069" ph="..." />
+            <marker date="1540890718803" expanded="true" signature="4931:5060" ph="..." />
+            <marker date="1540890718803" expanded="false" signature="5174:5206" ph="..." />
+            <marker date="1540890718803" expanded="true" signature="5207:5456" ph="..." />
+            <marker date="1540890718803" expanded="false" signature="5261:5287" ph="..." />
+            <marker date="1540890718803" expanded="true" signature="5288:5431" ph="..." />
+            <marker date="1540890718803" expanded="false" signature="5336:5395" ph="..." />
+            <marker date="1540890718803" expanded="true" signature="5501:5692" ph="..." />
+            <marker date="1540890718803" expanded="true" signature="5551:5681" ph="..." />
+            <marker date="1540890718803" expanded="true" signature="5758:5821" ph="..." />
+            <marker date="1540890718803" expanded="true" signature="5833:6788" ph="..." />
+            <marker date="1540890718803" expanded="true" signature="5892:6163" ph="{...}" />
+            <marker date="1540890718803" expanded="true" signature="6039:6157" ph="{...}" />
+            <marker date="1540890718803" expanded="true" signature="6188:6777" ph="{...}" />
+            <marker date="1540890718803" expanded="true" signature="6355:6543" ph="{...}" />
+            <marker date="1540890718803" expanded="true" signature="6583:6775" ph="{...}" />
+            <marker date="1540890718803" expanded="true" signature="6715:6775" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -718,12 +795,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/layout.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
+        <state relative-caret-position="0">
           <caret line="26" column="19" lean-forward="false" selection-start-line="26" selection-start-column="19" selection-end-line="26" selection-end-column="19" />
           <folding>
             <element signature="n#style#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#li#0;n#ul#0;n#nav#0;n#div#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1540448494597" expanded="true" signature="6932:6992" ph="{...}" />
+            <marker date="1540890718803" expanded="true" signature="4919:5069" ph="..." />
+            <marker date="1540890718803" expanded="true" signature="4931:5060" ph="..." />
+            <marker date="1540890718803" expanded="false" signature="5174:5206" ph="..." />
+            <marker date="1540890718803" expanded="true" signature="5207:5456" ph="..." />
+            <marker date="1540890718803" expanded="false" signature="5261:5287" ph="..." />
+            <marker date="1540890718803" expanded="true" signature="5288:5431" ph="..." />
+            <marker date="1540890718803" expanded="false" signature="5336:5395" ph="..." />
+            <marker date="1540890718803" expanded="true" signature="5501:5692" ph="..." />
+            <marker date="1540890718803" expanded="true" signature="5551:5681" ph="..." />
+            <marker date="1540890718803" expanded="true" signature="5758:5821" ph="..." />
+            <marker date="1540890718803" expanded="true" signature="5833:6788" ph="..." />
+            <marker date="1540890718803" expanded="true" signature="5892:6163" ph="{...}" />
+            <marker date="1540890718803" expanded="true" signature="6039:6157" ph="{...}" />
+            <marker date="1540890718803" expanded="true" signature="6188:6777" ph="{...}" />
+            <marker date="1540890718803" expanded="true" signature="6355:6543" ph="{...}" />
+            <marker date="1540890718803" expanded="true" signature="6583:6775" ph="{...}" />
+            <marker date="1540890718803" expanded="true" signature="6715:6775" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -751,40 +844,61 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/forms.py">
+    <entry file="file://$PROJECT_DIR$/Scrumfeed/manage.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="97" column="23" lean-forward="true" selection-start-line="97" selection-start-column="23" selection-end-line="97" selection-end-column="23" />
+        <state relative-caret-position="207">
+          <caret line="14" column="39" lean-forward="true" selection-start-line="14" selection-start-column="39" selection-end-line="14" selection-end-column="39" />
           <folding>
-            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#22#31#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/models.py">
+    <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/managesite.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="25" column="50" lean-forward="true" selection-start-line="25" selection-start-column="50" selection-end-line="25" selection-end-column="50" />
+        <state relative-caret-position="257">
+          <caret line="21" column="74" lean-forward="false" selection-start-line="21" selection-start-column="15" selection-end-line="21" selection-end-column="74" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2489">
-          <caret line="188" column="24" lean-forward="false" selection-start-line="188" selection-start-column="24" selection-end-line="188" selection-end-column="24" />
+        <state relative-caret-position="-1612">
+          <caret line="12" column="1" lean-forward="false" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
           <folding>
-            <marker date="1540448494598" expanded="true" signature="13766:13931" ph="..." />
-            <marker date="1540448494598" expanded="true" signature="13948:13992" ph="..." />
+            <element signature="e#0#35#0" expanded="true" />
+            <marker date="1540883945841" expanded="true" signature="13775:13940" ph="..." />
+            <marker date="1540883945841" expanded="true" signature="13957:14001" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1320">
+          <caret line="88" column="0" lean-forward="false" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/templates/ScrummerTimes/feedUnread.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="14" column="8" lean-forward="false" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
+        <state relative-caret-position="-81">
+          <caret line="27" column="26" lean-forward="false" selection-start-line="27" selection-start-column="26" selection-end-line="27" selection-end-column="26" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scrumfeed/ScrummerTimes/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="26" column="4" lean-forward="false" selection-start-line="26" selection-start-column="4" selection-end-line="26" selection-end-column="4" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

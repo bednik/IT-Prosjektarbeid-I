@@ -18,14 +18,13 @@ class Article(models.Model):
     second_text = models.TextField(blank=True)
     is_read = models.BooleanField(blank=False, default=False)
     # on_delete = models.CASCADE means that if the author is deleted, then the articles are also deleted
-    authors = models.ForeignKey(User, on_delete=models.CASCADE, null = True, name=authors)
     # on_delte=models.SET_NULL means if the category is deleted, the catagory is set to null
     category = models.ForeignKey('Category', null=True, blank=True, on_delete=models.SET_NULL)
     draft = models.BooleanField(blank=False, default=False)
     editors = models.ForeignKey(User, null=True, blank=True, related_name='editor', on_delete=models.DO_NOTHING)
     date = models.DateTimeField(auto_now_add=True)
     is_completed = models.BooleanField(blank=False, default=False)
-    executive_editor = Group.objects.create(name='executive_editor')
+    
 
 
 

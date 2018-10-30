@@ -10,7 +10,7 @@ from django.utils.datetime_safe import datetime
 from django.urls import reverse
 from .models import Article, Category
 from .forms import ArticleForm, FilterForm, CreateCategoryForm, NewCommentForm
-from comments.models import Comment
+#from comments.models import Comment
 
 
 def analytics(request):
@@ -172,10 +172,10 @@ def article(request, id):
             object_id = c_obj_id,
             content = c_data
         )
-    comments = Comment.objects.filter_by_instance(thisArticle)
+    #comments = Comment.objects.filter_by_instance(thisArticle)
 
     context = {
-        'article': thisArticle, 'comments': comments, 'comment_form': comment_form
+        'article': thisArticle, '''comments': comments,''' 'comment_form': comment_form
     }
     # Sends to the html file (index.html)
     return render(request, 'ScrummerTimes/article.html',
@@ -262,7 +262,7 @@ def editarticle(request, id=None):
                 content=c_data
             )
 
-    comments = Comment.objects.filter_by_instance(article)
+    #comments = Comment.objects.filter_by_instance(article)
 
     # if request.method == "POST":
     if 'submit_article' in request.POST:
@@ -309,7 +309,7 @@ def editarticle(request, id=None):
         'form': form,
         'id': id,
         'article': article,
-        'comments': comments,
+        #'comments': comments,
         'comment_form': comment_form
     }
 
