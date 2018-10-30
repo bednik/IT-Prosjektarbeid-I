@@ -73,8 +73,8 @@
                         {% load static %}
                         <img src="{% static 'ScrummerTimes/LogoMakr_2o6PKh.png' %}" style="width:250px;margin-top: 10px;">
                     </li>
-                    {% if request.path == '/ScrummerTimes/feed/' %}
-                        <li>
+                   {% if request.path == '/ScrummerTimes/feed/' %}
+                       <li>
                             <a class="dropdown-trigger" href="#!" data-trigger="filters">Filter categories</a>
                         </li>
                     {% endif %}
