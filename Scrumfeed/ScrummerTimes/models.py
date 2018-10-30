@@ -24,7 +24,7 @@ class Article(models.Model):
     editors = models.ForeignKey(User, null=True, blank=True, related_name='editor', on_delete=models.DO_NOTHING)
     date = models.DateTimeField(auto_now_add=True)
     is_completed = models.BooleanField(blank=False, default=False)
-    
+
 
 
 
@@ -80,7 +80,7 @@ class Person(models.Model):
 
 class Editors(models.Model):
 
-    editor_users = models.CharField(max_length=50, choices=People.editors.all(), blank=False)
+    editor_users = models.CharField(max_length=50, choices=Person.editors.all(), blank=False)
 
     class Meta:
         # Make it say "categories" instead of the default "categorys"
