@@ -398,7 +398,7 @@ def newContent(request, id=None):
     if request.user.is_authenticated:
 
         authorArticles = Article.objects.none()
-        for author in subscribedAuthors
+        for author in subscribedAuthors:
             authorArticles = Article.objects.filter(draft=False).filter(authors=author) | authorArticles
 
         categoryArticles = Article.objects.none()
