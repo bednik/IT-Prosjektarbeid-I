@@ -10,13 +10,6 @@
     <link rel="shortcut icon" type="image/png" href="{% static 'ScrummerTimes/favicon.png' %}"/>
     <title>The Scrummer Times</title>
     <style>
-        #dropdown-content {
-            display: none;
-            float: left;
-            max-width: 40px;
-            margin-left: 10%;
-        }
-
         select {
             display: block;
             width: 120px;
@@ -82,7 +75,7 @@
                     </li>
                     {% if request.path == '/ScrummerTimes/feed/' %}
                         <li>
-                            <a class="dropdown-trigger" href="#!" data-target="filters">Filter categories</a>
+                            <a class="dropdown-trigger" href="#!" data-trigger="filters">Filter categories</a>
                         </li>
                     {% endif %}
                     <li>
@@ -161,7 +154,8 @@
         {% block content %}
         {% endblock %}
     </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script>
     $(document).ready(function() {
         $(".dropdown-trigger").dropdown();
