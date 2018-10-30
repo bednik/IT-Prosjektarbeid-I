@@ -68,6 +68,13 @@
                     {% endif %}
 
                     {% if user.is_authenticated %}
+                        <li>
+                            <!-- Goes to feed with content (categories and authors) the user subscribe to, also saves what the previous site was! -->
+                            <a href="{% url 'newContent' %}?next={{ request.path|urlencode }}">New Content You Subscribe To</a>
+                        </li>
+                    {% endif %}
+
+                    {% if user.is_authenticated %}
                         {% if perms.ScrummerTimes.review_article %}
                         <li>
                             <a href="/ScrummerTimes/feedUnread">Proofreading</a>

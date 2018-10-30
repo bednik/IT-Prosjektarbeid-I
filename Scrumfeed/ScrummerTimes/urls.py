@@ -17,4 +17,5 @@ urlpatterns = [
   url('mydrafts/', views.mydrafts, name='mydrafts'),
   url(r'^feedUnread/assignEditor/(?P<id>\d+)/$', views.assignEditor, name='assignEditor'),
   url(r'^feedUnread/deleteEditor/(?P<id>\d+)/$', views.deleteEditor, name='deleteEditor'),
+  url('newContent/', views.newContent, name='newContent'),
 ]
