@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django import template
 
 
 from comments.models import Comment
@@ -72,14 +73,18 @@ class Category(models.Model):
 
 class Role(models.Model):
     ROLE_TYPES = (
-        (1, 'author'),
-        (2, 'copyeditor'),
-        (3, 'executiveeditor'),
+        (1, 'Author'),
+        (2, 'Copy Editor'),
+        (3, 'Executive Editor'),
     )
 
     reason = models.CharField(max_length=500, null=False, blank=True)
     role = models.CharField(max_length=1, choices=ROLE_TYPES)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
 
+    def getrolename(self):
+        d = dict(self.ROLE_TYPES)
+        return d.get(int(self.role))
+
     def __str__(self):
-        return self.name.__str__()
+        return self.get_role_display()

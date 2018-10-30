@@ -9,17 +9,29 @@
 
     {% if request.user.is_superuser %}
      {% for role in roles%}
-        <div>
-            <p>User : {{role.user.username}}, requests for becoming a {{role.get_role_display}}</p>
-            <p>
-                {{role.reason}}
-            </p>
-            <form action={% url 'assignroles' role.id %}  method="post" enctype="multipart/form-data" >
-            {% csrf_token %}
 
-            <input type="submit" name="allow_request"  value="Allow"/>
-            <input type="submit" name="deny_request"  value="Deny"/>
-        </div>
+
+            <div class="row">
+                <div class="col s12 m6">
+                  <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">User <strong>{{role.user.username}}</strong> wants to become <strong>{{role.getrolename}}</strong></span>
+                      <p>{{role.reason}}</p>
+                    </div>
+                    <div class="card-action">
+                        <form action={% url 'assignroles' role.id %}  method="post" enctype="multipart/form-data" >
+                        {% csrf_token %}
+
+                        <input type="submit" name="allow_request"  value="Allow" style ="color:forestgreen"/>
+                        <input type="submit" name="deny_request"  value="Deny" style="color:red"/>
+                      <!--<a href="#">This is a link</a>
+                      <a href="#">This is a link</a>-->
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+
     {% endfor %}
     {% else %}
 

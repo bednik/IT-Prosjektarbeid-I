@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.datetime_safe import datetime
 from django.urls import reverse
 from .models import Article, Category, Role
-from .forms import ArticleForm, FilterForm, CreateCategoryForm, NewCommentForm, RequestRole
+from .forms import ArticleForm, FilterForm, CreateCategoryForm, NewCommentForm, RequestRole, DeleteForm
 from comments.models import Comment
 from django.contrib.auth.models import Permission, User
 
@@ -197,14 +197,17 @@ def give_copyeditor_permissions(user):
 
 def give_executiveeditor_permissions(user):
     p1 = Permission.objects.get(codename='publish_article')
+    p2 = Permission.objects.get(codename='edit_categories')
     user.user_permissions.add(p1)
+    user.user_permissions.add(p2)
     give_copyeditor_permissions(user)
 
 
 def requestrole(request):
 
     if not request.user.is_authenticated:
-        return HttpResponseNotFound("You have to be a registered user")
+        messages.info(request, "You have to be a registered user")
+        return HttpResponseRedirect(reverse(requestrole))
     form = RequestRole()
     if request.method == "POST":
         form = RequestRole(request.POST)
@@ -214,10 +217,8 @@ def requestrole(request):
                             role=form.cleaned_data["role"])
                 role.user = request.user
                 role.save()
-
-            # redirects to previous visited paged, does not work if browser is in incognito mode
-            next = request.POST.get('next', '/')
-            return HttpResponseRedirect(next)
+                messages.info(request, "Successfully created a role request")
+            return HttpResponseRedirect(reverse(requestrole))
 
     roles = None
     if request.user.is_superuser:
@@ -233,7 +234,8 @@ def requestrole(request):
 def assignroles(request, id=None):
 
     if not request.user.is_authenticated and not request.user.is_superuser:
-        return HttpResponseNotFound("You have to be admin")
+        messages.info(request, "You have to be admin")
+        return HttpResponseRedirect(reverse(requestrole))
     if request.method == "POST":
         if 'allow_request' in request.POST:
             roleRequest = get_object_or_404(Role, pk=id)
@@ -245,11 +247,14 @@ def assignroles(request, id=None):
             elif roleRequest.role == "3":
                 give_executiveeditor_permissions(user)
 
+            messages.info(request, "Successfully accepted request from " + user.username + " to become " + roleRequest.getrolename())
             roleRequest.delete()
+
 
         elif 'deny_request' in request.POST:
             roleRequest = get_object_or_404(Role, pk=id)
             roleRequest.delete()
+            messages.info(request, "Successfully denied request")
 
         # redirects to previous visited paged, does not work if browser is in incognito mode
         # next = request.POST.get('next', '/')
@@ -433,38 +438,3 @@ def deleteEditor(request, id=None):
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)
 
-
-def assignEditor(request, id=None):
-
-    article = get_object_or_404(Article, pk=id)
-
-    if request.method == "POST":
-        article.editors = request.user
-        article.save()
-        next = request.POST.get('next', '/ScrummerTimes/feedUnread')
-        return HttpResponseRedirect(next)
-
-    context = {
-        'form': form,
-        'id': id
-    }
-
-    return render(request, 'ScrummerTimes/feedUnread.html', context)
-
-
-def deleteEditor(request, id=None):
-
-    article = get_object_or_404(Article, pk=id)
-
-    if request.method == "POST":
-        article.editors = None
-        article.save()
-        next = request.POST.get('next', '/ScrummerTimes/feedUnread')
-        return HttpResponseRedirect(next)
-
-    context = {
-        'form': form,
-        'id': id
-    }
-
-    return render(request, 'ScrummerTimes/feedUnread.html', context)

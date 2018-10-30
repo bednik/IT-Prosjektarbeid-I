@@ -130,10 +130,10 @@
   </div>
         <!-- Testing some messages feedback stuff-->
 {% if messages %}
-  <ul class="messages" style = "text-align: center;padding:auto;">
+  <ul class="messages" style = "text-align: center;padding:0; margin: 0 auto;">
     {% for message in messages %}
-      <div style="width:50%; margin: 0 auto;">
-      <li class="{{ message.tags }}" style = "background-color:lightpink; border-radius:5px; margin:auto;">{{ message }}</li>
+      <div style="padding:0;width:50%; margin: 0 auto;">
+          <li class="{{ message.tags }}" style = "background-color:white; border-radius:5px; margin:auto;"> <strong>{{ message }}</strong></li>
           </div>
     {% endfor %}
   </ul>
