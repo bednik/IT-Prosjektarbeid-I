@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.datetime_safe import datetime
 from django.urls import reverse
 from .models import Article, Category, Role
-from .forms import ArticleForm, FilterForm, CreateCategoryForm, NewCommentForm, RequestRole, DeleteForm
+from .forms import ArticleForm, FilterForm, CreateCategoryForm, NewCommentForm, RequestRole, DeleteForm, FilterEditor
 from comments.models import Comment
 from django.contrib.auth.models import Permission, User
 
@@ -43,6 +43,7 @@ def manage_site(request):
                     messages.info(request, "Successfully changed the name of the category  " + category_object.name + "  to  " + form.cleaned_data["name"])
                     category_object.name = form.cleaned_data["name"]
                     category_object.save()
+
             # if deleting
             if 'delete_category' in request.POST :
                 if category_object:
@@ -69,13 +70,13 @@ def manage_site(request):
 
 def feed(request):
     form = FilterForm()
-    articles = Article.objects.filter(is_read=True)[:10]
+    articles = Article.objects.filter(is_read=True).order_by('-date')[:10]
     if request.method == "POST":
         form = FilterForm(request.POST)
 
         if form.is_valid():
             selected_category = form.cleaned_data["category"]
-            articles = Article.objects.filter(is_read=True, category=selected_category)
+            articles = Article.objects.filter(is_read=True, category=selected_category).order_by('-date')
 
     context = {
         'title': 'The Scrummer Times',
@@ -89,11 +90,12 @@ def feed(request):
 # @permission_required('entity.can_edit', login_url='/accounts/login/')
 @permission_required('ScrummerTimes.review_article', login_url='/accounts/login/')
 def proofreading_feed(request):
-    articles = Article.objects.filter(is_read=False).filter(draft=False).filter(is_completed=False)[:10]
-
+    articles = Article.objects.filter(is_read=False).filter(draft=False).filter(is_completed=False).order_by('-date')[:10]
+    form = FilterEditor()
     context = {
         'title': 'The Scrummer Times',
-        'articles': articles
+        'articles': articles,
+        'form' : form
     }
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)
@@ -101,13 +103,13 @@ def proofreading_feed(request):
 @permission_required('ScrummerTimes.publish_article', login_url='/accounts/login/')
 def publishing_feed(request):
     form = FilterForm()
-    articles = Article.objects.filter(is_completed=True)[:10]
+    articles = Article.objects.filter(is_completed=True).order_by('-date')[:10]
     if request.method == "POST":
         form = FilterForm(request.POST)
 
         if form.is_valid():
             selected_category = form.cleaned_data["category"]
-            articles = Article.objects.filter(is_read=True, category=selected_category)
+            articles = Article.objects.filter(is_read=True, category=selected_category).order_by('-date')
 
     context = {
         'title': 'The Scrummer Times',
@@ -119,7 +121,7 @@ def publishing_feed(request):
 def mydrafts(request):
     # Must be logged in
     if request.user.is_authenticated:
-        articles = Article.objects.filter(authors=request.user).filter(draft=True)
+        articles = Article.objects.filter(authors=request.user).filter(draft=True).order_by('-date')
 
         if request.method == "POST":
             form = DeleteForm(request.POST, request.FILES)
@@ -198,8 +200,10 @@ def give_copyeditor_permissions(user):
 def give_executiveeditor_permissions(user):
     p1 = Permission.objects.get(codename='publish_article')
     p2 = Permission.objects.get(codename='edit_categories')
+    p3 = Permission.objects.get(codename='assign_article')
     user.user_permissions.add(p1)
     user.user_permissions.add(p2)
+    user.user_permissions.add(p3)
     give_copyeditor_permissions(user)
 
 
@@ -292,6 +296,7 @@ def createarticle(request):
             article.date = datetime.now()
             article.draft = form.cleaned_data["draft"]
             article.editors = None
+            article.theme = form.cleaned_data["theme"]
             article.save()
 
             # redirects to previous visited paged, does not work if browser is in incognito mode
@@ -323,7 +328,8 @@ def editarticle(request, id=None):
                                 'category': article.category,
                                 'is_read': article.is_read,
                                 'draft': article.draft,
-                                'is_completed' : article.is_completed}
+                                'is_completed' : article.is_completed,
+                                'theme' : article.theme}
                        )
 
     # Adds the form for people to comment on stuff
@@ -372,6 +378,7 @@ def editarticle(request, id=None):
                 article.category = form.cleaned_data["category"]
                 article.draft = form.cleaned_data["draft"]
                 article.is_completed = form.cleaned_data["is_completed"]
+                article.theme = form.cleaned_data["theme"]
 
                 #Only editors can publish the article, not the author
                 if(request.user.has_perm("ScrummerTimes.publish_article")):
@@ -438,3 +445,26 @@ def deleteEditor(request, id=None):
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)
 
+
+def select_copyEditor(request, id=None):
+
+    if not request.user.has_perm("ScrummerTimes.publish_article"):
+        messages.info(request, "You have to be an executive editor")
+        return HttpResponseRedirect(reverse(proofreading_feed))
+
+    article = get_object_or_404(Article, pk=id)
+    form = FilterEditor()
+    if request.method == "POST":
+        form = FilterEditor(request.POST)
+        if form.is_valid():
+
+            article.editors = form.cleaned_data["copyeditor"]
+            article.save()
+            return HttpResponseRedirect(reverse(proofreading_feed))
+
+    context = {
+        'form': form,
+        'id': id
+    }
+
+    return render(request, 'ScrummerTimes/feedUnread.html', context)

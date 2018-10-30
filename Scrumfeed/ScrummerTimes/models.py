@@ -11,6 +11,18 @@ from comments.models import Comment
 
 
 class Article(models.Model):
+    THEMES = (
+        (1, 'Golden'),
+        (2, 'Darkness'),
+        (3, 'Fancy'),
+    )
+
+    theme = models.CharField(max_length=1, choices=THEMES, default=1)
+
+    def getthemename(self):
+        d = dict(self.THEMES)
+        return d.get(int(self.theme))
+
     title = models.CharField(max_length=200,  blank=True)
     header_image = models.ImageField(upload_to='header_image', default='header_image/NoImage.jpg', blank=True,
                                      null=True)
@@ -19,13 +31,16 @@ class Article(models.Model):
     second_text = models.TextField(blank=True)
     is_read = models.BooleanField(blank=False, default=False)
     # on_delete = models.CASCADE means that if the author is deleted, then the articles are also deleted
-    authors = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
     # on_delte=models.SET_NULL means if the category is deleted, the catagory is set to null
+    authors = models.ForeignKey(User, on_delete = models.CASCADE, null = True)
     category = models.ForeignKey('Category', null=True, blank=True, on_delete=models.SET_NULL)
     draft = models.BooleanField(blank=False, default=False)
     editors = models.ForeignKey(User, null=True, blank=True, related_name='editor', on_delete=models.DO_NOTHING)
     date = models.DateTimeField(auto_now_add=True)
     is_completed = models.BooleanField(blank=False, default=False)
+
+
+
 
     @property
     def comments(self):
@@ -54,6 +69,7 @@ class Article(models.Model):
             ("review_article", "can review an article, for editors"),
             ("publish_article", "can publish an article"),
             ("save_as_draft", "can save article as draft"),
+            ("assign_article", "can assign article to editor"),
         )
 
 
