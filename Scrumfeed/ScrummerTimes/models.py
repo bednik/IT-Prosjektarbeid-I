@@ -73,5 +73,27 @@ class Category(models.Model):
     def __str__(self):
         return self.name.__str__()
 
+class Person(models.Model):
+    editors = models.Manager()
+
+    def __str__(self):
+        return self.editors.__str__()
+
+class Editors(models.Model):
+
+    editor_users = models.CharField(max_length=50, choices=People.editors.all(), blank=False)
+
+    class Meta:
+        # Make it say "categories" instead of the default "categorys"
+        verbose_name_plural = "articles"
+        permissions = (
+            ("edit_articles", "can edit articles"),
+        )
+
+    def __str__(self):
+        return self.editor_users.__str__()
+
+
+
 
 
