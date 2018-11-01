@@ -8,22 +8,24 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.datetime_safe import datetime
 from django.urls import reverse
-from .models import Article, Category
-from .forms import ArticleForm, FilterForm, CreateCategoryForm, NewCommentForm
+from .models import Article, Category, Style
+from .forms import ArticleForm, FilterForm, CreateCategoryForm, NewCommentForm, StyleForm
 from comments.models import Comment
 
 
 def analytics(request):
+    styles = Style.objects.filter()
     data = [['100', 10], ['500', 9], ['80', 8]]
     context = {
         'data':data,
+        'styles': styles
     }
     return render(request, 'ScrummerTimes/analytics.html', context)
 
 
 def manage_site(request):
     form = CreateCategoryForm(initial={'name': ''})
-#
+    styles = Style.objects.filter()
     if request.method == "POST":
         form = CreateCategoryForm(request.POST)
         if form.is_valid():
@@ -61,14 +63,36 @@ def manage_site(request):
     context = {
         'form': form,
         'categories': all_categories,
+        'styles': styles
     }
 
     return render(request, 'ScrummerTimes/managesite.html', context)
 
 
+def styleChange(request):
+    form = StyleForm(initial={'name': ''})
+    styles = Style.objects.filter()
+    if request.method == "POST":
+        form = StyleForm(request.POST)
+
+        if form.is_valid():
+            styles.update(is_marked=False)
+            style_object = form.cleaned_data["style"]
+            style_object.is_marked = True
+            style_object.save()
+
+    context = {
+        'form': form,
+        'styles': styles
+    }
+
+    return render(request, 'ScrummerTimes/style.html', context)
+
+
 def feed(request):
     form = FilterForm()
     articles = Article.objects.filter(is_read=True).order_by('-date')[:10]
+    styles = Style.objects.filter()
     if request.method == "POST":
         form = FilterForm(request.POST)
 
@@ -79,7 +103,8 @@ def feed(request):
     context = {
         'title': 'The Scrummer Times',
         'articles': articles,
-        'form': form
+        'form': form,
+        'styles': styles
     }
 
     return render(request, 'ScrummerTimes/feed.html', context)
@@ -89,10 +114,12 @@ def feed(request):
 @permission_required('ScrummerTimes.review_article', login_url='/accounts/login/')
 def proofreading_feed(request):
     articles = Article.objects.filter(is_read=False).filter(draft=False).filter(is_completed=False).order_by('-date')[:10]
+    styles = Style.objects.filter()
 
     context = {
         'title': 'The Scrummer Times',
-        'articles': articles
+        'articles': articles,
+        'styles': styles
     }
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)
@@ -101,6 +128,7 @@ def proofreading_feed(request):
 def publishing_feed(request):
     form = FilterForm()
     articles = Article.objects.filter(is_completed=True).order_by('-date')[:10]
+    styles = Style.objects.filter()
     if request.method == "POST":
         form = FilterForm(request.POST)
 
@@ -110,13 +138,15 @@ def publishing_feed(request):
 
     context = {
         'title': 'The Scrummer Times',
-        'articles': articles
+        'articles': articles,
+        'styles': styles
     }
     return render(request, 'ScrummerTimes/feedUnpublished.html', context)
 
 # View for articles that are not supposed to be reviewed/published/edited by copy editors just yet
 def mydrafts(request):
     # Must be logged in
+    styles = Style.objects.filter()
     if request.user.is_authenticated:
         articles = Article.objects.filter(authors=request.user).filter(draft=True).order_by('-date')
 
@@ -129,7 +159,8 @@ def mydrafts(request):
 
         context = {
             'title': 'The Scrummer Times',
-            'articles': articles
+            'articles': articles,
+            'styles': styles
         }
 
         return render(request, 'ScrummerTimes/myDrafts.html', context)
@@ -138,12 +169,14 @@ def mydrafts(request):
 
 def myarticles(request):
     # Must be logged in
+    styles = Style.objects.filter()
     if request.user.is_authenticated:
         articles = Article.objects.filter(authors=request.user).filter(draft=False).order_by('-date') # Kun ferdige artikler dukker opp. Drafts legger seg i "My Drafts"
 
         context = {
             'title': 'The Scrummer Times',
-            'articles': articles
+            'articles': articles,
+            'styles': styles
         }
 
         return render(request, 'ScrummerTimes/myArticles.html',context)
@@ -152,7 +185,7 @@ def myarticles(request):
 
 def article(request, id):
     thisArticle = Article.objects.get(id=id)
-
+    styles = Style.objects.filter()
     # Adds the form for people to comment on stuff
     initial_data_comment = {
         "content_type": thisArticle.get_content_type,
@@ -175,7 +208,7 @@ def article(request, id):
     comments = Comment.objects.filter_by_instance(thisArticle)
 
     context = {
-        'article': thisArticle, 'comments': comments, 'comment_form': comment_form
+        'article': thisArticle, 'comments': comments, 'comment_form': comment_form, 'styles':styles
     }
     # Sends to the html file (index.html)
     return render(request, 'ScrummerTimes/article.html',
@@ -183,7 +216,7 @@ def article(request, id):
 
 
 def createarticle(request):
-
+    styles = Style.objects.filter()
     if not request.user.is_authenticated and not request.user.has_perm("ScrummerTimes.create_article"):
         return HttpResponseNotFound("You do not have permission for this page. You have to be an Author.")
     form = ArticleForm()
@@ -213,7 +246,8 @@ def createarticle(request):
             return HttpResponseRedirect(next)
 
     context = {
-        'form': form
+        'form': form,
+        'styles': styles
     }
 
     return render(request, 'ScrummerTimes/createarticle.html', context)
@@ -221,7 +255,7 @@ def createarticle(request):
 
 @login_required(login_url="/accounts/login/")
 def editarticle(request, id=None):
-
+    styles = Style.objects.filter()
     article = get_object_or_404(Article, pk=id)
     # User has to be either an editor or the author to edit this article
     if not request.user.has_perm("ScrummerTimes.review_article") and not request.user == article.authors:
@@ -310,14 +344,15 @@ def editarticle(request, id=None):
         'id': id,
         'article': article,
         'comments': comments,
-        'comment_form': comment_form
+        'comment_form': comment_form,
+        'styles': styles
     }
 
     return render(request, 'ScrummerTimes/editarticle.html', context)
 
 
 def assignEditor(request, id=None):
-
+    styles = Style.objects.filter()
     article = get_object_or_404(Article, pk=id)
 
     if request.method == "POST":
@@ -330,13 +365,14 @@ def assignEditor(request, id=None):
         'form': form,
         'id': id,
         'article': article,
+        'styles': styles
     }
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)
 
 
 def deleteEditor(request, id=None):
-
+    styles = Style.objects.filter()
     article = get_object_or_404(Article, pk=id)
 
     if request.method == "POST":
@@ -347,14 +383,15 @@ def deleteEditor(request, id=None):
 
     context = {
         'form': form,
-        'id': id
+        'id': id,
+        'styles': styles
     }
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)
 
 
 def assignEditor(request, id=None):
-
+    styles = Style.objects.filter()
     article = get_object_or_404(Article, pk=id)
 
     if request.method == "POST":
@@ -365,14 +402,15 @@ def assignEditor(request, id=None):
 
     context = {
         'form': form,
-        'id': id
+        'id': id,
+        'styles': styles
     }
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)
 
 
 def deleteEditor(request, id=None):
-
+    styles = Style.objects.filter()
     article = get_object_or_404(Article, pk=id)
 
     if request.method == "POST":
@@ -383,7 +421,8 @@ def deleteEditor(request, id=None):
 
     context = {
         'form': form,
-        'id': id
+        'id': id,
+        'styles': styles
     }
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)

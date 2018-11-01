@@ -1,0 +1,15 @@
+body {
+   background-image: linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);
+}
+
+#navbar{
+    background-color:white;
+}
+
+a{
+    color:black;
+}
+
+nav ul li a{
+  color: black;
+}

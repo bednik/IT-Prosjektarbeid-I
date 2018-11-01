@@ -1,0 +1,15 @@
+body {
+    background-color: black;
+}
+
+#navbar{
+    background-color:#2F4F4F;
+}
+
+a{
+    color:white;
+}
+
+nav ul li a{
+  color: white;
+}

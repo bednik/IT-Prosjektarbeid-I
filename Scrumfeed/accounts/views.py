@@ -8,9 +8,11 @@ from django.contrib.auth import update_session_auth_hash
 from .models import UserProfile
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.urls import reverse
+from ScrummerTimes.models import Style
 
 
 def signup_view(request):
+    styles = Style.objects.filter()
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -20,9 +22,10 @@ def signup_view(request):
             return redirect('/ScrummerTimes')
     else:
         form = UserCreationForm()
-    return render(request, 'accounts/signup.html',{'form': form})
+    return render(request, 'accounts/signup.html',{'form': form, 'styles':styles})
 
 def login_view(request):
+    styles = Style.objects.filter()
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
@@ -35,7 +38,7 @@ def login_view(request):
                 return redirect('/ScrummerTimes')
     else:
         form = AuthenticationForm()
-    return render(request, 'accounts/login.html', {'form':form})
+    return render(request, 'accounts/login.html', {'form':form, 'styles':styles})
 
 def logout_view(request):
     if request.method == 'POST':
@@ -43,11 +46,13 @@ def logout_view(request):
         return redirect('/ScrummerTimes')
 
 def profile(request):
-    args = {'user': request.user}
+    styles = Style.objects.filter()
+    args = {'user': request.user, 'styles':styles}
     return render(request, 'accounts/profile.html', args)
 
 
 def edit_userprofile(request, id=None):
+    styles = Style.objects.filter()
     Up = get_object_or_404(UserProfile, pk=id)
     form = EditUserProfile()
     if request.method == "POST":
@@ -65,12 +70,14 @@ def edit_userprofile(request, id=None):
     context = {
         'form': form,
         'id': id,
+        'styles': styles
     }
 
     return render(request, 'accounts/edit_profile_2.html', context)
 
 
 def edit_profile(request):
+    styles = Style.objects.filter()
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance=request.user)
 
@@ -80,12 +87,13 @@ def edit_profile(request):
 
     else:
         form = EditProfileForm(instance=request.user)
-        args = {'form': form}
+        args = {'form': form, 'styles':styles}
         return render(request, 'accounts/edit_profile.html', args)
 
 
 
 def change_password(request):
+    styles = Style.objects.filter()
     if request.method == 'POST':
         form = PasswordChangeForm(data=request.POST, user=request.user)
 
@@ -98,7 +106,7 @@ def change_password(request):
 
     else:
         form = PasswordChangeForm(user=request.user)
-        args = {'form': form}
+        args = {'form': form, 'styles':styles}
         return render(request, 'accounts/change_password.html', args)
 
 

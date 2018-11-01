@@ -1,0 +1,19 @@
+body {
+    background-image: url("/static/ScrummerTimes/photo-1480138129859-d1fc9d22a9f0.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    text: black;
+}
+
+#navbar{
+    background-color:black;
+}
+
+a{
+    color:white;
+}
+
+nav ul li a{
+  color: white;
+}

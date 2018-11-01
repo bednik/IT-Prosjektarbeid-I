@@ -68,3 +68,12 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name.__str__()
+
+class Style(models.Model):
+    style = models.CharField(max_length=50, null=False, blank=False)
+    stylesheet = models.CharField(max_length=300, null=False, blank=False)
+    is_marked = models.BooleanField(blank=False, default=False)
+
+    def __str__(self):
+        return self.style.__str__()
+
