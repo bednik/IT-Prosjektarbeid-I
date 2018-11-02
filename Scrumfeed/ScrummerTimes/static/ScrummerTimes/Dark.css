@@ -1,0 +1,15 @@
+body {
+    background-color: #303030;
+}
+
+#navbar{
+    background-color:#181818;
+}
+
+a{
+    color:white;
+}
+
+nav ul li a{
+  color: white;
+}

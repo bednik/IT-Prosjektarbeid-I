@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 from django.forms import forms, CharField, IntegerField, ImageField, ChoiceField
 from django.core.files.base import ContentFile
 from django.forms import forms, CharField, IntegerField, ImageField, URLField, TypedChoiceField, RadioSelect, BooleanField, Textarea, ModelChoiceField
-from ScrummerTimes.models import Article, Category
+from ScrummerTimes.models import Article, Category, Style
 
 from django.forms import *
 
@@ -47,6 +47,18 @@ class FilterForm(forms.Form):
     def clean(self):
         return self.cleaned_data
 
+
+class StyleForm(forms.Form):
+    # category = ChoiceField(choices=CATEGORIES)
+    style = ModelChoiceField(queryset=Style.objects.all())
+
+
+    class Meta:
+        model = Style
+
+    # Check if the things that is written in the form are valid
+    def clean(self):
+        return self.cleaned_data
 
 class CreateCategoryForm(forms.Form):
     category = ModelChoiceField(queryset=Category.objects.all(), required = False)

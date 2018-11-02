@@ -1,0 +1,19 @@
+body {
+    background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+
+}
+
+#navbar{
+    background-color:lightblue;
+}
+
+a{
+    color:white;
+}
+
+nav ul li a{
+  color: black;
+}

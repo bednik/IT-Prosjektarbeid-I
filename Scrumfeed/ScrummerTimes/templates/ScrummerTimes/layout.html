@@ -7,6 +7,27 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
      <link rel="stylesheet" href="{% static 'ScrummerTimes/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+
+    {% for style in styles %}
+        {% if style.is_marked %}
+            {% if style.style == "Dark" %}
+            <link rel="stylesheet" href="{% static 'ScrummerTimes/Dark.css' %}">
+            {% elif style.style == "Light" %}
+            <link rel="stylesheet" href="{% static 'ScrummerTimes/Light.css' %}">
+            {% elif style.style == "Colorful" %}
+            <link rel="stylesheet" href="{% static 'ScrummerTimes/Colorful.css' %}">
+            {% elif style.style == "Oreo" %}
+            <link rel="stylesheet" href="{% static 'ScrummerTimes/oreo.css' %}">
+            {% elif style.style == "Sky" %}
+            <link rel="stylesheet" href="{% static 'ScrummerTimes/sky.css' %}">
+            {% elif style.style == "Normal" %}
+            <link rel="stylesheet" href="{% static 'ScrummerTimes/style.css' %}">
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+
+
     <title>The Scrummer Times</title>
     <style>
         #dropdown-content {
@@ -23,7 +44,7 @@
     </style>
 </head>
 
-<body background="{% static 'ScrummerTimes/spiration-light.png' %}">
+<body>
     <header style="position:relative">
 
         <!--<h1>The Scrummer Times</h1>-->
@@ -115,8 +136,9 @@
                     {% endif %}
                      {% if user.is_authenticated %}
                     <li class="right" style="margin-right: 10px">
-                        {{request.user}}
+                        <a href="{% url 'accounts:profile' %}">{{request.user}}</a>
                     </li>
+
                     {% endif %}
                 </ul>
             </nav>
@@ -125,7 +147,7 @@
 
 
   <!-- Switch -->
-  <div class="switch">
+  <div class="switch" style="position:fixed">
     <label>
       Off
       <input type="checkbox" id="dracula" onclick="dracula()">
@@ -133,6 +155,9 @@
       On
     </label>
   </div>
+
+
+
         <!-- Testing some messages feedback stuff-->
 {% if messages %}
   <ul class="messages" style = "text-align: center;padding:auto;">

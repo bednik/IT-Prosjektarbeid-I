@@ -1,0 +1,42 @@
+
+
+{% extends 'ScrummerTimes/layout.html' %}
+{% load static %}
+{% block content %}
+
+
+<ul>
+    {% if user.is_authenticated %}
+
+
+                <form action={% url 'stylesite' %}  method="post">
+                {% csrf_token %}
+                <!--{{ form }}-->
+
+                {{ form.as_p }}
+
+                <br>
+                <input type="submit" name="edit_category" value="Submit"/>
+
+
+
+                </form>
+
+    {% endif %}
+
+
+
+</ul>
+
+
+
+
+<!--<a href="/ScrummerTimes/createArticle"> Create Article</a>>-->
+
+
+
+
+{% endblock %}
+<!--<imrg src="{{image.url}} alt="">-->
+
+
