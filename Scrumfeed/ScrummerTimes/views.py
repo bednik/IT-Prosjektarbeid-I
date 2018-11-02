@@ -68,7 +68,7 @@ def manage_site(request):
 
     return render(request, 'ScrummerTimes/managesite.html', context)
 
-
+@permission_required('ScrummerTimes.set_style', login_url='/accounts/login/')
 def styleChange(request):
     form = StyleForm(initial={'name': ''})
     styles = Style.objects.filter()

@@ -13,7 +13,7 @@
                 {% csrf_token %}
                 <!--{{ form }}-->
 
-                {{ form }}
+                {{ form.as_p }}
 
                 <br>
                 <input type="submit" name="edit_category" value="Submit"/>
