@@ -1,10 +1,14 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404, render_to_response
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
-from accounts.forms import EditProfileForm
+from accounts.forms import EditProfileForm, EditUserProfile
 from django.contrib.auth import update_session_auth_hash
+from .models import UserProfile
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
+from django.urls import reverse
+
 
 def signup_view(request):
     if request.method == 'POST':
@@ -42,18 +46,44 @@ def profile(request):
     args = {'user': request.user}
     return render(request, 'accounts/profile.html', args)
 
+
+def edit_userprofile(request, id=None):
+    Up = get_object_or_404(UserProfile, pk=id)
+    form = EditUserProfile()
+    if request.method == "POST":
+        form = EditUserProfile(request.POST, request.FILES)
+
+        if form.is_valid():
+            Up.description = form.cleaned_data["description"]
+            Up.phone = form.cleaned_data["phone"]
+            Up.image = form.cleaned_data["image"]
+
+            Up.save()
+
+            return redirect('/accounts/profile')
+
+    context = {
+        'form': form,
+        'id': id,
+    }
+
+    return render(request, 'accounts/edit_profile_2.html', context)
+
+
 def edit_profile(request):
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance=request.user)
 
         if form.is_valid():
             form.save()
-            return redirect('/accounts/profile')
+            return HttpResponseRedirect(reverse('accounts:edit_userprofile',kwargs={"id":request.user.userprofile.id}))
 
     else:
         form = EditProfileForm(instance=request.user)
         args = {'form': form}
         return render(request, 'accounts/edit_profile.html', args)
+
+
 
 def change_password(request):
     if request.method == 'POST':
