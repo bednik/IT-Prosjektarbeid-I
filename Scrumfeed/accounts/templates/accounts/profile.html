@@ -1,0 +1,48 @@
+{% extends 'ScrummerTimes/layout.html' %}
+{%load static%}
+{% block content %}
+
+<h1>Profile</h1>
+
+
+
+<div class="row">
+    <div class="col s12 m7">
+      <div class="card">
+        <div class="card-image">
+          {% if user.userprofile.image %}
+          <img src="{{ user.userprofile.image.url }}">
+          {% endif %}
+          <span class="card-title">Username: {{ user }}</span>
+        </div>
+        <div class="card-content">
+          <p>First name: {{ user.first_name }}</p>
+          <p>Last name: {{ user.last_name }}</p>
+          <p>Email: {{ user.email }}</p>
+          <p>Description: {{ user.userprofile.description }}</p>
+          <p>Phone: {{ user.userprofile.phone }}</p>
+        </div>
+        <div class="card-action">
+          <a href="{% url 'accounts:edit_profile' %}">Edit profile</a>
+          <a href="{% url 'accounts:change_password' %}">Change password</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+<!--<div class="container">
+    <form action="{% url 'accounts:edit_profile' %}">
+        <button class="waves-effect waves-light btn-small pulse" type="submit">Edit profile</button>
+    </form>
+    <form method="get" action="{% url 'accounts:change_password' %}">
+        <button class="waves-effect waves-light btn-small" type="submit">Change password</button>
+    </form>
+
+</div>-->
+
+
+{% endblock %}

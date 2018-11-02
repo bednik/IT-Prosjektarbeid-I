@@ -91,11 +91,10 @@ def feed(request):
 @permission_required('ScrummerTimes.review_article', login_url='/accounts/login/')
 def proofreading_feed(request):
     articles = Article.objects.filter(is_read=False).filter(draft=False).filter(is_completed=False).order_by('-date')[:10]
-    form = FilterEditor()
+
     context = {
         'title': 'The Scrummer Times',
-        'articles': articles,
-        'form' : form
+        'articles': articles
     }
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)
