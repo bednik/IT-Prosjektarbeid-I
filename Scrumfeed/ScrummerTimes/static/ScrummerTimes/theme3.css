@@ -1,0 +1,75 @@
+/* CUTE THEME */
+header{
+    width:100%;
+}
+
+#EditLink:hover {
+    text-decoration: underline;
+}
+
+.articleText{
+    font-style: italic;
+    /*
+    border: outset;
+    color: white;*/
+}
+
+textarea{
+    height:auto !important;
+    background-color: #ffffff !important;
+}
+
+#id_title{
+    background-color: #ffffff !important;
+}
+p{
+    text-align:left !important;
+    font-weight: 200 !important;
+    /*
+    border: outset;
+    color: white;*/
+}
+
+.theme-first-text{
+    color: black !important;
+}
+
+.theme-second-text{
+    color: black !important;
+}
+.theme-date{
+    display: block !important;
+}
+.theme-category{
+    display: block !important;
+}
+.theme-info{
+
+    margin: 0 auto !important;
+    width: auto !important;
+    display: inline-flex !important;
+    padding: 10px 10px !important;
+
+    border-style: dashed !important;
+    border-width: 1px !important;
+    border-color:black;
+}
+
+.theme-card{
+    background-color: white !important;
+    border-style: dashed !important;
+    border-width: 1px !important;
+    border-color:black;
+    font-family: Arial Black,Arial Bold,Gadget,sans-serif !important;
+}
+
+.theme-comment2{
+    background-color: black !important;
+    color: white !important;
+}
+
+body{
+    background-image: url("cute.jpg");
+    background-size: 300px 300px;
+
+}

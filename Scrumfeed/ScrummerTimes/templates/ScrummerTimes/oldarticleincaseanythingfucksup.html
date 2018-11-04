@@ -1,0 +1,74 @@
+{% extends 'ScrummerTimes/layout.html' %}
+{%load static%}
+
+{% block css %}
+    {% if article.theme == '1' %}
+        <link rel="stylesheet" href="{% static 'ScrummerTimes/theme1.css' %}">
+    {% elif article.theme == '2' %}
+        <link rel="stylesheet" href="{% static 'ScrummerTimes/theme2.css' %}">
+    {% else %}
+        <link rel="stylesheet" href="{% static 'ScrummerTimes/theme1.css' %}">
+    {% endif %}
+
+{% endblock %}
+
+
+{% block content %}
+
+{{article.date}}<br>
+
+<img src="{{article.header_image.url}}" width="600">
+
+
+<h2>{{article.title}}</h2>
+
+
+<div class="categoryBox">
+    <h5>Created by user: {{article.authors.username}} on {{ article.date }}<br> Category: {{article.category}} </h5>
+
+</div>
+
+<p class="articleText">
+    {{article.first_text|linebreaks}}
+</p>
+
+<img src="{{article.in_line_image.url}}" width="600">
+
+<p class="articleText">
+    {{article.second_text|linebreaks}}
+</p>
+
+<button onclick="goBack()">Go Back</button>
+
+
+<h4> Comments </h4>
+<br>
+<div>
+    {% if user.is_authenticated %}
+        <span>Add a comment: </span>
+        <form method="post" action=".">
+            {% csrf_token %}
+            {{ comment_form }}
+            <input type="submit" value="Post comment" name="post_comment">
+        </form>
+    {% else %}
+        <span>Please register or log in to leave a comment</span>
+    {% endif %}
+
+        {% for comment in comments %}
+            <div>
+                <small><p> From {{comment.user }} At {{ comment.timestamp }}</p></small>
+                {{ comment.content }}
+            </div>
+            <hr>
+            <br>
+        {% endfor %}
+</div>
+
+
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>
+{% endblock %}

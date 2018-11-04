@@ -1,0 +1,61 @@
+
+
+{% extends 'ScrummerTimes/layout.html' %}
+{% load static %}
+{% block content %}
+
+
+<ul>
+
+    {% if request.user.is_superuser %}
+     {% for role in roles%}
+
+
+            <div class="row">
+                <div class="col s12 m6">
+                  <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">User <strong>{{role.user.username}}</strong> wants to become <strong>{{role.getrolename}}</strong></span>
+                      <p>{{role.reason}}</p>
+                    </div>
+                    <div class="card-action">
+                        <form action={% url 'assignroles' role.id %}  method="post" enctype="multipart/form-data" >
+                        {% csrf_token %}
+
+                        <input type="submit" name="allow_request"  value="Allow" style ="color:forestgreen"/>
+                        <input type="submit" name="deny_request"  value="Deny" style="color:red"/>
+                      <!--<a href="#">This is a link</a>
+                      <a href="#">This is a link</a>-->
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+
+    {% endfor %}
+    {% else %}
+
+
+    <form action={% url 'requestrole' %}  method="post" enctype="multipart/form-data" >
+        {% csrf_token %}
+
+        <div>
+            <h3>Request the role you want</h3>
+            <br>
+        </div>
+
+        <p style="font-size:20px;" class="left-align">Pick a role:</p>
+            {{ form.role}}
+
+        <p style="font-size:20px;" class="left-align">Why should you have this role?</p>
+        {{ form.reason}}
+
+        <input type="submit" name="create_request"  value="Submit"/>
+{% endif %}
+
+</ul>
+
+<!--<a href="/ScrummerTimes/createArticle"> Create Article</a>>-->
+
+{% endblock %}
+<!--<imrg src="{{image.url}} alt="">-->
