@@ -510,7 +510,7 @@ def newContent(request, id=None):
     thisUser = UserProfile.objects.get(user=request.user)
 
     subscribedAuthors = thisUser.subscription_authors.all()  # request.user.subscriptions.authors  # TODO: Må samkjøres med story 15
-    subscribedCategories = Category.objects.all()  # request.user.subscriptions.categories # TODO: Må samkjøres med story 15
+    subscribedCategories = thisUser.subscription_categories.all()  # request.user.subscriptions.categories # TODO: Må samkjøres med story 15
 
     if request.user.is_authenticated:
 
@@ -543,6 +543,26 @@ def subscribe_to_author(request, id=None):
 
 
         messages.info(request, "You have subscribed to the author :  " + article2.authors.username)
+        return HttpResponseRedirect(reverse(article, kwargs={'id':id}))
+
+    context = {
+        'form': form,
+        'id': id,
+        'styles': styles
+    }
+    return HttpResponseRedirect(reverse(article, kwargs={'id': id}))
+
+def subscribe_to_category(request, id=None):
+    styles = Style.objects.filter()
+    category = get_object_or_404(Category, pk=id)
+
+
+    if request.method == "POST":
+        thisUser = UserProfile.objects.get(user=request.user)
+        thisUser.subscription_categories.add(category)
+
+
+        messages.info(request, "You have subscribed to the category :  " + category.name)
         return HttpResponseRedirect(reverse(article, kwargs={'id':id}))
 
     context = {

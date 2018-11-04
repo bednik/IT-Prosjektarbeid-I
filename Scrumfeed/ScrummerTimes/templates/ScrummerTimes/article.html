@@ -46,8 +46,7 @@
           <div class="card-tabs">
           <ul class="tabs tabs-fixed-width">
             <li class="tab" style = "width:33.333%"><a class="active" href="#test4">Post a comment</a></li>
-            <li class="tab" style = "width:33.333%"><a href="#test5">Subsribe to {{article.authors.username}}</a></li>
-            <li class="tab" style = "width:33.333%"><a href="#test6">Share</a></li>
+            <li class="tab" style = "width:33.333%"><a href="#test5">Subscribe!</a></li>
           </ul>
         </div>
         <div class="card-content grey lighten-4">
@@ -84,10 +83,14 @@
               <form action={% url 'subscribe_to_author' article.id %}  method="post">
                 {% csrf_token %}
 
-              <input type="submit" value="Subscribe!" name="subscribe"/>
+              <input type="submit" value="Subscribe to Author!" name="subscribe"/>
+              </form>
+              <form action={% url 'subscribe_to_category' article.category.id %}  method="post">
+                {% csrf_token %}
+
+              <input type="submit" value="Subscribe to Category!" name="subscribe"/>
               </form>
           </div>
-          <div id="test6">Test 3</div>
         </div>
 
       </div>

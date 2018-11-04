@@ -13,6 +13,8 @@ urlpatterns = [
   url('stylesite/', views.styleChange, name='stylesite'),
   url('analytics/', views.analytics, name='analytics'),
 
+  url(r'^category/(?P<id>\d+)/$', views.subscribe_to_category, name='subscribe_to_category'),
+
   # (?P) = paramaters <id> = parameter, \d+ d = digit, + = one or more digits, \$ = end
   url(r'^article/(?P<id>\d+)/$', views.article, name='article'),
   url(r'^article/(?P<id>\d+)/subscribe/$', views.subscribe_to_author, name='subscribe_to_author'),
