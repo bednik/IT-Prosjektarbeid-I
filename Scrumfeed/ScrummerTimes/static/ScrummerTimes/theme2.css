@@ -73,7 +73,10 @@ p{
 }
 
 body{
-    background-image: url("news.jpg");
-    background-size: 300px 300px;
+    background-image: url("news.jpg") !important;
+    background-size: 300px 300px !important;
+    background-size: 600px 600px !important;
+    background-repeat: repeat !important;
+    background-attachment: scroll !important;
 
 }

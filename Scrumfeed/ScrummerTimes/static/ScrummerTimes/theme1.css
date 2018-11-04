@@ -66,7 +66,9 @@ p{
 }
 
 body{
-    background-image: url("gold.jpg");
-    background-size: 600px 600px;
+    background-image: url("gold.jpg") !important;
+    background-size: 600px 600px !important;
+    background-repeat: repeat !important;
+    background-attachment: scroll !important;
 
 }

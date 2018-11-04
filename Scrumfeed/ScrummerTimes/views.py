@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.datetime_safe import datetime
 from django.urls import reverse
 from .models import Article, Category, Role, Style
-from .forms import ArticleForm, FilterForm, CreateCategoryForm, NewCommentForm, RequestRole, DeleteForm, FilterEditor
+from .forms import ArticleForm, FilterForm, CreateCategoryForm, NewCommentForm, RequestRole, DeleteForm, FilterEditor, StyleForm
 from comments.models import Comment
 from django.contrib.auth.models import Permission, User
 
@@ -240,7 +240,7 @@ def give_executiveeditor_permissions(user):
 
 
 def requestrole(request):
-
+    styles = Style.objects.filter()
     if not request.user.is_authenticated:
         messages.info(request, "You have to be a registered user")
         return HttpResponseRedirect(reverse(requestrole))
@@ -261,14 +261,15 @@ def requestrole(request):
         roles = Role.objects.all()
     context = {
         'form': form,
-        'roles': roles
+        'roles': roles,
+        'styles': styles
     }
 
     return render(request, 'ScrummerTimes/requestRole.html', context)
 
 
 def assignroles(request, id=None):
-
+    styles = Style.objects.filter()
     if not request.user.is_authenticated and not request.user.is_superuser:
         messages.info(request, "You have to be admin")
         return HttpResponseRedirect(reverse(requestrole))
@@ -299,6 +300,7 @@ def assignroles(request, id=None):
 
     context = {
         'form': form,
+        'styles': styles
     }
 
     return render(request, 'ScrummerTimes/requestRole.html', context)
