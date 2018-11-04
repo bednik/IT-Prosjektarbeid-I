@@ -92,7 +92,7 @@
                 {% endif %}
                 {% if perms.ScrummerTimes.edit_categories%}
                 <li>
-                    <a href="{% url 'managesite' %}?next={{ request.path|urlencode }}">Manage Site</a>
+                    <a href="{% url 'managesite' %}?next={{ request.path|urlencode }}">Categories</a>
                 </li>
                 <li>
                     <a href="{% url 'analytics' %}?next={{ request.path|urlencode }}">Analytics</a>
@@ -100,16 +100,19 @@
                 {% endif %}
             </ul>
             <!-- Navbar proper -->
-            <nav id="navbar">
+            <nav id="navbar" style ="height:50px; line-height:50px;">
                 <ul>
                     <li class="brand-logo right" >
                         {% load static %}
-                        <img src="{% static 'ScrummerTimes/LogoMakr_2o6PKh.png' %}" style="width:250px;margin-top: 10px;">
+                        <img src="{% static 'ScrummerTimes/LogoMakr_2o6PKh.png' %}" style="width:250px;margin-top: 0px;">
                     </li>
                     <li>
                         <a href="/ScrummerTimes/feed">Home</a>
                     </li>
                     {% if user.is_authenticated %}
+                        <li>
+                            <a href="{% url 'newContent' %}?next={{ request.path|urlencode }}">Subscriptions</a>
+                        </li>
                         {% if request.user.is_superuser %}
                             <li>
                                 <a class="dropdown-trigger" href="#!" data-target="adminThings" >Admin panel</a>
@@ -181,7 +184,7 @@
 {% if request.path == '/ScrummerTimes/feed/' %}
 
      <div id="categories">
-        <form id="category-filter" method="post">
+        <form id="category-filter" name="category" method="post">
             {% csrf_token %}
             {{form.category}} <br>
 

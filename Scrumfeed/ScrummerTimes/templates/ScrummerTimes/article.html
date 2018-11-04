@@ -28,12 +28,14 @@
         <div class="card-image">
           <img src="{{article.header_image.url}}">
             <span class="card-title"><strong>{{article.title}}</strong></span>
-          <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">Sub</i></a>
+          <a href="/ScrummerTimes/article/{{article.id}}/subscribe/"class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">+</i></a>
         </div>
         <div class="card-content theme-content">
             <div class = "theme-info">
             <i class="theme-date">{{article.date}} created by user <strong> {{article.authors.username}}  </strong>  </i> <br>
-                <i class="theme-category">Category: {{article.category}}</i>
+
+                <i class="theme-category">Category: {{article.category}} <a href="/ScrummerTimes/category/{{article.id}}/">(subscribe)</a></i>
+
                 </div>
             <br><br>
           <div class="theme-first-text"><p >{{article.first_text|linebreaks}}</p>
@@ -48,7 +50,7 @@
           <div class="card-tabs">
           <ul class="tabs tabs-fixed-width">
             <li class="tab" style = "width:33.333%"><a class="active" href="#test4">Post a comment</a></li>
-            <li class="tab" style = "width:33.333%"><a href="#test5">Subscribe!</a></li>
+            <!--<li class="tab" style = "width:33.333%"><a href="#test5">Subscribe!</a></li>-->
           </ul>
         </div>
         <div class="card-content grey lighten-4">
@@ -81,6 +83,7 @@
 
 
           </div>
+            <!--
           <div id="test5">
               <form action={% url 'subscribe_to_author' article.id %}  method="post">
                 {% csrf_token %}
@@ -92,7 +95,7 @@
 
               <input type="submit" value="Subscribe to Category!" name="subscribe"/>
               </form>
-          </div>
+          </div>-->
         </div>
 
       </div>

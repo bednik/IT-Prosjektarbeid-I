@@ -543,37 +543,27 @@ def subscribe_to_author(request, id=None):
     article2 = get_object_or_404(Article, pk=id)
 
 
-    if request.method == "POST":
-        thisUser = UserProfile.objects.get(user=request.user)
-        thisUser.subscription_authors.add(article2.authors)
+    thisUser = UserProfile.objects.get(user=request.user)
+    thisUser.subscription_authors.add(article2.authors)
 
 
-        messages.info(request, "You have subscribed to the author :  " + article2.authors.username)
-        return HttpResponseRedirect(reverse(article, kwargs={'id':id}))
+    messages.info(request, "You have subscribed to the author :  " + article2.authors.username)
+    return HttpResponseRedirect(reverse(article, kwargs={'id':id}))
 
-    context = {
-        'form': form,
-        'id': id,
-        'styles': styles
-    }
-    return HttpResponseRedirect(reverse(article, kwargs={'id': id}))
+ #   context = {
+ #       'form': form,
+ #       'id': id,
+#        'styles': styles
+#    }
+#    return HttpResponseRedirect(reverse(article, kwargs={'id': id}))
 
 def subscribe_to_category(request, id=None):
     styles = Style.objects.filter()
-    category = get_object_or_404(Category, pk=id)
+    article2 = get_object_or_404(Article, pk=id)
+    category = article2.category
 
+    thisUser = UserProfile.objects.get(user=request.user)
+    thisUser.subscription_categories.add(category)
 
-    if request.method == "POST":
-        thisUser = UserProfile.objects.get(user=request.user)
-        thisUser.subscription_categories.add(category)
-
-
-        messages.info(request, "You have subscribed to the category :  " + category.name)
-        return HttpResponseRedirect(reverse(article, kwargs={'id':id}))
-
-    context = {
-        'form': form,
-        'id': id,
-        'styles': styles
-    }
-    return HttpResponseRedirect(reverse(article, kwargs={'id': id}))
+    messages.info(request, "You have subscribed to the category :  " + category.name)
+    return HttpResponseRedirect(reverse(article, kwargs={'id':id}))

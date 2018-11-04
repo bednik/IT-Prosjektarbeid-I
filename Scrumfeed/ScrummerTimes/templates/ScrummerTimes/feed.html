@@ -10,15 +10,26 @@
       <div class="card hoverable">
         <div class="card-image">
             {% if article.header_image %}
-                <img src="{{article.header_image.url}}">
+                <a href="/ScrummerTimes/article/{{article.id}}">
+                    <img src="{{article.header_image.url}}">
+                </a>
             {% endif %}
+            <span id="articletitle" class="card-title" >
+                <strong>{{article.title}}</strong>
+                <br>
+                <div>
+                    <div class="card_date">{{ article.date }}</div>
+                    <div class="card_author">{{ article.authors.username }}</div>
+                    <div class="card_category">{{ article.category }}</div>
+                </div>
+            </span>
           <!--<span class="card-title"><li><a style="color:black" href="/ScrummerTimes/article/{{article.id}}"> {{article.title}}</a></span>-->
         </div>
-        <div class="card-content">
+        <!--<div class="card-content">
             <p><b>Date: </b>{{ article.date }} <b>Created by:</b> {{ article.authors.username }} <b>Category:</b> {{ article.category }}</p>
-        </div>
+
+        </div>-->
         <div class="card-action">
-            <a href="/ScrummerTimes/article/{{article.id}}"> {{article.title}}</a>
             {% if user.is_authenticated %}
                 {% if perms.ScrummerTimes.change_article %}
                     <a href="{% url 'editarticle' article.id %}?next={{ request.path|urlencode }}">edit</a>

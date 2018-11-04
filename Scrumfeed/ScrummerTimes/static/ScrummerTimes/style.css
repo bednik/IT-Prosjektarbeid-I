@@ -44,6 +44,41 @@ p{
     margin-top:15px !important;
 }
 .dropdown-content{
-    top:64px !important;
+    top:50px !important;
     width:auto!important;
+}
+
+#articletitle{
+    color:black !important;
+    background-color:white !important;
+    padding:0px 0px 5px 5px!important;
+    line-height: 1 !important;
+    border-radius: 0px 12px 0px 0px !important;
+    display:inline-block;
+}
+.card-title strong{
+    margin:8px !important;
+    /*width:100%;*/
+}
+.card-title div{
+    display:flex;
+  justify-content: center;
+  align-items: center;
+    font-size:12px;
+    /*
+
+    width:100%;
+    display:inline-flex;*/
+}
+.card_date{
+    display:table-cell;
+    width:33.33%;
+}
+.card_author{
+    display:table-cell;
+    width:33.33%;
+}
+.card_category{
+    display:table-cell;
+    width:33.33%;
 }

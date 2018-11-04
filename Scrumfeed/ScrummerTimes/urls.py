@@ -9,7 +9,7 @@ urlpatterns = [
   url('requestRole/', views.requestrole, name='requestrole'),
   url(r'^assignRoles/(?P<id>\d+)/$', views.assignroles, name='assignroles'),
   url('myarticles/', views.myarticles, name='myarticles'),
-  url('managesite/', views.manage_site, name='managesite'),
+  url('categories/', views.manage_site, name='managesite'),
   url('stylesite/', views.styleChange, name='stylesite'),
   url('analytics/', views.analytics, name='analytics'),
 
@@ -25,6 +25,6 @@ urlpatterns = [
   url(r'^feedUnread/assignEditor/(?P<id>\d+)/$', views.assignEditor, name='assignEditor'),
   url(r'^feedUnread/deleteEditor/(?P<id>\d+)/$', views.deleteEditor, name='deleteEditor'),
   url(r'^feedUnread/select_copyEditor/(?P<id>\d+)/$', views.select_copyEditor, name='select_copyeditor'),
-  url('newContent/', views.newContent, name='newContent'),
+  url('subscriptions/', views.newContent, name='newContent'),
 
 ]

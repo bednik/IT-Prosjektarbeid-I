@@ -46,8 +46,8 @@ p{
 .theme-info{
     background-color: #D0AF4F !important;
     margin: 0 auto !important;
-    width: auto !important;
-    display: inline-flex !important;
+    width: 50% !important;
+    display: block !important;
     padding: 10px 10px !important;
 }
 
@@ -81,6 +81,6 @@ body{
 }
 
 .dropdown-content{
-    top:64px !important;
+    top:50px !important;
     width:auto!important;
 }
