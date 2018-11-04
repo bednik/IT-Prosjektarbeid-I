@@ -25,6 +25,7 @@
         <div class="card-action">
           <a href="{% url 'accounts:edit_profile' %}">Edit profile</a>
           <a href="{% url 'accounts:change_password' %}">Change password</a>
+          <a href="{% url 'requestrole' %}?next={{ request.path|urlencode }}">Request Role</a>
         </div>
       </div>
     </div>

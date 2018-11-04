@@ -29,11 +29,20 @@ p{
 }
 
 #categories{
-    display:flex;
-    justify-content: center;
-    margin-top:15px;
+    display:flex !important;
+    justify-content: center !important;
+    margin-top:15px !important;
 }
-
+.assignEditor{
+    display:flex !important;
+    justify-content: center !important;
+    margin-top:15px !important;
+}
+.select_style{
+    display:flex !important;
+    justify-content: center !important;
+    margin-top:15px !important;
+}
 .dropdown-content{
     top:64px !important;
     width:auto!important;

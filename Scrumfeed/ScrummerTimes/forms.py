@@ -66,7 +66,7 @@ class FilterForm(forms.Form):
 
 class StyleForm(forms.Form):
     # category = ChoiceField(choices=CATEGORIES)
-    style = ModelChoiceField(queryset=Style.objects.all())
+    style = ModelChoiceField(queryset=Style.objects.all(), widget=Select(attrs={'onchange': 'form.submit();'}))
 
 
     class Meta:
@@ -75,6 +75,9 @@ class StyleForm(forms.Form):
     # Check if the things that is written in the form are valid
     def clean(self):
         return self.cleaned_data
+    def __init__(self, *args, **kwargs):
+        super(StyleForm, self).__init__(*args, **kwargs)
+        self.fields['style'].empty_label = "Select Style"
 
 class CreateCategoryForm(forms.Form):
     category = ModelChoiceField(queryset=Category.objects.all(), required = False)
@@ -117,13 +120,15 @@ class NewCommentForm(forms.Form):
 
 
 class FilterEditor(forms.Form):
-    copyeditor = ModelChoiceField(queryset=User.objects.all())
+    copyeditor = ModelChoiceField(queryset=User.objects.all(), widget=Select(attrs={'onchange': 'form.submit();'}))
 
     def __init__(self, *args, **kwargs):
         super(FilterEditor, self).__init__(*args, **kwargs)
         perm = Permission.objects.get(codename='review_article')
         perm2 = Permission.objects.get(codename='publish_article')
         self.fields['copyeditor'].queryset = User.objects.filter(Q(user_permissions=perm)).filter(~Q(user_permissions=perm2)).distinct()
+        self.fields['copyeditor'].empty_label = "Select Editor"
     # Check if the things that is written in the form are valid
     def clean(self):
         return self.cleaned_data
+

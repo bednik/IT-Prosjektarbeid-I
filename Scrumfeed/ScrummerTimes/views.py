@@ -117,11 +117,13 @@ def feed(request):
 def proofreading_feed(request):
     articles = Article.objects.filter(is_read=False).filter(draft=False).filter(is_completed=False).order_by('-date')[:10]
     styles = Style.objects.filter()
+    form = FilterEditor()
 
     context = {
         'title': 'The Scrummer Times',
         'articles': articles,
-        'styles': styles
+        'styles': styles,
+        'form': form
     }
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)

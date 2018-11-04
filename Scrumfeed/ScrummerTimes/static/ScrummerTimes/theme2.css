@@ -80,3 +80,15 @@ body{
     background-attachment: scroll !important;
 
 }
+
+
+#categories{
+    display:flex !important;
+    justify-content: center !important;
+    margin-top:15px !important;
+}
+
+.dropdown-content{
+    top:64px !important;
+    width:auto!important;
+}

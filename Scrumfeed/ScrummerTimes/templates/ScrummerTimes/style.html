@@ -9,14 +9,12 @@
     {% if user.is_authenticated %}
 
 
-                <form action={% url 'stylesite' %}  method="post">
+                <form class="select_style" action={% url 'stylesite' %}  method="post">
                 {% csrf_token %}
                 <!--{{ form }}-->
 
                 {{ form.as_p }}
 
-                <br>
-                <input type="submit" name="edit_category" value="Submit"/>
 
 
 
