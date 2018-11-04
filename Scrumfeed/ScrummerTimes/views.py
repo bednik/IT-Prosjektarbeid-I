@@ -8,9 +8,10 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.datetime_safe import datetime
 from django.urls import reverse
-from .models import Article, Category, Style
-from .forms import ArticleForm, FilterForm, CreateCategoryForm, NewCommentForm, StyleForm
+from .models import Article, Category, Style, Role
+from .forms import ArticleForm, FilterForm, CreateCategoryForm, NewCommentForm, StyleForm, RequestRole, DeleteForm, FilterEditor
 from comments.models import Comment
+from django.contrib.auth.models import Permission, User
 
 
 def analytics(request):
@@ -44,6 +45,7 @@ def manage_site(request):
                     messages.info(request, "Successfully changed the name of the category  " + category_object.name + "  to  " + form.cleaned_data["name"])
                     category_object.name = form.cleaned_data["name"]
                     category_object.save()
+
             # if deleting
             if 'delete_category' in request.POST :
                 if category_object:
@@ -215,6 +217,93 @@ def article(request, id):
                   context)
 
 
+def give_author_permissions(user):
+    p1 = Permission.objects.get(codename='create_article')
+    p2 = Permission.objects.get(codename='save_as_draft')
+    user.user_permissions.add(p1)
+    user.user_permissions.add(p2)
+
+
+def give_copyeditor_permissions(user):
+    p1 = Permission.objects.get(codename='review_article')
+    user.user_permissions.add(p1)
+
+
+def give_executiveeditor_permissions(user):
+    p1 = Permission.objects.get(codename='publish_article')
+    p2 = Permission.objects.get(codename='edit_categories')
+    p3 = Permission.objects.get(codename='assign_article')
+    user.user_permissions.add(p1)
+    user.user_permissions.add(p2)
+    user.user_permissions.add(p3)
+    give_copyeditor_permissions(user)
+
+
+def requestrole(request):
+
+    if not request.user.is_authenticated:
+        messages.info(request, "You have to be a registered user")
+        return HttpResponseRedirect(reverse(requestrole))
+    form = RequestRole()
+    if request.method == "POST":
+        form = RequestRole(request.POST)
+        if form.is_valid():
+            if 'create_request' in request.POST:
+                role = Role(reason=form.cleaned_data["reason"],
+                            role=form.cleaned_data["role"])
+                role.user = request.user
+                role.save()
+                messages.info(request, "Successfully created a role request")
+            return HttpResponseRedirect(reverse(requestrole))
+
+    roles = None
+    if request.user.is_superuser:
+        roles = Role.objects.all()
+    context = {
+        'form': form,
+        'roles': roles
+    }
+
+    return render(request, 'ScrummerTimes/requestRole.html', context)
+
+
+def assignroles(request, id=None):
+
+    if not request.user.is_authenticated and not request.user.is_superuser:
+        messages.info(request, "You have to be admin")
+        return HttpResponseRedirect(reverse(requestrole))
+    if request.method == "POST":
+        if 'allow_request' in request.POST:
+            roleRequest = get_object_or_404(Role, pk=id)
+            user = User.objects.get(pk=roleRequest.user.id)
+            if roleRequest.role == "1":
+                give_author_permissions(user)
+            elif roleRequest.role == "2":
+                give_copyeditor_permissions(user)
+            elif roleRequest.role == "3":
+                give_executiveeditor_permissions(user)
+
+            messages.info(request, "Successfully accepted request from " + user.username + " to become " + roleRequest.getrolename())
+            roleRequest.delete()
+
+
+        elif 'deny_request' in request.POST:
+            roleRequest = get_object_or_404(Role, pk=id)
+            roleRequest.delete()
+            messages.info(request, "Successfully denied request")
+
+        # redirects to previous visited paged, does not work if browser is in incognito mode
+        # next = request.POST.get('next', '/')
+        return HttpResponseRedirect(reverse(requestrole))
+
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'ScrummerTimes/requestRole.html', context)
+
+
 def createarticle(request):
     styles = Style.objects.filter()
     if not request.user.is_authenticated and not request.user.has_perm("ScrummerTimes.create_article"):
@@ -239,6 +328,7 @@ def createarticle(request):
             article.date = datetime.now()
             article.draft = form.cleaned_data["draft"]
             article.editors = None
+            article.theme = form.cleaned_data["theme"]
             article.save()
 
             # redirects to previous visited paged, does not work if browser is in incognito mode
@@ -271,7 +361,8 @@ def editarticle(request, id=None):
                                 'category': article.category,
                                 'is_read': article.is_read,
                                 'draft': article.draft,
-                                'is_completed' : article.is_completed}
+                                'is_completed' : article.is_completed,
+                                'theme' : article.theme}
                        )
 
     # Adds the form for people to comment on stuff
@@ -320,6 +411,7 @@ def editarticle(request, id=None):
                 article.category = form.cleaned_data["category"]
                 article.draft = form.cleaned_data["draft"]
                 article.is_completed = form.cleaned_data["is_completed"]
+                article.theme = form.cleaned_data["theme"]
 
                 #Only editors can publish the article, not the author
                 if(request.user.has_perm("ScrummerTimes.publish_article")):
@@ -389,43 +481,28 @@ def deleteEditor(request, id=None):
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)
 
+def select_copyEditor(request, id=None):
 
-def assignEditor(request, id=None):
-    styles = Style.objects.filter()
+    if not request.user.has_perm("ScrummerTimes.publish_article"):
+        messages.info(request, "You have to be an executive editor")
+        return HttpResponseRedirect(reverse(proofreading_feed))
+
     article = get_object_or_404(Article, pk=id)
-
+    form = FilterEditor()
     if request.method == "POST":
-        article.editors = request.user
-        article.save()
-        next = request.POST.get('next', '/ScrummerTimes/feedUnread')
-        return HttpResponseRedirect(next)
+        form = FilterEditor(request.POST)
+        if form.is_valid():
+            article.editors = form.cleaned_data["copyeditor"]
+            article.save()
+            return HttpResponseRedirect(reverse(proofreading_feed))
 
     context = {
         'form': form,
-        'id': id,
-        'styles': styles
+        'id': id
     }
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)
 
-
-def deleteEditor(request, id=None):
-    styles = Style.objects.filter()
-    article = get_object_or_404(Article, pk=id)
-
-    if request.method == "POST":
-        article.editors = None
-        article.save()
-        next = request.POST.get('next', '/ScrummerTimes/feedUnread')
-        return HttpResponseRedirect(next)
-
-    context = {
-        'form': form,
-        'id': id,
-        'styles': styles
-    }
-
-    return render(request, 'ScrummerTimes/feedUnread.html', context)
 
 
 

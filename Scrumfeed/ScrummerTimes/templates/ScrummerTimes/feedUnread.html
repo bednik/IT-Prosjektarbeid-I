@@ -21,8 +21,17 @@
         <form class="assignUser" action="{% url 'assignEditor' article.id %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
         <button type="submit">Assign self</button>
+
+
         </form>
-        {% else %}
+        {% endif %}
+
+        {% if perms.ScrummerTimes.assign_article %}
+        <form class="assignEditor" action="{% url 'select_copyeditor' article.id %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.copyeditor }}
+            <input type="submit" name="assign_editor" value="Submit"/>
+        </form>
         <br>
         {% endif %}
 

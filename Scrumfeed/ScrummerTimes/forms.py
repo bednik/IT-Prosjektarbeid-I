@@ -6,7 +6,10 @@ from django.core.exceptions import ValidationError
 from django.forms import forms, CharField, IntegerField, ImageField, ChoiceField
 from django.core.files.base import ContentFile
 from django.forms import forms, CharField, IntegerField, ImageField, URLField, TypedChoiceField, RadioSelect, BooleanField, Textarea, ModelChoiceField
-from ScrummerTimes.models import Article, Category, Style
+from ScrummerTimes.models import Article, Category, Style, Role
+from django.contrib.auth.models import User
+from django.db.models import Q
+from django.contrib.auth.models import Permission
 
 from django.forms import *
 
@@ -24,6 +27,8 @@ class ArticleForm(forms.Form):
     is_read = BooleanField(required=False, initial=False)
     # category = ChoiceField(choices=CATEGORIES, required=False)
     category = ModelChoiceField(queryset=Category.objects.all())
+
+    theme = ChoiceField(choices=Article.THEMES, initial=0)
     is_completed = BooleanField(required=False, initial=False)
 
     class Meta:
@@ -32,6 +37,15 @@ class ArticleForm(forms.Form):
         exclude = ('user',)
 
     # Check if the things that is written in the form are valid
+    def clean(self):
+        return self.cleaned_data
+
+
+class RequestRole(forms.Form):
+    reason = CharField(widget=Textarea, required=False)
+
+    role = ChoiceField(choices=Role.ROLE_TYPES, required=True)
+
     def clean(self):
         return self.cleaned_data
 
@@ -93,3 +107,21 @@ class NewCommentForm(forms.Form):
     object_id = IntegerField(widget=HiddenInput)
     parent_id = IntegerField(widget=HiddenInput, required=False)
     content = CharField(widget=Textarea, required=False)
+
+
+# Drop-down bar for editors
+
+
+
+
+class FilterEditor(forms.Form):
+    copyeditor = ModelChoiceField(queryset=User.objects.all())
+
+    def __init__(self, *args, **kwargs):
+        super(FilterEditor, self).__init__(*args, **kwargs)
+        perm = Permission.objects.get(codename='review_article')
+        perm2 = Permission.objects.get(codename='publish_article')
+        self.fields['copyeditor'].queryset = User.objects.filter(Q(user_permissions=perm)).filter(~Q(user_permissions=perm2)).distinct()
+    # Check if the things that is written in the form are valid
+    def clean(self):
+        return self.cleaned_data
