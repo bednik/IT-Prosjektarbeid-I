@@ -31,6 +31,7 @@ p{
 #categories{
     display:flex;
     justify-content: center;
+    margin-top:15px;
 }
 
 .dropdown-content{
