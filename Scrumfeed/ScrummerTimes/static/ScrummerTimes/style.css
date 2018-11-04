@@ -27,3 +27,8 @@ p{
     border: outset;
     color: white;*/
 }
+
+#categories{
+    display:flex;
+    justify-content: center;
+}

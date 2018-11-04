@@ -51,8 +51,7 @@ class RequestRole(forms.Form):
 
 
 class FilterForm(forms.Form):
-    # category = ChoiceField(choices=CATEGORIES)
-    category = ModelChoiceField(queryset=Category.objects.all())
+    category = ModelChoiceField(queryset=Category.objects.all(), widget=Select(attrs={'onchange': 'form.submit();'}))
 
     class Meta:
         model = Article
@@ -61,6 +60,9 @@ class FilterForm(forms.Form):
     def clean(self):
         return self.cleaned_data
 
+    def __init__(self, *args, **kwargs):
+        super(FilterForm, self).__init__(*args, **kwargs)
+        self.fields['category'].empty_label = "Categories"
 
 class StyleForm(forms.Form):
     # category = ChoiceField(choices=CATEGORIES)
