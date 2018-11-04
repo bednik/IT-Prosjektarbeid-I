@@ -80,7 +80,13 @@
 
 
           </div>
-          <div id="test5">Test 2</div>
+          <div id="test5">
+              <form action={% url 'subscribe_to_author' article.id %}  method="post">
+                {% csrf_token %}
+
+              <input type="submit" value="Subscribe!" name="subscribe"/>
+              </form>
+          </div>
           <div id="test6">Test 3</div>
         </div>
 

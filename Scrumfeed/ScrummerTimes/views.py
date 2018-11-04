@@ -12,6 +12,7 @@ from .models import Article, Category, Style, Role
 from .forms import ArticleForm, FilterForm, CreateCategoryForm, NewCommentForm, StyleForm, RequestRole, DeleteForm, FilterEditor
 from comments.models import Comment
 from django.contrib.auth.models import Permission, User
+from accounts.models import UserProfile
 
 
 def analytics(request):
@@ -213,8 +214,7 @@ def article(request, id):
         'article': thisArticle, 'comments': comments, 'comment_form': comment_form, 'styles':styles
     }
     # Sends to the html file (index.html)
-    return render(request, 'ScrummerTimes/article.html',
-                  context)
+    return render(request, 'ScrummerTimes/article.html', context)
 
 
 def give_author_permissions(user):
@@ -507,8 +507,9 @@ def select_copyEditor(request, id=None):
 
 
 def newContent(request, id=None):
+    thisUser = UserProfile.objects.get(user=request.user)
 
-    subscribedAuthors = None  # request.user.subscriptions.authors  # TODO: Må samkjøres med story 15
+    subscribedAuthors = thisUser.subscription_authors.all()  # request.user.subscriptions.authors  # TODO: Må samkjøres med story 15
     subscribedCategories = Category.objects.all()  # request.user.subscriptions.categories # TODO: Må samkjøres med story 15
 
     if request.user.is_authenticated:
@@ -531,3 +532,22 @@ def newContent(request, id=None):
         return render(request, 'ScrummerTimes/newContent.html', context)
     return render(request, 'ScrummerTimes/newContent.html', None)
 
+def subscribe_to_author(request, id=None):
+    styles = Style.objects.filter()
+    article2 = get_object_or_404(Article, pk=id)
+
+
+    if request.method == "POST":
+        thisUser = UserProfile.objects.get(user=request.user)
+        thisUser.subscription_authors.add(article2.authors)
+
+
+        messages.info(request, "You have subscribed to the author :  " + article2.authors.username)
+        return HttpResponseRedirect(reverse(article, kwargs={'id':id}))
+
+    context = {
+        'form': form,
+        'id': id,
+        'styles': styles
+    }
+    return HttpResponseRedirect(reverse(article, kwargs={'id': id}))

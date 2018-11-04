@@ -8,6 +8,7 @@ class UserProfile(models.Model):
     description = models.CharField(max_length=100, default='')
     phone = models.IntegerField(default=0)
     image = models.ImageField(upload_to='profile_image', blank=True)
+    subscription_authors = models.ManyToManyField(User, related_name = "subscription_authors")
 
 
     def __str__(self):
