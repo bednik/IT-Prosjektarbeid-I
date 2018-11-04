@@ -49,89 +49,93 @@
 </head>
 
 <body>
-    <header style="position:relative">
+     <header style="position:relative">
 
         <!--<h1>The Scrummer Times</h1>-->
-        <div class="navbar-fixed ">
+        <div class="navbar-fixed">
+            <ul id="adminThings" class="dropdown-content">
+                <li>
+                    <a href="/admin">Admin</a>
+                </li>
+                <li>
+                    <!-- Goes to the form that does the editing, also saves what the previous site was! -->
+                    <a href="{% url 'stylesite' %}?next={{ request.path|urlencode }}">Style</a>
+                </li>
+                <li>
+                    <!-- Goes to the form that does the editing, also saves what the previous site was! -->
+                    <a href="{% url 'requestrole' %}?next={{ request.path|urlencode }}">Assign Roles</a>
+                </li>
+            </ul>
+            <ul id="authorThings" class="dropdown-content">
+                <li>
+                    <!-- Goes to the form that does the editing, also saves what the previous site was! -->
+                    <a href="{% url 'createarticle' %}?next={{ request.path|urlencode }}">New Article</a>
+                </li>
+                <li>
+                    <a href="{% url 'mydrafts' %}">My Drafts</a>
+                </li>
+                <li>
+                    <!-- Goes to the form that does the editing, also saves what the previous site was! -->
+                    <a href="{% url 'myarticles' %}?next={{ request.path|urlencode }}">Submitted Articles</a>
+                </li>
+            </ul>
+            <ul id="executiveThings" class="dropdown-content">
+                {% if perms.ScrummerTimes.review_article %}
+                        <li>
+                            <a href="/ScrummerTimes/feedUnread">Proofreading</a>
+                        </li>
+                {% endif %}
+                {% if perms.ScrummerTimes.publish_article %}
+                <li>
+                    <a href="/ScrummerTimes/feedUnpublished">Publishing</a>
+                </li>
+                {% endif %}
+                {% if perms.ScrummerTimes.edit_categories%}
+                <li>
+                    <a href="{% url 'managesite' %}?next={{ request.path|urlencode }}">Manage Site</a>
+                </li>
+                <li>
+                    <a href="{% url 'analytics' %}?next={{ request.path|urlencode }}">Analytics</a>
+                </li>
+                {% endif %}
+            </ul>
+            <!-- Navbar proper -->
             <nav id="navbar">
                 <ul>
                     <li class="brand-logo right" >
                         {% load static %}
                         <img src="{% static 'ScrummerTimes/LogoMakr_2o6PKh.png' %}" style="width:250px;margin-top: 10px;">
                     </li>
-                    {% if request.path == '/ScrummerTimes/feed/' %}
-                        <li>
-                            <button class="waves-effect waves-light btn-small" onclick="toggleCategories()">Filter categories</button>
-                        </li>
-                    {% endif %}
                     <li>
                         <a href="/ScrummerTimes/feed">Home</a>
                     </li>
-                    <li>
-                        <a href="/admin">Admin</a>
-                    </li>
+                    {% if user.is_authenticated %}
+                        {% if request.user.is_superuser %}
+                            <li>
+                                <a class="dropdown-trigger" href="#!" data-target="adminThings" >Admin panel</a>
+                            </li>
+                        {% endif %}
                     <!-- Only Authors can create an article -->
-                    {% if user.is_authenticated %}
                         {% if perms.ScrummerTimes.create_article %}
-                            <li>
-                                <!-- Goes to the form that does the editing, also saves what the previous site was! -->
-                                <a href="{% url 'createarticle' %}?next={{ request.path|urlencode }}">New Article</a>
-                            </li>
-                            <li>
-                                <a href="{% url 'mydrafts' %}">My Drafts</a>
-                            </li>
-                        {% endif %}
-                    {% endif %}
-
-                    {% if user.is_authenticated %}
-                        {% if perms.ScrummerTimes.create_article %}
-                    <li>
-                        <!-- Goes to the form that does the editing, also saves what the previous site was! -->
-                        <a href="{% url 'myarticles' %}?next={{ request.path|urlencode }}">Submitted Articles</a>
-                    </li>
-                        {% endif %}
-                    {% endif %}
-
-                    {% if user.is_authenticated %}
                         <li>
-                            <!-- Goes to feed with content (categories and authors) the user subscribe to, also saves what the previous site was! -->
-                            <a href="{% url 'newContent' %}?next={{ request.path|urlencode }}">New Content You Subscribe To</a>
+                            <a class="dropdown-trigger" href="#!" data-target="authorThings">Article management</a>
                         </li>
-                    {% endif %}
+                        {% endif %}
 
-                    {% if user.is_authenticated %}
                         {% if perms.ScrummerTimes.review_article %}
                         <li>
-                            <a href="/ScrummerTimes/feedUnread">Proofreading</a>
+                           <a class="dropdown-trigger" href="#!" data-target="executiveThings" >Editor</a>
                         </li>
                         {% endif %}
 
-                    {% if perms.ScrummerTimes.publish_article %}
-                        <li>
-                            <a href="/ScrummerTimes/feedUnpublished">Publishing</a>
-                        </li>
-                        {% endif %}
 
-                    {% if perms.ScrummerTimes.edit_categories%}
-                        <li>
-                            <a href="{% url 'managesite' %}?next={{ request.path|urlencode }}">Manage Site</a>
-                        </li>
+                        <li class="right" style="margin-right: 300px">
 
-                        <li>
-                            <a href="{% url 'analytics' %}?next={{ request.path|urlencode }}">Analytics</a>
+                            <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
+                                {% csrf_token %}
+                                <button class="waves-effect waves-light btn-small" type="submit" method="post">Log out</button>
+                            </form>
                         </li>
-                        {% endif %}
-                        <li>
-                            <a href="{% url 'requestrole' %}?next={{ request.path|urlencode }}">Request Role</a>
-                        </li>
-                    <li class="right" style="margin-right: 300px">
-
-                        <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
-                            {% csrf_token %}
-                            <button class="waves-effect waves-light btn-small" type="submit" method="post">Log out</button>
-
-                        </form>
-                    </li>
                     {% else %}
                         <li>
                             <a href="{% url 'accounts:login' %}">Log in</a>
@@ -140,12 +144,13 @@
                             <a href="{% url 'accounts:signup' %}">Sign up</a>
                         </li>
                     {% endif %}
-                     {% if user.is_authenticated %}
-                    <li class="right" style="margin-right: 10px">
-                        <a href="{% url 'accounts:profile' %}">{{request.user}}</a>
-                    </li>
 
+                    {% if user.is_authenticated %}
+                    <li class="right" style="margin-right: 10px">
+                            <a href="{% url 'accounts:profile' %}">{{request.user}}</a>
+                        </li>
                     {% endif %}
+
                 </ul>
             </nav>
         </div>
@@ -153,47 +158,50 @@
 
 
   <!-- Switch -->
-  <div class="switch" style="position:fixed">
+  <!--<div class="switch">
     <label>
       Off
       <input type="checkbox" id="dracula" onclick="dracula()">
       <span class="lever"></span>
       On
     </label>
-  </div>
-
+  </div>-->
 
 
         <!-- Testing some messages feedback stuff-->
 {% if messages %}
-  <ul class="messages" style = "text-align: center;padding:0; margin: 0 auto;">
+  <ul class="messages" style = "text-align: center;padding:auto;">
     {% for message in messages %}
-      <div style="padding:0;width:50%; margin: 0 auto;">
-          <li class="{{ message.tags }}" style = "background-color:white; border-radius:5px; margin:auto;"> <strong>{{ message }}</strong></li>
+      <div style="width:50%; margin: 0 auto;">
+      <li class="{{ message.tags }}" style = "background-color:lightpink; border-radius:5px; margin:auto;">{{ message }}</li>
           </div>
     {% endfor %}
   </ul>
 {% endif %}
+{% if request.path == '/ScrummerTimes/feed/' %}
 
-    <div id="dropdown-content">
+     <div id="categories">
         <form id="category-filter" method="post">
-            {{form.category}} <br>
-            <input type="submit" value="Submit"/>
             {% csrf_token %}
+            {{form.category}} <br>
+
         </form>
     </div>
-    <br>
 
+     {% endif %}
     <div id="container" class="container center-align">
 
         {% block content %}
         {% endblock %}
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
 <script>
+
+    $(document).ready(function() {
+        $(".dropdown-trigger").dropdown();
+    });
 
     let clicked = false;
     function toggleCategories() {
@@ -205,7 +213,7 @@
             document.getElementById("dropdown-content").style.display="none";
         }
     }
-
+/*
     function dracula() {
     // Get the checkbox
     var checkBox = document.getElementById("dracula");
@@ -225,7 +233,7 @@
         y.style.color="black";
          navbar.style.backgroundColor = "#e57373";
      }
-}
+}*/
 
 
 </script>

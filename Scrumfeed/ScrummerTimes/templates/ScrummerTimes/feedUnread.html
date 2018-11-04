@@ -30,7 +30,6 @@
         <form class="assignEditor" action="{% url 'select_copyeditor' article.id %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.copyeditor }}
-            <input type="submit" name="assign_editor" value="Submit"/>
         </form>
         <br>
         {% endif %}

@@ -8,6 +8,7 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.datetime_safe import datetime
 from django.urls import reverse
+
 from .models import Article, Category, Style, Role
 from .forms import ArticleForm, FilterForm, CreateCategoryForm, NewCommentForm, StyleForm, RequestRole, DeleteForm, FilterEditor
 from comments.models import Comment
@@ -118,11 +119,13 @@ def feed(request):
 def proofreading_feed(request):
     articles = Article.objects.filter(is_read=False).filter(draft=False).filter(is_completed=False).order_by('-date')[:10]
     styles = Style.objects.filter()
+    form = FilterEditor()
 
     context = {
         'title': 'The Scrummer Times',
         'articles': articles,
-        'styles': styles
+        'styles': styles,
+        'form': form
     }
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)
@@ -214,7 +217,8 @@ def article(request, id):
         'article': thisArticle, 'comments': comments, 'comment_form': comment_form, 'styles':styles
     }
     # Sends to the html file (index.html)
-    return render(request, 'ScrummerTimes/article.html', context)
+    return render(request, 'ScrummerTimes/article.html',
+                  context)
 
 
 def give_author_permissions(user):
@@ -240,7 +244,7 @@ def give_executiveeditor_permissions(user):
 
 
 def requestrole(request):
-
+    styles = Style.objects.filter()
     if not request.user.is_authenticated:
         messages.info(request, "You have to be a registered user")
         return HttpResponseRedirect(reverse(requestrole))
@@ -261,14 +265,15 @@ def requestrole(request):
         roles = Role.objects.all()
     context = {
         'form': form,
-        'roles': roles
+        'roles': roles,
+        'styles': styles
     }
 
     return render(request, 'ScrummerTimes/requestRole.html', context)
 
 
 def assignroles(request, id=None):
-
+    styles = Style.objects.filter()
     if not request.user.is_authenticated and not request.user.is_superuser:
         messages.info(request, "You have to be admin")
         return HttpResponseRedirect(reverse(requestrole))
@@ -299,6 +304,7 @@ def assignroles(request, id=None):
 
     context = {
         'form': form,
+        'styles': styles
     }
 
     return render(request, 'ScrummerTimes/requestRole.html', context)
@@ -481,6 +487,7 @@ def deleteEditor(request, id=None):
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)
 
+
 def select_copyEditor(request, id=None):
 
     if not request.user.has_perm("ScrummerTimes.publish_article"):
@@ -502,7 +509,6 @@ def select_copyEditor(request, id=None):
     }
 
     return render(request, 'ScrummerTimes/feedUnread.html', context)
-
 
 
 
