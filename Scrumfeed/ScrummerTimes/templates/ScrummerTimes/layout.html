@@ -118,9 +118,7 @@
                            <a class="dropdown-trigger" href="#!" data-target="executiveThings">Executive editor area</a>
                         </li>
                         {% endif %}
-                        <li class="right" style="margin-right: 10px">
-                            {{request.user}}
-                        </li>
+
 
                         <li class="right" style="margin-right: 300px">
 
@@ -137,6 +135,13 @@
                             <a href="{% url 'accounts:signup' %}">Sign up</a>
                         </li>
                     {% endif %}
+
+                    {% if user.is_authenticated %}
+                    <li class="right" style="margin-right: 10px">
+                            <a href="{% url 'accounts:profile' %}">{{request.user}}</a>
+                        </li>
+                    {% endif %}
+
                 </ul>
             </nav>
         </div>

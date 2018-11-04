@@ -32,3 +32,7 @@ p{
     display:flex;
     justify-content: center;
 }
+
+.dropdown-content{
+    top:64px !important;
+}
