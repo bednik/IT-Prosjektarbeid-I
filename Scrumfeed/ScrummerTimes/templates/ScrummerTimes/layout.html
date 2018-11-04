@@ -57,6 +57,14 @@
                 <li>
                     <a href="/admin">Admin</a>
                 </li>
+                <li>
+                    <!-- Goes to the form that does the editing, also saves what the previous site was! -->
+                    <a href="{% url 'stylesite' %}?next={{ request.path|urlencode }}">Style</a>
+                </li>
+                <li>
+                    <!-- Goes to the form that does the editing, also saves what the previous site was! -->
+                    <a href="{% url 'requestrole' %}?next={{ request.path|urlencode }}">Assign Roles</a>
+                </li>
             </ul>
             <ul id="authorThings" class="dropdown-content">
                 <li>
@@ -72,6 +80,11 @@
                 </li>
             </ul>
             <ul id="executiveThings" class="dropdown-content">
+                {% if perms.ScrummerTimes.review_article %}
+                        <li>
+                            <a href="/ScrummerTimes/feedUnread">Proofreading</a>
+                        </li>
+                {% endif %}
                 {% if perms.ScrummerTimes.publish_article %}
                 <li>
                     <a href="/ScrummerTimes/feedUnpublished">Publishing</a>
@@ -99,7 +112,7 @@
                     {% if user.is_authenticated %}
                         {% if request.user.is_superuser %}
                             <li>
-                                <a class="dropdown-trigger" href="#!" data-target="adminThings">Admin panel</a>
+                                <a class="dropdown-trigger" href="#!" data-target="adminThings" >Admin panel</a>
                             </li>
                         {% endif %}
                     <!-- Only Authors can create an article -->
@@ -108,14 +121,10 @@
                             <a class="dropdown-trigger" href="#!" data-target="authorThings">Article management</a>
                         </li>
                         {% endif %}
+
                         {% if perms.ScrummerTimes.review_article %}
                         <li>
-                            <a href="/ScrummerTimes/feedUnread">Proofreading</a>
-                        </li>
-                        {% endif %}
-                        {% if perms.ScrummerTimes.publish_article %}
-                        <li>
-                           <a class="dropdown-trigger" href="#!" data-target="executiveThings">Executive editor area</a>
+                           <a class="dropdown-trigger" href="#!" data-target="executiveThings" >Editor</a>
                         </li>
                         {% endif %}
 
